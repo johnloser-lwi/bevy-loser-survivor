@@ -1,5 +1,8 @@
 
 use bevy::prelude::*;
+use bevy::app::AppExit;
+
+
 use game::*;
 
 
@@ -15,6 +18,10 @@ fn main() {
 
     // Custom Plugins
     .add_plugins(GamePlugin)
+
+
+    // Systems
+    .add_systems(Update, exit_game)
 
     .run();
 }
@@ -33,4 +40,15 @@ pub enum GameState {
     #[default]
     Running,
     Paused
+}
+
+
+// global exit 
+fn exit_game(
+    keyboard_input: Res<ButtonInput<KeyCode>>,
+    mut app_exit_event_write: EventWriter<AppExit>
+) {
+    if keyboard_input.pressed(KeyCode::Escape) {
+        app_exit_event_write.send(AppExit);
+    }
 }
