@@ -23,7 +23,7 @@ pub fn spawn_enemy(
 
     let player_transform = player_query.get_single().unwrap();
 
-    for i in 0..5 {
+    for _ in 0..5 {
         let mut rnd = rand::thread_rng();
         let spawn_position = Vec2::new(rnd.gen_range(-1.0..=1.0), rnd.gen_range(-1.0..=1.0)).normalize() * window_length;
         commands.spawn(
