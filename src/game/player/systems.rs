@@ -1,21 +1,18 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
-use bevy::window::PrimaryWindow;
 use crate::game::character::components::Character;
 use crate::game::player::components::Player;
+use crate::RENDER_SIZE;
 
 
 pub fn spawn_player(
     mut commands: Commands,
-    window_query: Query<&Window, With<PrimaryWindow>>,
     asset_server: Res<AssetServer>,
 ) {
-    let window = window_query.get_single().unwrap();
-
     commands.spawn(
         (
             SpriteBundle {
-                transform: Transform::from_xyz(window.width() / 2.0, window.height() / 2.0, 0.0),
+                transform: Transform::from_xyz(RENDER_SIZE.x / 2.0, RENDER_SIZE.y / 2.0, 0.0),
                 texture: asset_server.load("sprites/temp.png"),
                 ..default()
             },

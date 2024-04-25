@@ -14,7 +14,7 @@ impl Plugin for CameraPlugin {
             .add_systems(Startup, spawn_camera)
 
             // update
-            .add_systems(Update,
+            .add_systems(FixedPostUpdate,
                 camera_follow_player
                     .run_if(in_state(AppState::Game))
                     .run_if(in_state(GameState::Running)),

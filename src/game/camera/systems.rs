@@ -1,32 +1,30 @@
 use bevy::prelude::*;
-use bevy::window::PrimaryWindow;
+use bevy::render::camera::ScalingMode;
 use crate::game::player::components::Player;
+use crate::RENDER_SIZE;
 
 
 pub fn spawn_camera(
     mut commands: Commands,
-    window_query: Query<&Window, With<PrimaryWindow>>
 ) {
+    let mut camera_bundle = Camera2dBundle {
+        transform: Transform::from_xyz(RENDER_SIZE.x / 2.0, RENDER_SIZE.y / 2.0, 0.0),
+        ..default()
+    };
 
-    let window = window_query.get_single().unwrap();
+    camera_bundle.projection.scaling_mode = ScalingMode::AutoMax { max_width: RENDER_SIZE.x, max_height:RENDER_SIZE.y };
 
     commands.spawn(
-        Camera2dBundle {
-            transform: Transform::from_xyz(window.width() / 2.0, window.height() / 2.0, 0.0),
-            ..default()
-        }
+        camera_bundle
     );
 }
 
 pub fn reset_camera(
-    window_query: Query<&Window, With<PrimaryWindow>>,
     mut camera_query: Query<&mut Transform, With<Camera>>
 ) {
-    let window = window_query.get_single().unwrap();
-
     if let Ok(mut camera_tranform) = camera_query.get_single_mut() {
-        camera_tranform.translation.x = window.width() / 2.0;
-        camera_tranform.translation.y = window.height() / 2.0;
+        camera_tranform.translation.x = RENDER_SIZE.x / 2.0;
+        camera_tranform.translation.y = RENDER_SIZE.y / 2.0;
     }
 }
 

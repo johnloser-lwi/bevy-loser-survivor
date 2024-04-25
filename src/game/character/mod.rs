@@ -1,4 +1,4 @@
-use bevy::app::{App, Plugin};
+use bevy::app::{App, FixedUpdate, Plugin};
 use bevy::prelude::{in_state, IntoSystemConfigs};
 use crate::game::character::systems::{flip_sprite, handle_character_movement};
 use crate::states::{AppState, GameState};
@@ -12,7 +12,7 @@ pub struct CharacterPlugin;
 impl Plugin for CharacterPlugin {
     fn build(&self, app: &mut App) {
         app
-            .add_systems(bevy::app::Update,
+            .add_systems(FixedUpdate,
                  (
                      flip_sprite,
                      handle_character_movement,

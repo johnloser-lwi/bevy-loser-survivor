@@ -1,5 +1,4 @@
 use bevy::prelude::*;
-use bevy::window::PrimaryWindow;
 use rand::prelude::*;
 use crate::game::character::components::Character;
 use crate::game::enemy::components::Enemy;
@@ -7,12 +6,12 @@ use crate::game::enemy::ENEMY_SPAWN_TIME;
 use crate::game::enemy::resources::EnemySpawnTimer;
 use crate::game::player::components::Player;
 use bevy_rapier2d::prelude::*;
+use crate::RENDER_SIZE;
 
 
 pub fn spawn_enemy(
     mut commands: Commands,
     mut spawn_timer: ResMut<EnemySpawnTimer>,
-    window_query: Query<&Window, With<PrimaryWindow>>,
     player_query: Query<&Transform, With<Player>>,
     asset_server: Res<AssetServer>,
 ) {
@@ -20,9 +19,7 @@ pub fn spawn_enemy(
 
     spawn_timer.timer = Timer::from_seconds(ENEMY_SPAWN_TIME, TimerMode::Once);
 
-    let window = window_query.get_single().unwrap();
-
-    let window_length = Vec2::new(window.width() / 2.0, window.height() / 2.0).length();
+    let window_length = Vec2::new(RENDER_SIZE.x / 2.0, RENDER_SIZE.y / 2.0).length();
 
     let player_transform = player_query.get_single().unwrap();
 
