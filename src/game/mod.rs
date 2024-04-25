@@ -11,8 +11,8 @@ use bevy::prelude::*;
 pub struct GamePlugin;
 
 impl Plugin for GamePlugin {
-    fn build(&self, _app: &mut App) {
-        _app
+    fn build(&self, app: &mut App) {
+        app
             .add_plugins((player::PlayerPlugin, enemy::EnemyPlugin));
     }
 }

@@ -1,12 +1,15 @@
 
 use bevy::prelude::*;
-use bevy::app::AppExit;
 
 
 use game::*;
+use crate::states::*;
+use crate::systems::exit_game;
 
 
 mod game;
+mod systems;
+mod states;
 
 
 fn main() {
@@ -27,28 +30,3 @@ fn main() {
 }
 
 
-#[derive(States, Debug, Clone, Copy, Eq, PartialEq, Hash, Default)]
-pub enum AppState {
-    #[default]
-    MainMenu,
-    Game,
-    GameOver
-}
-
-#[derive(States, Debug, Clone, Copy, Eq, PartialEq, Hash, Default)]
-pub enum GameState {
-    #[default]
-    Running,
-    Paused
-}
-
-
-// global exit 
-fn exit_game(
-    keyboard_input: Res<ButtonInput<KeyCode>>,
-    mut app_exit_event_write: EventWriter<AppExit>
-) {
-    if keyboard_input.pressed(KeyCode::Escape) {
-        app_exit_event_write.send(AppExit);
-    }
-}
