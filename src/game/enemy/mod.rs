@@ -19,7 +19,7 @@ impl Plugin for EnemyPlugin {
             .init_resource::<EnemySpawnTimer>()
 
             // update
-            .add_systems(Update,
+            .add_systems(FixedUpdate,
                  (
                      spawn_enemy,
                      update_enemy_direction,
