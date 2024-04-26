@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy::render::camera::ScalingMode;
 use crate::game::player::components::Player;
-use crate::RENDER_SIZE;
+use crate::{RENDER_SCALE, RENDER_SIZE};
 
 
 pub fn spawn_camera(
@@ -13,6 +13,7 @@ pub fn spawn_camera(
     };
 
     camera_bundle.projection.scaling_mode = ScalingMode::AutoMax { max_width: RENDER_SIZE.x, max_height:RENDER_SIZE.y };
+    camera_bundle.projection.scale = RENDER_SCALE;
 
     commands.spawn(
         camera_bundle

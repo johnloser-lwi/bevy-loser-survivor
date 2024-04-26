@@ -14,6 +14,7 @@ mod systems;
 mod states;
 
 pub const RENDER_SIZE: Vec2 = Vec2::new(1280., 720.);
+pub const RENDER_SCALE: f32 = 0.4;
 
 fn main() {
     App::new()
@@ -34,13 +35,13 @@ fn main() {
             ..default()
         }
 
-    ))
+    ).set(ImagePlugin::default_nearest()))
     .add_plugins(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(50.0))
     .insert_resource(RapierConfiguration {
         gravity: Vec2::ZERO,
         ..default()
     })
-    .add_plugins(RapierDebugRenderPlugin::default())
+    //.add_plugins(RapierDebugRenderPlugin::default())
     
 
     // Custom Plugins
