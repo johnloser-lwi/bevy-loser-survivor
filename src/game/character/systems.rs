@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use crate::game::character::components::{AnimationConfig, Character};
+use crate::game::character::resources::CharacterTextureAtlasLayout;
 
 pub fn flip_sprite(
     mut sprite_query: Query<(&mut Sprite, &Character), With<Character>>
@@ -22,6 +23,14 @@ pub fn handle_character_movement(
         let direction: Vec3 = Vec3::new(character.direction.x, character.direction.y, 0.0);
         transform.translation += direction * (character.speed * time.delta_seconds());
     }
+}
+
+pub fn setup_character_atlas(
+    mut atlas: ResMut<CharacterTextureAtlasLayout>,
+    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+) {
+    let layout = TextureAtlasLayout::from_grid(Vec2::splat(32.0), 2, 1, None, None);
+    atlas.handle = texture_atlas_layouts.add(layout);
 }
 
 pub fn handle_character_animation(

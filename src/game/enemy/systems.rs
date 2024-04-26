@@ -7,6 +7,7 @@ use crate::game::enemy::resources::EnemySpawnTimer;
 use crate::game::player::components::Player;
 use bevy_rapier2d::prelude::*;
 use crate::{RENDER_SCALE, RENDER_SIZE};
+use crate::game::character::resources::CharacterTextureAtlasLayout;
 
 
 pub fn spawn_enemy(
@@ -14,7 +15,7 @@ pub fn spawn_enemy(
     mut spawn_timer: ResMut<EnemySpawnTimer>,
     player_query: Query<&Transform, With<Player>>,
     asset_server: Res<AssetServer>,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    atlas_layout: Res<CharacterTextureAtlasLayout>
 ) {
     if !spawn_timer.timer.finished() { return;}
 
@@ -27,10 +28,6 @@ pub fn spawn_enemy(
     for _ in 0..5 {
         let mut rnd = rand::thread_rng();
         let spawn_position = Vec2::new(rnd.gen_range(-1.0..=1.0), rnd.gen_range(-1.0..=1.0)).normalize() * (window_length * RENDER_SCALE);
-
-
-        let layout = TextureAtlasLayout::from_grid(Vec2::splat(32.0), 2, 1, None, None);
-        let texture_atlas_layout = texture_atlas_layouts.add(layout);
 
         let animation_config = AnimationConfig::new(0, 1, 5);
 
@@ -48,7 +45,7 @@ pub fn spawn_enemy(
             (
                    sprite_bundle,
                     TextureAtlas {
-                        layout: texture_atlas_layout.clone(),
+                        layout: atlas_layout.handle.clone(),
                         index: animation_config.first_sprite_index
                     },
                     animation_config,

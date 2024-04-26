@@ -1,19 +1,16 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use crate::game::character::components::{AnimationConfig, Character};
+use crate::game::character::resources::CharacterTextureAtlasLayout;
 use crate::game::player::components::Player;
 use crate::RENDER_SIZE;
-
 
 pub fn spawn_player(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    atlas_layout: Res<CharacterTextureAtlasLayout>
 ) {
 
-
-    let layout = TextureAtlasLayout::from_grid(Vec2::splat(32.0), 2, 1, None, None);
-    let texture_atlas_layout = texture_atlas_layouts.add(layout);
 
     let animation_config = AnimationConfig::new(0, 1, 5);
 
@@ -25,7 +22,7 @@ pub fn spawn_player(
                 ..default()
             },
             TextureAtlas {
-                layout: texture_atlas_layout.clone(),
+                layout: atlas_layout.handle.clone(),
                 index: animation_config.first_sprite_index
             },
             animation_config,
