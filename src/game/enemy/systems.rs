@@ -32,9 +32,8 @@ pub fn spawn_enemy(
         let layout = TextureAtlasLayout::from_grid(Vec2::splat(32.0), 2, 1, None, None);
         let texture_atlas_layout = texture_atlas_layouts.add(layout);
 
-        let mut animation_config = AnimationConfig::new(0, 1, 5);
+        let animation_config = AnimationConfig::new(0, 1, 5);
 
-        animation_config.frame_timer = AnimationConfig::timer_from_fps(animation_config.fps);
         let mut sprite_bundle =  SpriteBundle {
             transform: Transform::from_xyz(spawn_position.x + player_transform.translation.x,
                                            spawn_position.y + player_transform.translation.y,
@@ -56,7 +55,7 @@ pub fn spawn_enemy(
                     Enemy {},
                     Character {
                         direction: Vec2::default(),
-                        size: 64,
+                        size: 32,
                         speed: 20.0
                     },
                     RigidBody::Dynamic,

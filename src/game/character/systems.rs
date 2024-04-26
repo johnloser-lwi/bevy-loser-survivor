@@ -54,7 +54,13 @@ pub fn handle_character_animation(
 
             config.frame_timer = AnimationConfig::timer_from_fps(config.fps);
         }
+    }
+}
 
-
+pub fn y_sort(
+    mut query: Query<(&mut Transform, &Character)>
+) {
+    for (mut transform, character) in query.iter_mut() {
+        transform.translation.z = -(1.0f32 / (1.0f32 + (2.0f32.powf(-0.01*transform.translation.y))));
     }
 }

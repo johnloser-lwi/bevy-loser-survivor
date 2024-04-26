@@ -15,9 +15,8 @@ pub fn spawn_player(
     let layout = TextureAtlasLayout::from_grid(Vec2::splat(32.0), 2, 1, None, None);
     let texture_atlas_layout = texture_atlas_layouts.add(layout);
 
-    let mut animation_config = AnimationConfig::new(0, 1, 5);
+    let animation_config = AnimationConfig::new(0, 1, 5);
 
-    animation_config.frame_timer = AnimationConfig::timer_from_fps(animation_config.fps);
     commands.spawn(
         (
             SpriteBundle {
@@ -31,7 +30,7 @@ pub fn spawn_player(
             },
             animation_config,
             Character {
-                size: 64,
+                size: 32,
                 speed: 100.0,
                 direction: Vec2::default()
             },
