@@ -1,9 +1,9 @@
 use bevy::prelude::*;
 use rand::prelude::*;
-use crate::game::character::components::{AnimationConfig, Character};
+use crate::game::character::components::{AnimationConfig, Character, Health};
 use crate::game::enemy::components::Enemy;
 use crate::game::enemy::ENEMY_SPAWN_TIME;
-use crate::game::enemy::resources::EnemySpawnTimer;
+use crate::game::enemy::resources::{EnemyConfigurations, EnemySpawnTimer};
 use crate::game::player::components::Player;
 use bevy_rapier2d::prelude::*;
 use crate::{RENDER_SCALE, RENDER_SIZE};
@@ -15,7 +15,8 @@ pub fn spawn_enemy(
     mut spawn_timer: ResMut<EnemySpawnTimer>,
     player_query: Query<&Transform, With<Player>>,
     asset_server: Res<AssetServer>,
-    atlas_layout: Res<CharacterTextureAtlasLayout>
+    atlas_layout: Res<CharacterTextureAtlasLayout>,
+    enemy_configurations: Res<EnemyConfigurations>
 ) {
     if !spawn_timer.timer.finished() { return;}
 
@@ -29,17 +30,21 @@ pub fn spawn_enemy(
         let mut rnd = rand::thread_rng();
         let spawn_position = Vec2::new(rnd.gen_range(-1.0..=1.0), rnd.gen_range(-1.0..=1.0)).normalize() * (window_length * RENDER_SCALE);
 
+        let config_count = enemy_configurations.configs.iter().count();
+
+        let active_config_index = rnd.gen_range(0..config_count);
+
+        let active_config = enemy_configurations.configs.get(active_config_index).unwrap();
+
         let animation_config = AnimationConfig::new(0, 1, 5);
 
-        let mut sprite_bundle =  SpriteBundle {
+        let sprite_bundle =  SpriteBundle {
             transform: Transform::from_xyz(spawn_position.x + player_transform.translation.x,
                                            spawn_position.y + player_transform.translation.y,
                                            0.0),
-            texture: asset_server.load("sprites/mage.png"),
+            texture: asset_server.load(active_config.texture.clone()),
             ..default()
         };
-
-        sprite_bundle.sprite.color = Color::rgb(1.0, 0.0,0.0);
 
         commands.spawn(
             (
@@ -49,16 +54,21 @@ pub fn spawn_enemy(
                         index: animation_config.first_sprite_index
                     },
                     animation_config,
-                    Enemy {},
+                    Enemy {
+                        damage: active_config.damage
+                    },
                     Character {
                         direction: Vec2::default(),
-                        size: 32,
-                        speed: 20.0
+                        size: active_config.size,
+                        speed: active_config.speed
+                    },
+                    Health {
+                        health: active_config.health
                     },
                     RigidBody::Dynamic,
                     LockedAxes::ROTATION_LOCKED_Z,
                     Damping { linear_damping: 100.0, angular_damping: 1.0 },
-                    Collider::capsule(Vec2::new(0.0, -5.0), Vec2::new(0.0, 5.0), 8.0)
+                    active_config.collider.clone()
                 )
         );
     }
@@ -69,7 +79,7 @@ pub fn despawn_enemy(
     enemy_query: Query<Entity, With<Enemy>>
 ) {
     for enemy_entity in enemy_query.iter() {
-        commands.entity(enemy_entity).despawn();
+        commands.entity(enemy_entity).despawn_recursive();
     }
 }
 
@@ -92,4 +102,29 @@ pub fn update_enemy_timer (
     time: Res<Time>
 ) {
     enemy_timer.timer.tick(time.delta());
+}
+
+pub fn damage_player(
+    enemy_query: Query<(&Collider, &GlobalTransform, &Enemy)>,
+    mut player_query: Query<&mut Health, With<Player>>,
+    rapier_context: Res<RapierContext>,
+    time: Res<Time>,
+) {
+    for (collider, transform, enemy) in enemy_query.iter() {
+        rapier_context.intersections_with_shape(
+            transform.translation().truncate(),
+            0.0,
+            collider,
+            QueryFilter::new(),
+            |entity| {
+
+                if let Ok(mut health) = player_query.get_mut(entity) {
+                    health.take_damage(enemy.damage * time.delta_seconds());
+                }
+
+                true
+            },
+
+        );
+    }
 }

@@ -30,3 +30,21 @@ impl AnimationConfig {
         Timer::new(Duration::from_secs_f32(1.0 / (fps as f32)), TimerMode::Once)
     }
 }
+
+
+#[derive(Component)]
+pub struct Health {
+    pub health: f32
+}
+
+impl Health {
+    pub fn is_dead(&self) -> bool {
+        self.health <= 0.0
+    }
+
+    pub fn take_damage(&mut self, damage: f32) {
+        self.health -= damage;
+
+        println!("health : {}", self.health);
+    }
+}

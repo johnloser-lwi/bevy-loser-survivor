@@ -67,9 +67,9 @@ pub fn handle_character_animation(
 }
 
 pub fn y_sort(
-    mut query: Query<(&mut Transform, &Character)>
+    mut query: Query<&mut Transform, With<Character>>
 ) {
-    for (mut transform, character) in query.iter_mut() {
+    for mut transform in query.iter_mut() {
         transform.translation.z = -(1.0f32 / (1.0f32 + (2.0f32.powf(-0.01*transform.translation.y))));
     }
 }

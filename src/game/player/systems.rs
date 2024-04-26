@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
-use crate::game::character::components::{AnimationConfig, Character};
+use crate::game::character::components::{AnimationConfig, Character, Health};
 use crate::game::character::resources::CharacterTextureAtlasLayout;
 use crate::game::player::components::Player;
 use crate::RENDER_SIZE;
@@ -32,6 +32,9 @@ pub fn spawn_player(
                 direction: Vec2::default()
             },
             Player {},
+            Health {
+                health: 100.0
+            },
             Collider::capsule(Vec2::new(0.0, 5.0), Vec2::new(0.0, -5.0), 8.0)
         )
     );
@@ -45,7 +48,7 @@ pub fn despawn_player (
 )
 {
     if let Ok(player_entity) = player_query.get_single() {
-        commands.entity(player_entity).despawn();
+        commands.entity(player_entity).despawn_recursive();
     }
 }
 
