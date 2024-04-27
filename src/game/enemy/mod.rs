@@ -3,9 +3,8 @@ mod systems;
 mod resources;
 
 use bevy::prelude::*;
-use bevy_rapier2d::prelude::Collider;
 use crate::{AppState, GameState};
-use crate::game::enemy::resources::{EnemyConfigurations, EnemySpawnTimer};
+use crate::game::enemy::resources::*;
 use crate::game::enemy::systems::*;
 
 
@@ -18,7 +17,8 @@ impl Plugin for EnemyPlugin {
         app
             // resource
             .init_resource::<EnemySpawnTimer>()
-            .init_resource::<EnemyConfigurations>()
+
+            .add_systems(OnEnter(AppState::Game), setup_enemy_config)
 
             // update
             .add_systems(FixedUpdate,
@@ -38,11 +38,3 @@ impl Plugin for EnemyPlugin {
     }
 }
 
-pub struct EnemyConfig {
-    texture: String,
-    speed: f32,
-    health: f32,
-    size: usize,
-    damage: f32,
-    collider: Collider
-}

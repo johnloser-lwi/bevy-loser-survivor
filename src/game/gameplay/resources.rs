@@ -25,8 +25,8 @@ impl Default for GameplayData {
 }
 
 impl GameplayData {
-    pub fn set_xp_to_next_level(&self) -> u32 {
-        self.xp + self.get_xp_offset_to_next_level()
+    pub fn set_xp_to_next_level(&mut self) {
+        self.xp_to_next_level = self.xp + self.get_xp_offset_to_next_level();
     }
 
     pub fn get_xp_offset_to_next_level(&self) -> u32 {

@@ -4,20 +4,36 @@ use crate::game::animation::components::AnimationConfig;
 use crate::game::character::components::{ Character, Health};
 use crate::game::enemy::components::Enemy;
 use crate::game::enemy::ENEMY_SPAWN_TIME;
-use crate::game::enemy::resources::{EnemyConfigurations, EnemySpawnTimer};
+use crate::game::enemy::resources::{EnemyConfigurations, EnemySpawnTimer, EnemyConfig};
 use crate::game::player::components::Player;
+use crate::resources::Textures;
 use bevy_rapier2d::prelude::*;
 use crate::{RENDER_SCALE, RENDER_SIZE};
 use crate::game::character::resources::CharacterTextureAtlasLayout;
 use crate::game::events::OnEnemyDie;
-use crate::game::gamplay::resources::GameplayData;
 
+
+pub fn setup_enemy_config(
+    mut commands: Commands,
+    textures: Res<Textures>
+){
+    commands.insert_resource(EnemyConfigurations {
+        configs: vec![
+            EnemyConfig {
+                speed: 20.0,
+                health: 5.0,
+                damage:5.0,
+                texture: textures.zombie.clone(),
+                collider: Collider::capsule(Vec2::new(0.0, -5.0), Vec2::new(0.0, 5.0), 8.0)
+            }
+        ]
+    });
+}
 
 pub fn spawn_enemy(
     mut commands: Commands,
     mut spawn_timer: ResMut<EnemySpawnTimer>,
     player_query: Query<&Transform, With<Player>>,
-    asset_server: Res<AssetServer>,
     atlas_layout: Res<CharacterTextureAtlasLayout>,
     enemy_configurations: Res<EnemyConfigurations>
 ) {
@@ -45,7 +61,7 @@ pub fn spawn_enemy(
             transform: Transform::from_xyz(spawn_position.x + player_transform.translation.x,
                                            spawn_position.y + player_transform.translation.y,
                                            0.0),
-            texture: asset_server.load(active_config.texture.clone()),
+            texture: active_config.texture.clone(),
             ..default()
         };
 
@@ -62,7 +78,6 @@ pub fn spawn_enemy(
                     },
                     Character {
                         direction: Vec2::default(),
-                        size: active_config.size,
                         speed: active_config.speed
                     },
                     Health {

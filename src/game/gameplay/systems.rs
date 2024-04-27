@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use crate::game::events::{OnEnemyDie, OnLevelUp, OnPickupCoin};
-use crate::game::gamplay::resources::GameplayData;
+use crate::game::gameplay::resources::GameplayData;
 
 
 pub fn insert_gameplay_data(
@@ -17,10 +17,10 @@ pub fn remove_gameplay_data(
 
 pub fn update_head_count(
     mut enemy_die_event_reader: EventReader<OnEnemyDie>,
-    mut gamplay_data: ResMut<GameplayData>
+    mut gameplay_data: ResMut<GameplayData>
 ) {
     for _ in enemy_die_event_reader.read(){
-        gamplay_data.head_count += 1;
+        gameplay_data.head_count += 1;
     }
 }
 
@@ -31,7 +31,7 @@ pub fn update_xp(
 ) {
     for evt in pickup_coin_event_reader.read() {
         gameplay_data.xp += evt.xp;
-        if gameplay_data.xp > gameplay_data.xp_to_next_level {
+        if gameplay_data.xp == gameplay_data.xp_to_next_level {
             gameplay_data.level += 1;
             gameplay_data.set_xp_to_next_level();
             level_up_event_writer.send(OnLevelUp { });

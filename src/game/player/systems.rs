@@ -28,7 +28,6 @@ pub fn spawn_player(
             },
             animation_config,
             Character {
-                size: 32,
                 speed: 100.0,
                 direction: Vec2::default()
             },

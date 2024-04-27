@@ -3,17 +3,19 @@ mod player;
 mod character;
 mod enemy;
 mod camera;
-mod gamplay;
+mod gameplay;
 mod weapons;
 mod animation;
 mod events;
 mod coin;
-
+pub mod resources;
 
 use bevy::prelude::*;
 use crate::game::events::{OnEnemyDie, OnLevelUp, OnPickupCoin};
 use crate::game::systems::check_player_dead;
 use crate::states::{AppState, GameState};
+
+use self::systems::*;
 
 
 pub struct GamePlugin;
@@ -27,7 +29,7 @@ impl Plugin for GamePlugin {
                     player::PlayerPlugin,
                     enemy::EnemyPlugin,
                     character::CharacterPlugin,
-                    gamplay::GamePlayPlugin,
+                    gameplay::GamePlayPlugin,
                     weapons::WeaponPlugin,
                     coin::CoinPlugin
                 )
@@ -36,6 +38,9 @@ impl Plugin for GamePlugin {
             .add_event::<OnEnemyDie>()
             .add_event::<OnPickupCoin>()
             .add_event::<OnLevelUp>()
+
+            .add_systems(OnEnter(AppState::Loading), load_textures)
+            .add_systems(OnExit(AppState::Game), unload_textures)
 
             .add_systems(Update, check_player_dead
                 .run_if(in_state(AppState::Game))

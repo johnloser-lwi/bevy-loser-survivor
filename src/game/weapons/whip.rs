@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
+use crate::game::resources::*;
 use crate::game::animation::components::AnimationConfig;
 use crate::game::character::components::Health;
 use crate::game::enemy::components::Enemy;
@@ -76,8 +77,8 @@ pub fn spawn_whips(
     mut commands: Commands,
     mut whip_data: ResMut<WhipData>,
     time: Res<Time>,
-    mut player_query: Query<(Entity, &Sprite, &GlobalTransform), With<Player>>,
-    asset_server: Res<AssetServer>,
+    player_query: Query<(&Sprite, &GlobalTransform), With<Player>>,
+    textures: Res<Textures>,
     atlas_layout: Res<WhipTextureAtlasLayout>
 ) {
     whip_data.timer.tick(time.delta());
@@ -88,9 +89,9 @@ pub fn spawn_whips(
 
     whip_data.reset_timer();
 
-    if let Ok((entity, sprite, transform)) = player_query.get_single() {
+    if let Ok((sprite, transform)) = player_query.get_single() {
         for i in 0..whip_data.whip_count {
-            let animation_config = AnimationConfig::new(0, 2, 12);
+            let animation_config = AnimationConfig::new(0, 2, 30);
 
             let mut flip = sprite.flip_x;
             if i == 1 {flip = !flip}
@@ -99,13 +100,13 @@ pub fn spawn_whips(
 
             let mut sprite_bundle =  SpriteBundle {
                 transform: Transform::from_xyz(transform.translation().x + offset.x, transform.translation().y + offset.y, 1.0),
-                texture: asset_server.load("sprites/whip.png"),
+                texture: textures.whip.clone(),
                 ..default()
             };
             sprite_bundle.sprite.flip_x = flip;
 
 
-            let whip_entity = commands.spawn(
+            commands.spawn(
                 (
                         sprite_bundle,
                         TextureAtlas {
@@ -119,7 +120,7 @@ pub fn spawn_whips(
                         Sensor,
                         Collider::cuboid(24.0, 2.0)
                     )
-            ).id();
+            );
         }
     }
 }
@@ -128,7 +129,7 @@ pub fn update_whips(
     mut commands: Commands,
     time: Res<Time>,
     mut whip_query: Query<(Entity, &mut AnimationConfig, &mut TextureAtlas, &mut Transform, &GlobalTransform, &Whip, &Collider)>,
-    player_query: Query<(&GlobalTransform), With<Player>>,
+    player_query: Query<&GlobalTransform, With<Player>>,
     rapier_context: Res<RapierContext>,
     mut enemy_query: Query<&mut Health, With<Enemy>>,
     whip_data: Res<WhipData>
@@ -139,13 +140,10 @@ pub fn update_whips(
             transform.translation.x = player_transform.translation().x + whip.offset.x;
             transform.translation.y = player_transform.translation().y + whip.offset.y;
 
-
             config.frame_timer.tick(time.delta());
 
-            if config.frame_timer.finished() {
+            if config.frame_timer.just_finished() {
                 if atlas.index == config.last_sprite_index {
-                    // despawn
-                    commands.entity(entity).despawn_recursive();
 
                     // deal damage
                     rapier_context.intersections_with_shape(
@@ -160,10 +158,12 @@ pub fn update_whips(
                             true
                         },
                     );
-
+                    
+                    commands.entity(entity).despawn_recursive();
 
                 } else {
                     atlas.index += 1;
+                    config.frame_timer = AnimationConfig::timer_from_fps(config.fps);
                 }
             }
         }

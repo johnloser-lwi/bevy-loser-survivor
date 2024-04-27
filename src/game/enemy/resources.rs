@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::Collider;
-use crate::game::enemy::{ENEMY_SPAWN_TIME, EnemyConfig};
+use crate::game::enemy::{ENEMY_SPAWN_TIME};
 
 #[derive(Resource)]
 pub struct EnemySpawnTimer {
@@ -11,6 +11,14 @@ impl Default for EnemySpawnTimer {
     fn default() -> Self {
         EnemySpawnTimer { timer: Timer::from_seconds(ENEMY_SPAWN_TIME, TimerMode::Once) }
     }
+}
+
+pub struct EnemyConfig {
+    pub texture: Handle<Image>,
+    pub speed: f32,
+    pub health: f32,
+    pub damage: f32,
+    pub collider: Collider
 }
 
 #[derive(Resource)]
@@ -26,8 +34,7 @@ impl Default for EnemyConfigurations {
                     speed: 20.0,
                     health: 5.0,
                     damage:5.0,
-                    size: 32,
-                    texture: String::from("sprites/zombie.png"),
+                    texture: Handle::default(),
                     collider: Collider::capsule(Vec2::new(0.0, -5.0), Vec2::new(0.0, 5.0), 8.0)
                 }
             ]

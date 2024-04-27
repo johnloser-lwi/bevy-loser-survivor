@@ -5,6 +5,7 @@ use bevy_rapier2d::prelude::*;
 
 
 use game::*;
+use systems::load_game;
 use crate::states::*;
 use crate::systems::exit_game;
 
@@ -18,7 +19,7 @@ pub const RENDER_SCALE: f32 = 0.4;
 
 fn main() {
     App::new()
-    .insert_state(AppState::Game)
+    .insert_state(AppState::Loading)
     .insert_state(GameState::Running)
     .add_plugins(DefaultPlugins.set(
         WindowPlugin {
@@ -48,7 +49,11 @@ fn main() {
     .add_plugins(GamePlugin)
 
 
+
+
     // Systems
+    .add_systems(OnEnter(AppState::Loading), load_game)
+
     .add_systems(Update, exit_game)
 
     .run();

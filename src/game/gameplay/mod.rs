@@ -1,6 +1,6 @@
 use bevy::app::{App, Plugin, Update};
 use bevy::prelude::{in_state, IntoSystemConfigs, OnEnter};
-use crate::game::gamplay::systems::{insert_gameplay_data, remove_gameplay_data, update_head_count, update_xp};
+use crate::game::gameplay::systems::{insert_gameplay_data, remove_gameplay_data, update_head_count, update_xp};
 use crate::states::{AppState, GameState};
 
 pub mod resources;
