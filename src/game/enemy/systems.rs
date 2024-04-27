@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 use rand::prelude::*;
-use crate::game::character::components::{AnimationConfig, Character, Health};
+use crate::game::animation::components::AnimationConfig;
+use crate::game::character::components::{ Character, Health};
 use crate::game::enemy::components::Enemy;
 use crate::game::enemy::ENEMY_SPAWN_TIME;
 use crate::game::enemy::resources::{EnemyConfigurations, EnemySpawnTimer};
@@ -8,6 +9,7 @@ use crate::game::player::components::Player;
 use bevy_rapier2d::prelude::*;
 use crate::{RENDER_SCALE, RENDER_SIZE};
 use crate::game::character::resources::CharacterTextureAtlasLayout;
+use crate::game::gamplay::resources::GameplayData;
 
 
 pub fn spawn_enemy(
@@ -126,5 +128,18 @@ pub fn damage_player(
             },
 
         );
+    }
+}
+
+pub fn check_enemy_health(
+    mut commands: Commands,
+    enemy_query: Query<(Entity, &Health), With<Enemy>>,
+    mut gameplay_data: ResMut<GameplayData>
+) {
+    for (entity, health) in enemy_query.iter() {
+        if health.is_dead() {
+            commands.entity(entity).despawn_recursive();
+            gameplay_data.head_count += 1;
+        }
     }
 }

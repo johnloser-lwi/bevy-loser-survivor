@@ -26,7 +26,8 @@ impl Plugin for EnemyPlugin {
                      spawn_enemy,
                      update_enemy_direction,
                      update_enemy_timer,
-                     damage_player
+                     damage_player,
+                     check_enemy_health
                  )
                 .run_if(in_state(AppState::Game))
                 .run_if(in_state(GameState::Running)))

@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
-use crate::game::character::components::{AnimationConfig, Character, Health};
+use crate::game::animation::components::AnimationConfig;
+use crate::game::character::components::{ Character, Health};
 use crate::game::character::resources::CharacterTextureAtlasLayout;
 use crate::game::player::components::Player;
 use crate::RENDER_SIZE;

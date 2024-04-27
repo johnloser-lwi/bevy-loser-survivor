@@ -3,6 +3,9 @@ mod player;
 mod character;
 mod enemy;
 mod camera;
+mod gamplay;
+mod weapons;
+mod animation;
 
 
 use bevy::prelude::*;
@@ -21,6 +24,8 @@ impl Plugin for GamePlugin {
                     player::PlayerPlugin,
                     enemy::EnemyPlugin,
                     character::CharacterPlugin,
+                    gamplay::GamePlayPlugin,
+                    weapons::WeaponPlugin
                 )
             )
 

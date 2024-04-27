@@ -1,5 +1,6 @@
 use bevy::prelude::*;
-use crate::game::character::components::{AnimationConfig, Character};
+use crate::game::animation::components::AnimationConfig;
+use crate::game::character::components::{ Character};
 use crate::game::character::resources::CharacterTextureAtlasLayout;
 
 pub fn flip_sprite(

@@ -1,0 +1,172 @@
+use bevy::prelude::*;
+use bevy_rapier2d::prelude::*;
+use crate::game::animation::components::AnimationConfig;
+use crate::game::character::components::Health;
+use crate::game::enemy::components::Enemy;
+use crate::game::player::components::Player;
+
+#[derive(Resource)]
+pub struct WhipTextureAtlasLayout {
+    pub handle: Handle<TextureAtlasLayout>
+}
+
+impl Default for WhipTextureAtlasLayout {
+    fn default() -> Self {
+        WhipTextureAtlasLayout {
+            handle: Handle::default()
+        }
+    }
+}
+
+#[derive(Resource)]
+pub struct WhipData {
+    level: u32,
+    whip_count: u32,
+    damage: f32,
+    cooldown: f32,
+    timer: Timer
+}
+
+impl Default for WhipData {
+    fn default() -> Self {
+        let mut data = WhipData {
+            level: 1,
+            whip_count: 1,
+            damage: 5.0,
+            cooldown: 3.0,
+            timer: Timer::default()
+        };
+        data.reset_timer();
+        data
+    }
+}
+
+impl WhipData {
+    pub fn reset_timer(&mut self) {
+        self.timer = Timer::from_seconds(self.cooldown, TimerMode::Once);
+    }
+}
+
+#[derive(Component)]
+pub struct Whip {
+    offset: Vec2
+}
+
+pub fn insert_whip_data(
+    mut commands: Commands
+){
+    commands.insert_resource(WhipData::default());
+}
+
+pub fn remove_whip_data(
+    mut commands: Commands
+) {
+    commands.remove_resource::<WhipData>();
+}
+
+pub fn setup_whip_atlas(
+    mut atlas: ResMut<WhipTextureAtlasLayout>,
+    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+) {
+    let layout = TextureAtlasLayout::from_grid(Vec2::new(48.0, 16.0), 3, 1, None, None);
+    atlas.handle = texture_atlas_layouts.add(layout);
+}
+
+pub fn spawn_whips(
+    mut commands: Commands,
+    mut whip_data: ResMut<WhipData>,
+    time: Res<Time>,
+    mut player_query: Query<(Entity, &Sprite, &GlobalTransform), With<Player>>,
+    asset_server: Res<AssetServer>,
+    atlas_layout: Res<WhipTextureAtlasLayout>
+) {
+    whip_data.timer.tick(time.delta());
+    if whip_data.level < 1 {return;}
+    if !whip_data.timer.just_finished() {
+        return;
+    }
+
+    whip_data.reset_timer();
+
+    if let Ok((entity, sprite, transform)) = player_query.get_single() {
+        for i in 0..whip_data.whip_count {
+            let animation_config = AnimationConfig::new(0, 2, 12);
+
+            let mut flip = sprite.flip_x;
+            if i == 1 {flip = !flip}
+            let mut offset = Vec2::new(32.0, 0.0);
+            if flip { offset.x = -offset.x;}
+
+            let mut sprite_bundle =  SpriteBundle {
+                transform: Transform::from_xyz(transform.translation().x + offset.x, transform.translation().y + offset.y, 1.0),
+                texture: asset_server.load("sprites/whip.png"),
+                ..default()
+            };
+            sprite_bundle.sprite.flip_x = flip;
+
+
+            let whip_entity = commands.spawn(
+                (
+                        sprite_bundle,
+                        TextureAtlas {
+                            layout: atlas_layout.handle.clone(),
+                            index: animation_config.first_sprite_index
+                        },
+                        animation_config,
+                        Whip {
+                            offset
+                        },
+                        Sensor,
+                        Collider::cuboid(24.0, 2.0)
+                    )
+            ).id();
+        }
+    }
+}
+
+pub fn update_whips(
+    mut commands: Commands,
+    time: Res<Time>,
+    mut whip_query: Query<(Entity, &mut AnimationConfig, &mut TextureAtlas, &mut Transform, &GlobalTransform, &Whip, &Collider)>,
+    player_query: Query<(&GlobalTransform), With<Player>>,
+    rapier_context: Res<RapierContext>,
+    mut enemy_query: Query<&mut Health, With<Enemy>>,
+    whip_data: Res<WhipData>
+) {
+    if let Ok(player_transform) = player_query.get_single() {
+        for (entity, mut config, mut atlas, mut transform, global_transform, whip, collider) in whip_query.iter_mut() {
+
+            transform.translation.x = player_transform.translation().x + whip.offset.x;
+            transform.translation.y = player_transform.translation().y + whip.offset.y;
+
+
+            config.frame_timer.tick(time.delta());
+
+            if config.frame_timer.finished() {
+                if atlas.index == config.last_sprite_index {
+                    // despawn
+                    commands.entity(entity).despawn_recursive();
+
+                    // deal damage
+                    rapier_context.intersections_with_shape(
+                        global_transform.translation().truncate(),
+                        0.0,
+                        collider,
+                        QueryFilter::new(),
+                        |entity| {
+                            if let Ok(mut health) = enemy_query.get_mut(entity) {
+                                health.take_damage(whip_data.damage);
+                            }
+                            true
+                        },
+                    );
+
+
+                } else {
+                    atlas.index += 1;
+                }
+            }
+        }
+    }
+
+}
