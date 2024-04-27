@@ -9,6 +9,7 @@ use crate::game::player::components::Player;
 use bevy_rapier2d::prelude::*;
 use crate::{RENDER_SCALE, RENDER_SIZE};
 use crate::game::character::resources::CharacterTextureAtlasLayout;
+use crate::game::events::OnEnemyDie;
 use crate::game::gamplay::resources::GameplayData;
 
 
@@ -133,13 +134,13 @@ pub fn damage_player(
 
 pub fn check_enemy_health(
     mut commands: Commands,
-    enemy_query: Query<(Entity, &Health), With<Enemy>>,
-    mut gameplay_data: ResMut<GameplayData>
+    enemy_query: Query<(Entity, &Health, &GlobalTransform), With<Enemy>>,
+    mut enemy_die_event_writer: EventWriter<OnEnemyDie>
 ) {
-    for (entity, health) in enemy_query.iter() {
+    for (entity, health, transform) in enemy_query.iter() {
         if health.is_dead() {
             commands.entity(entity).despawn_recursive();
-            gameplay_data.head_count += 1;
+            enemy_die_event_writer.send(OnEnemyDie { position : transform.translation().truncate() });
         }
     }
 }

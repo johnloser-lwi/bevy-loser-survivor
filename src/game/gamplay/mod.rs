@@ -1,7 +1,7 @@
-use bevy::app::{App, Plugin};
-use bevy::prelude::{IntoSystemConfigs, OnEnter};
-use crate::game::gamplay::systems::{insert_gameplay_data, remove_gameplay_data};
-use crate::states::AppState;
+use bevy::app::{App, Plugin, Update};
+use bevy::prelude::{in_state, IntoSystemConfigs, OnEnter};
+use crate::game::gamplay::systems::{insert_gameplay_data, remove_gameplay_data, update_head_count, update_xp};
+use crate::states::{AppState, GameState};
 
 pub mod resources;
 mod systems;
@@ -14,8 +14,16 @@ impl Plugin for GamePlayPlugin {
             .add_systems(OnEnter(AppState::Game),
                          (
                              remove_gameplay_data,
-                             insert_gameplay_data
+                             insert_gameplay_data,
                              ).chain()
+            )
+
+            .add_systems(Update,
+                         (update_head_count, update_xp)
+
+                             .run_if(in_state(AppState::Game))
+                             .run_if(in_state(GameState::Running))
+
             )
 
 
