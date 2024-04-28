@@ -23,9 +23,9 @@ pub fn setup_enemy_config(
             EnemyConfig {
                 speed: 20.0,
                 health: 5.0,
-                damage:5.0,
+                damage:20.0,
                 texture: textures.zombie.clone(),
-                collider: Collider::capsule(Vec2::new(0.0, -5.0), Vec2::new(0.0, 5.0), 8.0)
+                collider: Collider::capsule(Vec2::new(0.0, -4.0), Vec2::new(0.0, 4.0), 6.0)
             }
         ]
     });
@@ -187,7 +187,7 @@ pub fn enemy_level_up (
         for mut config in enemy_configurations.configs.iter_mut() {
             config.speed *= 1.2;
             config.damage *= 1.2;
-            config.health *= 1.2;
+            config.health *= 1.5;
         }
     }
 }

@@ -28,6 +28,15 @@ pub fn spawn_coin(
     }
 }
 
+pub fn despawn_coin (
+    mut commands: Commands,
+    coin_entity: Query<Entity, With<Coin>>
+) {
+    for entity in coin_entity.iter() {
+        commands.entity(entity).despawn_recursive();
+    }
+}
+
 pub fn update_coins(
     mut commands: Commands,
     player_query: Query<&Transform, With<Player>>,

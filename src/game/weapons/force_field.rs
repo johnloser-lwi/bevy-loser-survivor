@@ -20,11 +20,11 @@ impl Default for ForceFieldData {
             data: WeaponData {
                 level: 0,
                 damage: 1.0,
-                cooldown: 5.0,
+                cooldown: 3.0,
                 count: 1,
                 timer: Timer::default()
             },
-            life_time: 10.0,
+            life_time: 4.0,
             hit_time: 1.0
         };
 
@@ -131,5 +131,15 @@ pub fn update_force_field (
             }
         );
 
+    }
+}
+
+
+pub fn despawn_force_field (
+    mut commands: Commands,
+    entity_query: Query<Entity, With<ForceField>>
+) {
+    for entity in entity_query.iter() {
+        commands.entity(entity).despawn_recursive();
     }
 }

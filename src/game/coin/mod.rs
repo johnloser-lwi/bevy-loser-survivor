@@ -5,6 +5,8 @@ use bevy::prelude::*;
 use crate::game::coin::systems::{spawn_coin, update_coins};
 use crate::states::{AppState, GameState};
 
+use self::systems::despawn_coin;
+
 pub struct CoinPlugin;
 
 impl Plugin for CoinPlugin {
@@ -18,9 +20,9 @@ impl Plugin for CoinPlugin {
                              .run_if(in_state(AppState::Game))
                              .run_if(in_state(GameState::Running))
 
-
-
             )
+
+            .add_systems(OnExit(AppState::Game), despawn_coin)
         ;
     }
 }

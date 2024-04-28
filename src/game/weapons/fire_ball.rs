@@ -21,7 +21,7 @@ impl Default for FireBallData {
             data: WeaponData {
                 level: 0,
                 damage: 5.0,
-                cooldown: 3.0,
+                cooldown: 1.5,
                 count: 1,
                 timer: Timer::default()
             },
@@ -157,5 +157,15 @@ pub fn update_fire_ball (
             }
         );
 
+    }
+}
+
+
+pub fn despawn_fire_ball (
+    mut commands: Commands,
+    entity_query: Query<Entity, With<FireBall>>
+) {
+    for entity in entity_query.iter() {
+        commands.entity(entity).despawn_recursive();
     }
 }

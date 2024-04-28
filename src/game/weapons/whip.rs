@@ -32,7 +32,7 @@ impl Default for WhipData {
                 level: 1,
                 count: 1,
                 damage: 5.0,
-                cooldown: 3.0,
+                cooldown: 1.0,
                 timer: Timer::default()
             }
         };
@@ -168,4 +168,13 @@ pub fn update_whips(
         }
     }
 
+}
+
+pub fn despawn_whip (
+    mut commands: Commands,
+    entity_query: Query<Entity, With<Whip>>
+) {
+    for entity in entity_query.iter() {
+        commands.entity(entity).despawn_recursive();
+    }
 }

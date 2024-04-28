@@ -35,6 +35,7 @@ pub fn update_xp(
             gameplay_data.level += 1;
             gameplay_data.set_xp_to_next_level();
             level_up_event_writer.send(OnLevelUp { });
+            println!("Level : {}", gameplay_data.level);
         }
     }
 }

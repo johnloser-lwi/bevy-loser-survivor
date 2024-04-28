@@ -30,6 +30,6 @@ impl GameplayData {
     }
 
     pub fn get_xp_offset_to_next_level(&self) -> u32 {
-        10 + (self.level - 1) * 5
+        5 + (self.level - 1) * 5
     }
 }

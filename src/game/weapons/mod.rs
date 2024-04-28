@@ -8,6 +8,10 @@ use crate::game::weapons::force_field::{insert_force_field_data, remove_force_fi
 use crate::game::weapons::whip::{insert_whip_data, remove_whip_data, setup_whip_atlas, spawn_whips, update_whips, WhipTextureAtlasLayout};
 use crate::states::{AppState, GameState};
 
+use self::fire_ball::despawn_fire_ball;
+use self::force_field::despawn_force_field;
+use self::whip::despawn_whip;
+
 pub struct WeaponPlugin;
 
 impl Plugin for WeaponPlugin {
@@ -26,7 +30,10 @@ impl Plugin for WeaponPlugin {
                          (
                              remove_whip_data,
                              remove_force_field_data,
-                             remove_fire_ball_data
+                             remove_fire_ball_data,
+                             despawn_fire_ball,
+                             despawn_force_field,
+                             despawn_whip
                          )
             )
 
