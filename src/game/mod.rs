@@ -9,6 +9,7 @@ mod animation;
 mod events;
 mod coin;
 pub mod resources;
+mod upgrade_menu;
 
 use bevy::prelude::*;
 use crate::game::events::{OnEnemyDie, OnLevelUp, OnPickupCoin};
@@ -31,7 +32,8 @@ impl Plugin for GamePlugin {
                     character::CharacterPlugin,
                     gameplay::GamePlayPlugin,
                     weapons::WeaponPlugin,
-                    coin::CoinPlugin
+                    coin::CoinPlugin,
+                    upgrade_menu::LevelUpUIPlugin
                 )
             )
 
@@ -42,7 +44,11 @@ impl Plugin for GamePlugin {
             .add_systems(OnEnter(AppState::Loading), load_textures)
             .add_systems(OnExit(AppState::Game), unload_textures)
 
-            .add_systems(Update, check_player_dead
+            .add_systems(Update,
+                         (
+                             check_player_dead,
+                             switch_upgrade_state
+                         )
                 .run_if(in_state(AppState::Game))
                 .run_if(in_state(GameState::Running))
             )

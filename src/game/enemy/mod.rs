@@ -27,7 +27,9 @@ impl Plugin for EnemyPlugin {
                      update_enemy_direction,
                      update_enemy_timer,
                      damage_player,
-                     check_enemy_health
+                     check_enemy_health,
+                     enemy_level_up,
+                     cleanup_enemy
                  )
                 .run_if(in_state(AppState::Game))
                 .run_if(in_state(GameState::Running)))

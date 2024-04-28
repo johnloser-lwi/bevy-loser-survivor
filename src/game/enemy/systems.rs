@@ -10,7 +10,8 @@ use crate::resources::Textures;
 use bevy_rapier2d::prelude::*;
 use crate::{RENDER_SCALE, RENDER_SIZE};
 use crate::game::character::resources::CharacterTextureAtlasLayout;
-use crate::game::events::OnEnemyDie;
+use crate::game::events::{OnEnemyDie, OnLevelUp};
+use crate::game::gameplay::resources::GameplayData;
 
 
 pub fn setup_enemy_config(
@@ -115,6 +116,20 @@ pub fn update_enemy_direction(
     }
 }
 
+pub fn cleanup_enemy(
+    mut commands: Commands,
+    enemy_query: Query<(Entity, &Transform), With<Enemy>>,
+    player_query: Query<&Transform, With<Player>>
+) {
+    if let Ok(player_transform) = player_query.get_single() {
+        for (entity, transform) in enemy_query.iter() {
+            if Vec2::distance(player_transform.translation.truncate(), transform.translation.truncate()) > RENDER_SIZE.x / 2.0 {
+                commands.entity(entity).despawn_recursive();
+            }
+        }
+    }
+}
+
 pub fn update_enemy_timer (
     mut enemy_timer: ResMut<EnemySpawnTimer>,
     time: Res<Time>
@@ -156,6 +171,23 @@ pub fn check_enemy_health(
         if health.is_dead() {
             commands.entity(entity).despawn_recursive();
             enemy_die_event_writer.send(OnEnemyDie { position : transform.translation().truncate() });
+        }
+    }
+}
+
+pub fn enemy_level_up (
+    mut enemy_configurations: ResMut<EnemyConfigurations>,
+    mut level_up_event: EventReader<OnLevelUp>,
+    gameplay_data: Res<GameplayData>
+) {
+
+
+    for evt in level_up_event.read() {
+        if gameplay_data.level % 5 != 0 {return;}
+        for mut config in enemy_configurations.configs.iter_mut() {
+            config.speed *= 1.2;
+            config.damage *= 1.2;
+            config.health *= 1.2;
         }
     }
 }

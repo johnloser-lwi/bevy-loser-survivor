@@ -5,6 +5,7 @@ use crate::game::animation::components::AnimationConfig;
 use crate::game::character::components::Health;
 use crate::game::enemy::components::Enemy;
 use crate::game::player::components::Player;
+use crate::game::weapons::WeaponData;
 
 #[derive(Resource)]
 pub struct WhipTextureAtlasLayout {
@@ -21,30 +22,22 @@ impl Default for WhipTextureAtlasLayout {
 
 #[derive(Resource)]
 pub struct WhipData {
-    level: u32,
-    whip_count: u32,
-    damage: f32,
-    cooldown: f32,
-    timer: Timer
+    pub data: WeaponData
 }
 
 impl Default for WhipData {
     fn default() -> Self {
         let mut data = WhipData {
-            level: 1,
-            whip_count: 1,
-            damage: 5.0,
-            cooldown: 3.0,
-            timer: Timer::default()
+            data: WeaponData{
+                level: 1,
+                count: 1,
+                damage: 5.0,
+                cooldown: 3.0,
+                timer: Timer::default()
+            }
         };
-        data.reset_timer();
+        data.data.reset_timer();
         data
-    }
-}
-
-impl WhipData {
-    pub fn reset_timer(&mut self) {
-        self.timer = Timer::from_seconds(self.cooldown, TimerMode::Once);
     }
 }
 
@@ -81,16 +74,20 @@ pub fn spawn_whips(
     textures: Res<Textures>,
     atlas_layout: Res<WhipTextureAtlasLayout>
 ) {
-    whip_data.timer.tick(time.delta());
-    if whip_data.level < 1 {return;}
-    if !whip_data.timer.just_finished() {
+    whip_data.data.timer.tick(time.delta());
+    if !whip_data.data.timer.just_finished() {
         return;
     }
 
-    whip_data.reset_timer();
+    whip_data.data.reset_timer();
+
+
+
+    if whip_data.data.level == 0 {return;}
+
 
     if let Ok((sprite, transform)) = player_query.get_single() {
-        for i in 0..whip_data.whip_count {
+        for i in 0..whip_data.data.count {
             let animation_config = AnimationConfig::new(0, 2, 30);
 
             let mut flip = sprite.flip_x;
@@ -104,6 +101,8 @@ pub fn spawn_whips(
                 ..default()
             };
             sprite_bundle.sprite.flip_x = flip;
+
+            sprite_bundle.sprite.color = Color::rgba(1.0, 1.0, 1.0, 0.5);
 
 
             commands.spawn(
@@ -153,7 +152,7 @@ pub fn update_whips(
                         QueryFilter::new(),
                         |entity| {
                             if let Ok(mut health) = enemy_query.get_mut(entity) {
-                                health.take_damage(whip_data.damage);
+                                health.take_damage(whip_data.data.damage);
                             }
                             true
                         },
