@@ -6,23 +6,17 @@
     body, html {
       margin: 0;
       height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       background-color: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    #game-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
     }
   </style>
 </head>
 
 <body>
-  <script type="module" id="game-container">
+  <script type="module">
       import init from './loser-survivor.js'
 
       init().catch((error) => {
