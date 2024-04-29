@@ -2,6 +2,7 @@ use bevy::prelude::*;
 use crate::game::animation::components::AnimationConfig;
 use crate::game::character::components::{Character, DamageFlash};
 use crate::game::character::resources::CharacterTextureAtlasLayout;
+use crate::RENDER_SIZE;
 
 pub fn flip_sprite(
     mut sprite_query: Query<(&mut Sprite, &Character), With<Character>>
@@ -23,6 +24,9 @@ pub fn handle_character_movement(
     for (character, mut transform) in character_query.iter_mut() {
         let direction: Vec3 = Vec3::new(character.direction.x, character.direction.y, 0.0);
         transform.translation += direction * (character.speed * time.delta_seconds());
+
+        transform.translation.x = transform.translation.x.clamp(-RENDER_SIZE.x, RENDER_SIZE.x);
+        transform.translation.y = transform.translation.y.clamp(-RENDER_SIZE.y, RENDER_SIZE.y);
     }
 }
 

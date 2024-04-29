@@ -84,7 +84,7 @@ pub fn spawn_force_field(
                 transform: Transform::from_xyz(pos.x, pos.y, 1.0),
                 ..default()
             };
-            sprite_bundle.sprite.color = Color::rgba(1.0, 1.0, 1.0, 0.5);
+            sprite_bundle.sprite.color = Color::rgba(1.0, 1.0, 1.0, 0.3);
             commands.spawn(
                 (
                     sprite_bundle,
