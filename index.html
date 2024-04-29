@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Losers' World: Zombie Survivor</title>
+  <title>Game Title</title>
   <link rel="icon" href="icon.png">
   <style>
     body {
@@ -11,20 +11,33 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column; /* Added to stack content vertically */
+    }
+
+    #game-container {
+      margin-bottom: 20px; /* Added some space between game and instructions */
+    }
+
+    #instructions {
+      color: white;
+      font-size: 14px;
     }
   </style>
 </head>
 
 <body>
-  <script type="module">
-    import init from './loser-survivor.js'
+  <div id="game-container">
+    <script type="module">
+      import init from './loser-survivor.js'
 
-    init().catch((error) => {
-      if (!error.message.startsWith("Using exceptions for control flow, don't mind me. This isn't actually an error!")) {
-        throw error;
-      }
-    });
-  </script>
+      init().catch((error) => {
+        if (!error.message.startsWith("Using exceptions for control flow, don't mind me. This isn't actually an error!")) {
+          throw error;
+        }
+      });
+    </script>
+  </div>
+  <div id="instructions">Use "WASD" to move</div>
 </body>
 
 </html>
