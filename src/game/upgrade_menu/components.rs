@@ -19,6 +19,7 @@ pub enum UpgradeOption {
     WhipCoolDown,
     HealthUp,
     SpeedUp,
+    RegenerationUp,
 }
 
 impl UpgradeOption {
@@ -26,7 +27,7 @@ impl UpgradeOption {
     pub fn pick_random_option() -> UpgradeOption {
         // use rand::Rng to pick random upgrade
         let mut rng = rand::thread_rng();
-        let random_upgrade = rng.gen_range(0..16);
+        let random_upgrade = rng.gen_range(0..17);
         match random_upgrade {
             0 => UpgradeOption::GetWhip,
             1 => UpgradeOption::GetForceField,
@@ -44,6 +45,7 @@ impl UpgradeOption {
             13 => UpgradeOption::WhipCoolDown,
             14 => UpgradeOption::HealthUp,
             15 => UpgradeOption::SpeedUp,
+            16 => UpgradeOption::RegenerationUp,
             _ => UpgradeOption::GetWhip,
         }
 
@@ -65,8 +67,9 @@ impl UpgradeOption {
             UpgradeOption::WhipCount => "Whip Count +1",
             UpgradeOption::WhipDamage => "Whip Damage +10%",
             UpgradeOption::WhipCoolDown => "Whip Cool Down -10%",
-            UpgradeOption::HealthUp => "Health +10%",
+            UpgradeOption::HealthUp => "Max Health +10%",
             UpgradeOption::SpeedUp => "Speed +10%",
+            UpgradeOption::RegenerationUp => "Regeneration +0.1/s",
         }
     }
 }

@@ -80,12 +80,17 @@ pub fn level_up_button_system (
                     }
                     UpgradeOption::HealthUp => {
                         for (mut health, _) in player_query.iter_mut() {
-                            health.health *= 1.1;
+                            health.max_health *= 1.1;
                         }
                     }
                     UpgradeOption::SpeedUp => {
                         for (_, mut character) in player_query.iter_mut() {
                             character.speed *= 1.1;
+                        }
+                    }
+                    UpgradeOption::RegenerationUp => {
+                        for (mut health, _) in player_query.iter_mut() {
+                            health.regeneration += 0.1;
                         }
                     }
                 }

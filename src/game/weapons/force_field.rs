@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use rand::Rng;
-use crate::game::character::components::Health;
+use crate::game::character::components::{DamageFlash, Health};
 use crate::game::enemy::components::Enemy;
 use crate::game::player::components::Player;
 use crate::game::resources::Textures;
@@ -107,7 +107,7 @@ pub fn update_force_field (
     mut commands: Commands,
     mut force_field_query: Query<(Entity, &mut ForceField, &Collider, &GlobalTransform)>,
     force_field_data: Res<ForceFieldData>,
-    mut enemy_query: Query<&mut Health, With<Enemy>>,
+    mut enemy_query: Query<(&mut Health, &mut DamageFlash, &mut Sprite), With<Enemy>>,
     time: Res<Time>,
     rapier_context: Res<RapierContext>,
 ){
@@ -128,8 +128,9 @@ pub fn update_force_field (
             collider,
             QueryFilter::new(),
             |entity| {
-                if let Ok(mut health) = enemy_query.get_mut(entity) {
+                if let Ok((mut health, mut damage_flash, mut sprite)) = enemy_query.get_mut(entity) {
                     health.take_damage(force_field_data.data.damage);
+                    damage_flash.flash(&mut sprite);
                 }
                 true
             }

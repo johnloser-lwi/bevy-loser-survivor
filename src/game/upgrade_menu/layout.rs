@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use crate::game::upgrade_menu::components::UpgradeOption;
-use crate::game::weapons::fire_ball::{FireBall, FireBallData};
-use crate::game::weapons::force_field::{ForceField, ForceFieldData};
+use crate::game::weapons::fire_ball::FireBallData;
+use crate::game::weapons::force_field::ForceFieldData;
 use crate::game::weapons::whip::WhipData;
 
 #[derive(Component)]
@@ -60,9 +60,14 @@ pub fn spawn_level_up_ui(
 
     let option1 = random_option(&whip_data, &fire_ball_data, &force_field_data);
     let mut option2 = random_option(&whip_data, &fire_ball_data, &force_field_data);
+    let mut option3 = random_option(&whip_data, &fire_ball_data, &force_field_data);
 
     while option1 == option2 {
         option2 = random_option(&whip_data, &fire_ball_data, &force_field_data);
+    }
+
+    while option3 == option1 || option3 == option2 {
+        option3 = random_option(&whip_data, &fire_ball_data, &force_field_data);
     }
 
     commands.spawn(level_up_parent).with_children(|commands| {
@@ -70,6 +75,7 @@ pub fn spawn_level_up_ui(
             commands.spawn(title_text);
             spawn_button(commands, &asset_server, &option1);
             spawn_button(commands, &asset_server, &option2);
+            spawn_button(commands, &asset_server, &option3);
         });
     });
 }

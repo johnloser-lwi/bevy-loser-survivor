@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use crate::game::resources::*;
 use crate::game::animation::components::AnimationConfig;
-use crate::game::character::components::Health;
+use crate::game::character::components::{DamageFlash, Health};
 use crate::game::enemy::components::Enemy;
 use crate::game::player::components::Player;
 use crate::game::weapons::WeaponData;
@@ -133,7 +133,7 @@ pub fn update_whips(
     mut whip_query: Query<(Entity, &mut AnimationConfig, &mut TextureAtlas, &mut Transform, &GlobalTransform, &Whip, &Collider)>,
     player_query: Query<&GlobalTransform, With<Player>>,
     rapier_context: Res<RapierContext>,
-    mut enemy_query: Query<&mut Health, With<Enemy>>,
+    mut enemy_query: Query<(&mut Health, &mut DamageFlash, &mut Sprite), With<Enemy>>,
     whip_data: Res<WhipData>
 ) {
     if let Ok(player_transform) = player_query.get_single() {
@@ -154,8 +154,9 @@ pub fn update_whips(
                         collider,
                         QueryFilter::new(),
                         |entity| {
-                            if let Ok(mut health) = enemy_query.get_mut(entity) {
+                            if let Ok((mut health, mut damage_flash, mut sprite)) = enemy_query.get_mut(entity) {
                                 health.take_damage(whip_data.data.damage);
+                                damage_flash.flash(&mut sprite);
                             }
                             true
                         },

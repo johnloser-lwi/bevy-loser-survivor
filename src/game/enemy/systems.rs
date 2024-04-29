@@ -1,9 +1,8 @@
 use bevy::prelude::*;
 use rand::prelude::*;
 use crate::game::animation::components::AnimationConfig;
-use crate::game::character::components::{ Character, Health};
+use crate::game::character::components::{Character, DamageFlash, Health};
 use crate::game::enemy::components::Enemy;
-use crate::game::enemy::ENEMY_SPAWN_TIME;
 use crate::game::enemy::resources::{EnemyConfigurations, EnemySpawnTimer, EnemyConfig};
 use crate::game::player::components::Player;
 use crate::resources::Textures;
@@ -27,7 +26,8 @@ pub fn setup_enemy_config(
                 texture: textures.zombie.clone(),
                 collider: Collider::capsule(Vec2::new(0.0, -4.0), Vec2::new(0.0, 4.0), 6.0)
             }
-        ]
+        ],
+        ..default()
     });
 }
 
@@ -40,13 +40,13 @@ pub fn spawn_enemy(
 ) {
     if !spawn_timer.timer.finished() { return;}
 
-    spawn_timer.timer = Timer::from_seconds(ENEMY_SPAWN_TIME, TimerMode::Once);
+    spawn_timer.timer = Timer::from_seconds(enemy_configurations.spawn_time, TimerMode::Once);
 
     let window_length = Vec2::new(RENDER_SIZE.x / 2.0, RENDER_SIZE.y / 2.0).length();
 
     let player_transform = player_query.get_single().unwrap();
 
-    for _ in 0..5 {
+    for _ in 0..=enemy_configurations.spawn_count {
         let mut rnd = rand::thread_rng();
         let spawn_position = Vec2::new(rnd.gen_range(-1.0..=1.0), rnd.gen_range(-1.0..=1.0)).normalize() * (window_length * RENDER_SCALE);
 
@@ -82,7 +82,13 @@ pub fn spawn_enemy(
                         speed: active_config.speed
                     },
                     Health {
-                        health: active_config.health
+                        health: active_config.health,
+                        max_health: active_config.health,
+                        regeneration: 0.0
+                    },
+                    DamageFlash{
+                        timer: Timer::default(),
+                        color: Color::RED
                     },
                     RigidBody::Dynamic,
                     LockedAxes::ROTATION_LOCKED_Z,
@@ -139,7 +145,7 @@ pub fn update_enemy_timer (
 
 pub fn damage_player(
     enemy_query: Query<(&Collider, &GlobalTransform, &Enemy)>,
-    mut player_query: Query<&mut Health, With<Player>>,
+    mut player_query: Query<(&mut Health, &mut DamageFlash, &mut Sprite), With<Player>>,
     rapier_context: Res<RapierContext>,
     time: Res<Time>,
 ) {
@@ -151,8 +157,9 @@ pub fn damage_player(
             QueryFilter::new(),
             |entity| {
 
-                if let Ok(mut health) = player_query.get_mut(entity) {
+                if let Ok((mut health, mut damage_flash, mut sprite)) = player_query.get_mut(entity) {
                     health.take_damage(enemy.damage * time.delta_seconds());
+                    damage_flash.flash(&mut sprite);
                 }
 
                 true
@@ -183,11 +190,14 @@ pub fn enemy_level_up (
 
 
     for evt in level_up_event.read() {
-        if gameplay_data.level % 5 != 0 {return;}
+        if gameplay_data.level % 5 != 0 {continue;}
+        println!("Level up enemy");
         for mut config in enemy_configurations.configs.iter_mut() {
             config.speed *= 1.2;
             config.damage *= 1.2;
             config.health *= 1.5;
         }
+        enemy_configurations.spawn_time *= 0.9;
+        enemy_configurations.spawn_count += 1;
     }
 }

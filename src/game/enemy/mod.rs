@@ -7,9 +7,6 @@ use crate::{AppState, GameState};
 use crate::game::enemy::resources::*;
 use crate::game::enemy::systems::*;
 
-
-pub const ENEMY_SPAWN_TIME: f32 = 3.0;
-
 pub struct EnemyPlugin;
 
 impl Plugin for EnemyPlugin {
@@ -28,11 +25,16 @@ impl Plugin for EnemyPlugin {
                      update_enemy_timer,
                      damage_player,
                      check_enemy_health,
-                     enemy_level_up,
                      cleanup_enemy
                  )
                 .run_if(in_state(AppState::Game))
                 .run_if(in_state(GameState::Running)))
+
+            // update
+            .add_systems(Update,
+                         enemy_level_up
+                             .run_if(in_state(AppState::Game))
+                             .run_if(in_state(GameState::Running)))
 
             // game end
             .add_systems(OnExit(AppState::Game), despawn_enemy)

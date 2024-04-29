@@ -1,6 +1,5 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::Collider;
-use crate::game::enemy::{ENEMY_SPAWN_TIME};
 
 #[derive(Resource)]
 pub struct EnemySpawnTimer {
@@ -9,7 +8,7 @@ pub struct EnemySpawnTimer {
 
 impl Default for EnemySpawnTimer {
     fn default() -> Self {
-        EnemySpawnTimer { timer: Timer::from_seconds(ENEMY_SPAWN_TIME, TimerMode::Once) }
+        EnemySpawnTimer { timer: Timer::from_seconds(3.0, TimerMode::Once) }
     }
 }
 
@@ -23,7 +22,9 @@ pub struct EnemyConfig {
 
 #[derive(Resource)]
 pub struct EnemyConfigurations {
-    pub configs: Vec<EnemyConfig>
+    pub configs: Vec<EnemyConfig>,
+    pub spawn_time: f32,
+    pub spawn_count: usize
 }
 
 impl Default for EnemyConfigurations {
@@ -37,7 +38,10 @@ impl Default for EnemyConfigurations {
                     texture: Handle::default(),
                     collider: Collider::capsule(Vec2::new(0.0, -5.0), Vec2::new(0.0, 5.0), 8.0)
                 }
-            ]
+            ],
+            spawn_time: 3.0,
+            spawn_count: 5
         }
+
     }
 }

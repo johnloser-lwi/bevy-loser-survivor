@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use crate::game::animation::components::AnimationConfig;
-use crate::game::character::components::{ Character, Health};
+use crate::game::character::components::{Character, DamageFlash, Health};
 use crate::game::character::resources::CharacterTextureAtlasLayout;
 use crate::game::player::components::Player;
 use crate::RENDER_SIZE;
@@ -31,9 +31,15 @@ pub fn spawn_player(
                 speed: 100.0,
                 direction: Vec2::default()
             },
+            DamageFlash {
+                timer: Timer::from_seconds(0.1, TimerMode::Once),
+                color: Color::RED
+            },
             Player {},
             Health {
-                health: 100.0
+                health: 100.0,
+                max_health: 100.0,
+                regeneration: 0.1
             },
             Collider::capsule(Vec2::new(0.0, 5.0), Vec2::new(0.0, -5.0), 8.0)
         )
@@ -85,5 +91,17 @@ pub fn handle_player_input (
         else {
             Vec2::new(0.0, 0.0)
         };
+    }
+}
+
+pub fn health_regeneration (
+    mut query: Query<&mut Health, With<Player>>,
+    time: Res<Time>
+) {
+    if let Ok(mut health) = query.get_single_mut() {
+        health.health += health.regeneration * time.delta_seconds();
+        if health.health > health.max_health {
+            health.health = health.max_health;
+        }
     }
 }

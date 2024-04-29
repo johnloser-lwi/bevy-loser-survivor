@@ -6,10 +6,25 @@ pub struct Character {
     pub direction: Vec2
 }
 
+#[derive(Component)]
+pub struct DamageFlash {
+    pub timer: Timer,
+    pub color: Color
+}
+
+impl DamageFlash {
+    pub fn flash(&mut self, sprite: &mut Sprite) {
+        self.timer = Timer::from_seconds(0.1, TimerMode::Once);
+        sprite.color = self.color;
+    }
+}
+
 
 #[derive(Component)]
 pub struct Health {
-    pub health: f32
+    pub health: f32,
+    pub max_health: f32,
+    pub regeneration: f32
 }
 
 impl Health {

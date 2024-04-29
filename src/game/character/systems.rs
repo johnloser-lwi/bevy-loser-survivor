@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use crate::game::animation::components::AnimationConfig;
-use crate::game::character::components::{ Character};
+use crate::game::character::components::{Character, DamageFlash};
 use crate::game::character::resources::CharacterTextureAtlasLayout;
 
 pub fn flip_sprite(
@@ -72,5 +72,17 @@ pub fn y_sort(
 ) {
     for mut transform in query.iter_mut() {
         transform.translation.z = -(1.0f32 / (1.0f32 + (2.0f32.powf(-0.01*transform.translation.y))));
+    }
+}
+
+pub fn handle_damage_flash (
+    time: Res<Time>,
+    mut query: Query<(&mut DamageFlash, &mut Sprite)>,
+) {
+    for (mut flash, mut sprite) in query.iter_mut() {
+        flash.timer.tick(time.delta());
+        if flash.timer.just_finished() {
+            sprite.color = Color::WHITE;
+        }
     }
 }
