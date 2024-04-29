@@ -10,6 +10,7 @@ mod events;
 mod coin;
 pub mod resources;
 mod upgrade_menu;
+mod health_bar;
 
 use bevy::prelude::*;
 use crate::game::events::{OnEnemyDie, OnLevelUp, OnPickupCoin};
@@ -33,7 +34,8 @@ impl Plugin for GamePlugin {
                     gameplay::GamePlayPlugin,
                     weapons::WeaponPlugin,
                     coin::CoinPlugin,
-                    upgrade_menu::LevelUpUIPlugin
+                    upgrade_menu::LevelUpUIPlugin,
+                    health_bar::HealthBarPlugin
                 )
             )
 

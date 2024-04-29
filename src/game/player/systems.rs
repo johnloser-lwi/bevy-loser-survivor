@@ -3,6 +3,7 @@ use bevy_rapier2d::prelude::*;
 use crate::game::animation::components::AnimationConfig;
 use crate::game::character::components::{Character, DamageFlash, Health};
 use crate::game::character::resources::CharacterTextureAtlasLayout;
+use crate::game::health_bar::components::HealthBar;
 use crate::game::player::components::Player;
 use crate::RENDER_SIZE;
 
@@ -41,6 +42,7 @@ pub fn spawn_player(
                 max_health: 100.0,
                 regeneration: 0.1
             },
+            HealthBar ::default(),
             Collider::capsule(Vec2::new(0.0, 5.0), Vec2::new(0.0, -5.0), 8.0)
         )
     );

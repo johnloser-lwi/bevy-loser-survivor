@@ -11,6 +11,7 @@ use crate::{RENDER_SCALE, RENDER_SIZE};
 use crate::game::character::resources::CharacterTextureAtlasLayout;
 use crate::game::events::{OnEnemyDie, OnLevelUp};
 use crate::game::gameplay::resources::GameplayData;
+use crate::game::health_bar::components::HealthBar;
 
 
 pub fn setup_enemy_config(
@@ -86,6 +87,7 @@ pub fn spawn_enemy(
                         max_health: active_config.health,
                         regeneration: 0.0
                     },
+                    HealthBar::default(),
                     DamageFlash{
                         timer: Timer::default(),
                         color: Color::RED
@@ -195,7 +197,7 @@ pub fn enemy_level_up (
         for mut config in enemy_configurations.configs.iter_mut() {
             config.speed *= 1.2;
             config.damage *= 1.2;
-            config.health *= 1.5;
+            config.health *= 1.1;
         }
         enemy_configurations.spawn_time *= 0.9;
         enemy_configurations.spawn_count += 1;

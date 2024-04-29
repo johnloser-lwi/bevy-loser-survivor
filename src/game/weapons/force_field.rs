@@ -77,27 +77,25 @@ pub fn spawn_force_field(
 
             let cast_radius = 100.0 * rng.gen_range(0.3..=1.0);
 
-            for _ in 0..force_field_data.data.count {
-                let dir = Vec2::new( rng.gen_range(-1.0..=1.0),  rng.gen_range(-1.0..=1.0)).normalize();
-                let pos = dir * cast_radius + player_transform.translation().truncate();
-                let mut sprite_bundle = SpriteBundle {
-                    texture: textures.force_field.clone(),
-                    transform: Transform::from_xyz(pos.x, pos.y, 1.0),
-                    ..default()
-                };
-                sprite_bundle.sprite.color = Color::rgba(1.0, 1.0, 1.0, 0.5);
-                commands.spawn(
-                    (
-                        sprite_bundle,
-                        ForceField {
-                            life_time: force_field_data.life_time,
-                            hit_timer: Timer::from_seconds(force_field_data.hit_time, TimerMode::Repeating)
-                        },
-                        Sensor,
-                        Collider::ball(24.0)
-                    )
-                );
-            }
+            let dir = Vec2::new( rng.gen_range(-1.0..=1.0),  rng.gen_range(-1.0..=1.0)).normalize();
+            let pos = dir * cast_radius + player_transform.translation().truncate();
+            let mut sprite_bundle = SpriteBundle {
+                texture: textures.force_field.clone(),
+                transform: Transform::from_xyz(pos.x, pos.y, 1.0),
+                ..default()
+            };
+            sprite_bundle.sprite.color = Color::rgba(1.0, 1.0, 1.0, 0.5);
+            commands.spawn(
+                (
+                    sprite_bundle,
+                    ForceField {
+                        life_time: force_field_data.life_time,
+                        hit_timer: Timer::from_seconds(force_field_data.hit_time, TimerMode::Repeating)
+                    },
+                    Sensor,
+                    Collider::ball(24.0)
+                )
+            );
         }
 
     }
