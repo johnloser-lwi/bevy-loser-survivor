@@ -28,15 +28,15 @@ pub fn level_up_button_system (
                     },
                     UpgradeOption::GetFireBall => {
                         fire_ball_data.data.level += 1;
-                        fire_ball_data.data.count = 1;
+                        fire_ball_data.data.add_timer();
                     },
                     UpgradeOption::GetForceField => {
                         force_field_data.data.level += 1;
-                        force_field_data.data.count = 1;
+                        force_field_data.data.add_timer();
                     }
                     UpgradeOption::FireBallProjectile => {
                         fire_ball_data.data.level += 1;
-                        fire_ball_data.data.count += 1;
+                        fire_ball_data.data.add_timer();
                     }
                     UpgradeOption::FireBallDamage => {
                         fire_ball_data.data.level += 1;
@@ -52,7 +52,7 @@ pub fn level_up_button_system (
                     }
                     UpgradeOption::ForceFieldProjectile => {
                         force_field_data.data.level += 1;
-                        force_field_data.data.count += 1;
+                        force_field_data.data.add_timer();
                     }
                     UpgradeOption::ForceFieldDamage => {
                         force_field_data.data.level += 1;
@@ -68,7 +68,7 @@ pub fn level_up_button_system (
                     }
                     UpgradeOption::WhipCount => {
                         whip_data.data.level += 1;
-                        whip_data.data.count += 1;
+                        whip_data.data.add_timer();
                     }
                     UpgradeOption::WhipDamage => {
                         whip_data.data.level += 1;

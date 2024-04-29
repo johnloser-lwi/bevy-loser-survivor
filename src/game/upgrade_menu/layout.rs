@@ -1,4 +1,3 @@
-use std::cmp::PartialEq;
 use bevy::prelude::*;
 use crate::game::upgrade_menu::components::UpgradeOption;
 use crate::game::weapons::fire_ball::{FireBall, FireBallData};
@@ -81,10 +80,6 @@ fn random_option(whip: &WhipData, fire_ball: &FireBallData, force_field: &ForceF
     while true {
         let random = UpgradeOption::pick_random_option();
         if random == UpgradeOption::GetWhip && whip.data.level != 0 {
-            continue;
-        }
-
-        if random == UpgradeOption::WhipCount && whip.data.count == 2 {
             continue;
         }
 

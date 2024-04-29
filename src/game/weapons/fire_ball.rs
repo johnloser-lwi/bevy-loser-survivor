@@ -22,13 +22,12 @@ impl Default for FireBallData {
                 level: 0,
                 damage: 5.0,
                 cooldown: 1.5,
-                count: 1,
-                timer: Timer::default()
+                count: 0,
+                timer: Vec::new()
             },
             life_time: 2.0,
             speed: 100.0
         };
-        data.data.reset_timer();
         data
     }
 }
@@ -60,65 +59,68 @@ pub fn spawn_fire_ball(
     time: Res<Time>,
     enemy_query: Query<&Transform, With<Enemy>>
 ) {
-    fire_ball_data.data.timer.tick(time.delta());
-    if !fire_ball_data.data.timer.just_finished() { return; }
-    fire_ball_data.data.reset_timer();
+    for i in 0..fire_ball_data.data.timer.len() {
+        let mut timer = fire_ball_data.data.timer.get_mut(i).unwrap();
 
+        timer.tick(time.delta());
 
-    if fire_ball_data.data.count == 0 { return; }
+        if !timer.just_finished() { continue; }
+        fire_ball_data.data.reset_timer(i);
 
-    if fire_ball_data.data.level == 0 { return; }
+        if let Ok(player_transform) = player_query.get_single() {
 
-
-
-    if let Ok(player_transform) = player_query.get_single() {
-
-        let mut closest: Vec<&Transform> = vec![];
-        for transform in enemy_query.iter() {
-            closest.insert(0, &transform);
-        }
-
-        closest.sort_by(|a, b|
-            {
-                let b_dis = Vec2::length(
-                    player_transform.translation().truncate() - b.translation.truncate());
-
-                Vec2::length(
-                    player_transform.translation().truncate() - a.translation.truncate())
-                    .partial_cmp(&b_dis)
-                    .unwrap()
+            let mut closest: Vec<&Transform> = vec![];
+            for transform in enemy_query.iter() {
+                closest.insert(0, &transform);
             }
-        );
 
-        for i in 0..closest.iter().count() as u32 {
-            if i == fire_ball_data.data.count { break; }
+            closest.sort_by(|a, b|
+                {
+                    let b_dis = Vec2::length(
+                        player_transform.translation().truncate() - b.translation.truncate());
 
-            let closest_enemy = closest.get(i as usize).unwrap();
-
-            let dir = (closest_enemy.translation.truncate() - player_transform.translation().truncate()).normalize();
-
-            let mut sprite_bundle = SpriteBundle {
-                texture: textures.fire_ball.clone(),
-                transform: Transform::from_xyz(player_transform.translation().x, player_transform.translation().y, 1.0),
-                ..default()
-            };
-            commands.spawn(
-                (
-                    sprite_bundle,
-                    FireBall {
-                        life_time: fire_ball_data.life_time,
-                        direction: dir,
-                        speed: fire_ball_data.speed
-                    },
-                    Sensor,
-                    Collider::ball(2.0)
-                )
+                    Vec2::length(
+                        player_transform.translation().truncate() - a.translation.truncate())
+                        .partial_cmp(&b_dis)
+                        .unwrap()
+                }
             );
 
+            for j in 0..closest.iter().count() as u32 {
+                if j == fire_ball_data.data.count { break; }
 
+                let closest_enemy = closest.get(j as usize).unwrap();
 
+                let dir = (closest_enemy.translation.truncate() - player_transform.translation().truncate()).normalize();
+
+                let mut sprite_bundle = SpriteBundle {
+                    texture: textures.fire_ball.clone(),
+                    transform: Transform::from_xyz(player_transform.translation().x, player_transform.translation().y, 1.0),
+                    ..default()
+                };
+                commands.spawn(
+                    (
+                        sprite_bundle,
+                        FireBall {
+                            life_time: fire_ball_data.life_time,
+                            direction: dir,
+                            speed: fire_ball_data.speed
+                        },
+                        Sensor,
+                        Collider::ball(2.0)
+                    )
+                );
+
+            }
         }
+
     }
+
+
+
+
+
+
 }
 
 pub fn update_fire_ball (

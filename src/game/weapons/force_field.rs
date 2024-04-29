@@ -21,14 +21,13 @@ impl Default for ForceFieldData {
                 level: 0,
                 damage: 1.0,
                 cooldown: 3.0,
-                count: 1,
-                timer: Timer::default()
+                count: 0,
+                timer: Vec::new()
             },
             life_time: 4.0,
             hit_time: 1.0
         };
 
-        data.data.reset_timer();
         data
     }
 }
@@ -59,33 +58,36 @@ pub fn spawn_force_field(
     mut force_field_data: ResMut<ForceFieldData>,
     time: Res<Time>
 ) {
-    force_field_data.data.timer.tick(time.delta());
 
-    if !force_field_data.data.timer.just_finished() { return; }
+    for i in 0..force_field_data.data.timer.len() {
+        let mut timer = force_field_data.data.timer.get_mut(i).unwrap();
 
-    force_field_data.data.reset_timer();
+        timer.tick(time.delta());
 
-    if force_field_data.data.count == 0 { return; }
+        if !timer.just_finished() { continue; }
 
-    if force_field_data.data.level == 0 { return; }
+        force_field_data.data.reset_timer(i);
 
-    if let Ok(player_transform) = player_query.get_single() {
+        if force_field_data.data.level == 0 { continue; }
 
-        let mut rng = rand::thread_rng();
 
-        let cast_radius = 100.0 * rng.gen_range(0.3..=1.0);
+        if let Ok(player_transform) = player_query.get_single() {
 
-        for _ in 0..force_field_data.data.count {
-            let dir = Vec2::new( rng.gen_range(-1.0..=1.0),  rng.gen_range(-1.0..=1.0)).normalize();
-            let pos = dir * cast_radius + player_transform.translation().truncate();
-            let mut sprite_bundle = SpriteBundle {
-                texture: textures.force_field.clone(),
-                transform: Transform::from_xyz(pos.x, pos.y, 1.0),
-                ..default()
-            };
-            sprite_bundle.sprite.color = Color::rgba(1.0, 1.0, 1.0, 0.5);
-            commands.spawn(
-                (
+            let mut rng = rand::thread_rng();
+
+            let cast_radius = 100.0 * rng.gen_range(0.3..=1.0);
+
+            for _ in 0..force_field_data.data.count {
+                let dir = Vec2::new( rng.gen_range(-1.0..=1.0),  rng.gen_range(-1.0..=1.0)).normalize();
+                let pos = dir * cast_radius + player_transform.translation().truncate();
+                let mut sprite_bundle = SpriteBundle {
+                    texture: textures.force_field.clone(),
+                    transform: Transform::from_xyz(pos.x, pos.y, 1.0),
+                    ..default()
+                };
+                sprite_bundle.sprite.color = Color::rgba(1.0, 1.0, 1.0, 0.5);
+                commands.spawn(
+                    (
                         sprite_bundle,
                         ForceField {
                             life_time: force_field_data.life_time,
@@ -94,8 +96,10 @@ pub fn spawn_force_field(
                         Sensor,
                         Collider::ball(24.0)
                     )
-            );
+                );
+            }
         }
+
     }
 }
 

@@ -3,6 +3,7 @@ pub mod force_field;
 pub mod fire_ball;
 
 use bevy::prelude::*;
+use bevy::reflect::List;
 use crate::game::weapons::fire_ball::{insert_fire_ball_data, remove_fire_ball_data, spawn_fire_ball, update_fire_ball};
 use crate::game::weapons::force_field::{insert_force_field_data, remove_force_field_data, spawn_force_field, update_force_field};
 use crate::game::weapons::whip::{insert_whip_data, remove_whip_data, setup_whip_atlas, spawn_whips, update_whips, WhipTextureAtlasLayout};
@@ -60,11 +61,22 @@ pub struct WeaponData {
     pub count: u32,
     pub damage: f32,
     pub cooldown: f32,
-    pub timer: Timer
+    pub timer: Vec<Timer>
 }
 
 impl WeaponData {
-    pub fn reset_timer(&mut self) {
-        self.timer = Timer::from_seconds(self.cooldown, TimerMode::Once);
+
+    pub fn add_timer(&mut self) {
+        self.count += 1;
+        self.timer.push(Timer::from_seconds(self.cooldown, TimerMode::Once));
+    }
+
+    pub fn reset_timer(&mut self, index: usize) {
+
+        if index >= self.timer.len() {
+            return;
+        }
+
+        self.timer[index] = Timer::from_seconds(self.cooldown, TimerMode::Once);
     }
 }

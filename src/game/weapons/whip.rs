@@ -30,13 +30,13 @@ impl Default for WhipData {
         let mut data = WhipData {
             data: WeaponData{
                 level: 1,
-                count: 1,
+                count: 0,
                 damage: 5.0,
                 cooldown: 1.0,
-                timer: Timer::default()
+                timer: Vec::new()
             }
         };
-        data.data.reset_timer();
+        data.data.add_timer();
         data
     }
 }
@@ -74,24 +74,26 @@ pub fn spawn_whips(
     textures: Res<Textures>,
     atlas_layout: Res<WhipTextureAtlasLayout>
 ) {
-    whip_data.data.timer.tick(time.delta());
-    if !whip_data.data.timer.just_finished() {
-        return;
-    }
 
-    whip_data.data.reset_timer();
+    for i in 0..whip_data.data.timer.len() {
+
+        let mut timer = whip_data.data.timer.get_mut(i).unwrap();
+
+        timer.tick(time.delta());
+        if !timer.just_finished() {
+            continue;
+        }
+
+        whip_data.data.reset_timer(i);
+
+        if whip_data.data.level == 0 {continue;}
 
 
-
-    if whip_data.data.level == 0 {return;}
-
-
-    if let Ok((sprite, transform)) = player_query.get_single() {
-        for i in 0..whip_data.data.count {
+        if let Ok((sprite, transform)) = player_query.get_single() {
             let animation_config = AnimationConfig::new(0, 2, 30);
 
             let mut flip = sprite.flip_x;
-            if i == 1 {flip = !flip}
+            if i % 2 == 1 {flip = !flip}
             let mut offset = Vec2::new(32.0, 0.0);
             if flip { offset.x = -offset.x;}
 
@@ -107,21 +109,22 @@ pub fn spawn_whips(
 
             commands.spawn(
                 (
-                        sprite_bundle,
-                        TextureAtlas {
-                            layout: atlas_layout.handle.clone(),
-                            index: animation_config.first_sprite_index
-                        },
-                        animation_config,
-                        Whip {
-                            offset
-                        },
-                        Sensor,
-                        Collider::cuboid(24.0, 2.0)
-                    )
+                    sprite_bundle,
+                    TextureAtlas {
+                        layout: atlas_layout.handle.clone(),
+                        index: animation_config.first_sprite_index
+                    },
+                    animation_config,
+                    Whip {
+                        offset
+                    },
+                    Sensor,
+                    Collider::cuboid(24.0, 2.0)
+                )
             );
         }
     }
+
 }
 
 pub fn update_whips(
