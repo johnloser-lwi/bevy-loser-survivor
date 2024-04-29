@@ -16,7 +16,7 @@ pub struct ForceFieldData {
 
 impl Default for ForceFieldData {
     fn default() -> Self {
-        let mut data = ForceFieldData {
+        let data = ForceFieldData {
             data: WeaponData {
                 level: 0,
                 damage: 1.0,
@@ -60,7 +60,7 @@ pub fn spawn_force_field(
 ) {
 
     for i in 0..force_field_data.data.timer.len() {
-        let mut timer = force_field_data.data.timer.get_mut(i).unwrap();
+        let timer = force_field_data.data.timer.get_mut(i).unwrap();
 
         timer.tick(time.delta());
 

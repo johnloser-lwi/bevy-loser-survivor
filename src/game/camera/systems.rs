@@ -38,6 +38,9 @@ pub fn camera_follow_player(
 
             camera_transform.translation = player_transform.translation;
 
+            camera_transform.translation.x = camera_transform.translation.x.clamp(-RENDER_SIZE.x + RENDER_SIZE.x / 2.0  * RENDER_SCALE, RENDER_SIZE.x - RENDER_SIZE.x / 2.0 * RENDER_SCALE);
+            camera_transform.translation.y = camera_transform.translation.y.clamp(-RENDER_SIZE.y + RENDER_SIZE.y / 2.0  * RENDER_SCALE, RENDER_SIZE.y - RENDER_SIZE.y / 2.0 * RENDER_SCALE);
+
         }
     }
 }

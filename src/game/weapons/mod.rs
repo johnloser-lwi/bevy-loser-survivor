@@ -3,7 +3,6 @@ pub mod force_field;
 pub mod fire_ball;
 
 use bevy::prelude::*;
-use bevy::reflect::List;
 use crate::game::weapons::fire_ball::{insert_fire_ball_data, remove_fire_ball_data, spawn_fire_ball, update_fire_ball};
 use crate::game::weapons::force_field::{insert_force_field_data, remove_force_field_data, spawn_force_field, update_force_field};
 use crate::game::weapons::whip::{insert_whip_data, remove_whip_data, setup_whip_atlas, spawn_whips, update_whips, WhipTextureAtlasLayout};

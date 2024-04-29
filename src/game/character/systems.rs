@@ -25,8 +25,8 @@ pub fn handle_character_movement(
         let direction: Vec3 = Vec3::new(character.direction.x, character.direction.y, 0.0);
         transform.translation += direction * (character.speed * time.delta_seconds());
 
-        transform.translation.x = transform.translation.x.clamp(-RENDER_SIZE.x, RENDER_SIZE.x);
-        transform.translation.y = transform.translation.y.clamp(-RENDER_SIZE.y, RENDER_SIZE.y);
+        transform.translation.x = transform.translation.x.clamp(-RENDER_SIZE.x + 16.0, RENDER_SIZE.x - 16.0);
+        transform.translation.y = transform.translation.y.clamp(-RENDER_SIZE.y + 16.0, RENDER_SIZE.y - 16.0);
     }
 }
 

@@ -191,10 +191,10 @@ pub fn enemy_level_up (
 ) {
 
 
-    for evt in level_up_event.read() {
+    for _ in level_up_event.read() {
         if gameplay_data.level % 5 != 0 {continue;}
         println!("Level up enemy");
-        for mut config in enemy_configurations.configs.iter_mut() {
+        for config in enemy_configurations.configs.iter_mut() {
             config.speed *= 1.2;
             config.damage *= 1.2;
             config.health *= 1.1;

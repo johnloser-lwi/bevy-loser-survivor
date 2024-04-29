@@ -7,7 +7,7 @@ use bevy_rapier2d::prelude::*;
 use game::*;
 use systems::load_game;
 use crate::states::*;
-use crate::systems::exit_game;
+use crate::systems::pause_game;
 
 
 mod game;
@@ -54,7 +54,9 @@ fn main() {
     // Systems
     .add_systems(OnEnter(AppState::Loading), load_game)
 
-    .add_systems(Update, exit_game)
+    .add_systems(Update, pause_game
+        .run_if(in_state(AppState::Game))
+    )
 
     .run();
 }

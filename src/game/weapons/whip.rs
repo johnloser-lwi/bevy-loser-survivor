@@ -77,7 +77,7 @@ pub fn spawn_whips(
 
     for i in 0..whip_data.data.timer.len() {
 
-        let mut timer = whip_data.data.timer.get_mut(i).unwrap();
+        let timer = whip_data.data.timer.get_mut(i).unwrap();
 
         timer.tick(time.delta());
         if !timer.just_finished() {

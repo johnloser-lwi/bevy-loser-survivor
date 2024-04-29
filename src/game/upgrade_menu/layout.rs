@@ -83,7 +83,7 @@ pub fn spawn_level_up_ui(
 
 
 fn random_option(whip: &WhipData, fire_ball: &FireBallData, force_field: &ForceFieldData) -> UpgradeOption {
-    while true {
+    loop {
         let random = UpgradeOption::pick_random_option();
         if random == UpgradeOption::GetWhip && whip.data.level != 0 {
             continue;
@@ -143,8 +143,6 @@ fn random_option(whip: &WhipData, fire_ball: &FireBallData, force_field: &ForceF
 
         return random;
     }
-
-    return UpgradeOption::GetWhip;
 }
 
 fn spawn_button(

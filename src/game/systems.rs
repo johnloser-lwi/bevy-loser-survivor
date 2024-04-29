@@ -42,7 +42,7 @@ pub fn switch_upgrade_state (
     mut level_up_event: EventReader<OnLevelUp>,
     mut next_state: ResMut<NextState<GameState>>
 ) {
-    for evt in level_up_event.read() {
+    for _ in level_up_event.read() {
         next_state.set(GameState::Upgrade);
     }
 }

@@ -2,14 +2,24 @@ use bevy::app::AppExit;
 use bevy::prelude::*;
 
 use crate::AppState;
+use crate::states::GameState;
 
 // global exit
-pub fn exit_game(
+pub fn pause_game(
     keyboard_input: Res<ButtonInput<KeyCode>>,
-    mut app_exit_event_write: EventWriter<AppExit>
+    mut next_state: ResMut<NextState<GameState>>,
+    game_state: Res<State<GameState>>
 ) {
-    if keyboard_input.pressed(KeyCode::Escape) {
-        app_exit_event_write.send(AppExit);
+    if keyboard_input.just_pressed(KeyCode::Escape) {
+
+        let state = game_state.get();
+
+        if *state == GameState::Running {
+            next_state.set(GameState::Paused);
+        }
+        else if *state == GameState::Paused {
+            next_state.set(GameState::Running);
+        }
     }
 }
 

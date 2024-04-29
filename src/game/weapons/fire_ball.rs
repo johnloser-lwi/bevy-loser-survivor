@@ -17,7 +17,7 @@ pub struct FireBallData {
 
 impl Default for FireBallData {
     fn default() -> Self {
-        let mut data = FireBallData {
+        let data = FireBallData {
             data: WeaponData {
                 level: 0,
                 damage: 5.0,
@@ -59,60 +59,45 @@ pub fn spawn_fire_ball(
     time: Res<Time>,
     enemy_query: Query<&Transform, With<Enemy>>
 ) {
-
-
     if let Ok(player_transform) = player_query.get_single() {
 
-        let mut closest: Vec<&Transform> = vec![];
-
-        for transform in enemy_query.iter() {
-            closest.insert(0, &transform);
-        }
-
-        closest.sort_by(|a, b|
-            {
-                let b_dis = Vec2::length(
-                    player_transform.translation().truncate() - b.translation.truncate());
-
-                Vec2::length(
-                    player_transform.translation().truncate() - a.translation.truncate())
-                    .partial_cmp(&b_dis)
-                    .unwrap()
-            }
-        );
-
-
         for i in 0..fire_ball_data.data.timer.len() {
-            let mut timer = fire_ball_data.data.timer.get_mut(i).unwrap();
+            let timer = fire_ball_data.data.timer.get_mut(i).unwrap();
 
             timer.tick(time.delta());
 
             if !timer.just_finished() { continue; }
             fire_ball_data.data.reset_timer(i);
 
-            if closest.len() < i + 1 { continue; }
+            if let Some(closest_enemy) = enemy_query.iter().min_by_key(|enemy_transform| {
+                FloatOrd(Vec2::length(
+                    player_transform.translation().truncate() - enemy_transform.translation.truncate(),
+                ))
+            }) {
 
-            let closest_enemy = closest.get(i).unwrap();
+                let dir = (closest_enemy.translation.truncate() - player_transform.translation().truncate()).normalize();
 
-            let dir = (closest_enemy.translation.truncate() - player_transform.translation().truncate()).normalize();
+                let sprite_bundle = SpriteBundle {
+                    texture: textures.fire_ball.clone(),
+                    transform: Transform::from_xyz(player_transform.translation().x, player_transform.translation().y, 1.0),
+                    ..default()
+                };
+                commands.spawn(
+                    (
+                        sprite_bundle,
+                        FireBall {
+                            life_time: fire_ball_data.life_time,
+                            direction: dir,
+                            speed: fire_ball_data.speed
+                        },
+                        Sensor,
+                        Collider::ball(2.0)
+                    )
+                );
 
-            let mut sprite_bundle = SpriteBundle {
-                texture: textures.fire_ball.clone(),
-                transform: Transform::from_xyz(player_transform.translation().x, player_transform.translation().y, 1.0),
-                ..default()
-            };
-            commands.spawn(
-                (
-                    sprite_bundle,
-                    FireBall {
-                        life_time: fire_ball_data.life_time,
-                        direction: dir,
-                        speed: fire_ball_data.speed
-                    },
-                    Sensor,
-                    Collider::ball(2.0)
-                )
-            );
+            }
+
+
         }
 
     }
