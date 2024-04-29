@@ -1,16 +1,35 @@
 <!doctype html>
 <html lang="en">
 
-<body style="margin: 0px; background-color: black; display: flex; justify-content: center; align-items: center">
-  <script type="module">
-    import init from './loser-survivor.js'
+<head>
+  <style>
+    body, html {
+      margin: 0;
+      height: 100%;
+      background-color: black;
+    }
 
-    init().catch((error) => {
-      if (!error.message.startsWith("Using exceptions for control flow, don't mind me. This isn't actually an error!")) {
-        throw error;
-      }
-    });
-  </script>
+    #game-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="game-container">
+    <script type="module">
+      import init from './loser-survivor.js'
+
+      init().catch((error) => {
+        if (!error.message.startsWith("Using exceptions for control flow, don't mind me. This isn't actually an error!")) {
+          throw error;
+        }
+      });
+    </script>
+  </div>
 </body>
 
 </html>
