@@ -73,7 +73,9 @@ pub fn spawn_whips(
     time: Res<Time>,
     player_query: Query<(&Sprite, &GlobalTransform), With<Player>>,
     textures: Res<Textures>,
-    atlas_layout: Res<WhipTextureAtlasLayout>
+    atlas_layout: Res<WhipTextureAtlasLayout>,
+    sounds: Res<Sounds>,
+    mut spatial_event: EventWriter<RequestSpatialAudioEvent>
 ) {
 
     for i in 0..whip_data.data.timer.len() {
@@ -123,6 +125,11 @@ pub fn spawn_whips(
                     Collider::cuboid(24.0, 2.0)
                 )
             );
+
+            spatial_event.send(RequestSpatialAudioEvent {
+                position: transform.translation().truncate(),
+                sound: sounds.whip.clone()
+            });
         }
     }
 

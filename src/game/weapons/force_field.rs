@@ -57,7 +57,9 @@ pub fn spawn_force_field(
     player_query: Query<&GlobalTransform, With<Player>>,
     textures: Res<Textures>,
     mut force_field_data: ResMut<ForceFieldData>,
-    time: Res<Time>
+    time: Res<Time>,
+    sounds: Res<Sounds>,
+    mut spatial_event: EventWriter<RequestSpatialAudioEvent>
 ) {
 
     for i in 0..force_field_data.data.timer.len() {
@@ -97,6 +99,11 @@ pub fn spawn_force_field(
                     Collider::ball(24.0)
                 )
             );
+
+            spatial_event.send(RequestSpatialAudioEvent {
+                position: pos,
+                sound: sounds.force_field.clone()
+            });
         }
 
     }

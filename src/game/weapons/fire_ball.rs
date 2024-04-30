@@ -58,7 +58,9 @@ pub fn spawn_fire_ball(
     textures: Res<Textures>,
     mut fire_ball_data: ResMut<FireBallData>,
     time: Res<Time>,
-    enemy_query: Query<&Transform, With<Enemy>>
+    enemy_query: Query<&Transform, With<Enemy>>,
+    sounds: Res<Sounds>,
+    mut spatial_event: EventWriter<RequestSpatialAudioEvent>
 ) {
     if let Ok(player_transform) = player_query.get_single() {
 
@@ -95,6 +97,11 @@ pub fn spawn_fire_ball(
                         Collider::ball(2.0)
                     )
                 );
+
+                spatial_event.send(RequestSpatialAudioEvent {
+                    position: player_transform.translation().truncate(),
+                    sound: sounds.fire_ball.clone()
+                });
 
             }
 
