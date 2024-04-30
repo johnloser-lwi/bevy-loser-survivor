@@ -3,6 +3,7 @@ use crate::game::upgrade_menu::components::UpgradeOption;
 use crate::game::weapons::fire_ball::FireBallData;
 use crate::game::weapons::force_field::ForceFieldData;
 use crate::game::weapons::whip::WhipData;
+use crate::styles::get_button_bundle;
 
 #[derive(Component)]
 pub struct LevelUpUI {}
@@ -152,19 +153,7 @@ fn spawn_button(
 ) {
     let font = asset_server.load("fonts/FiraSans-Bold.ttf");
     let button = (
-        ButtonBundle {
-            style: Style {
-                width: Val::Percent(80.0),
-                height: Val::Px(50.0),
-                justify_content: JustifyContent::Center,
-                align_items: AlignItems::Center,
-                align_self: AlignSelf::Center,
-                margin: UiRect::all(Val::Px(10.0)),
-                ..default()
-            },
-            background_color: Color::CRIMSON.into(),
-            ..default()
-        },
+        get_button_bundle(Val::Percent(80.0), Val::Px(50.0)),
         upgrade_option.clone(),
     );
 

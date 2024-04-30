@@ -12,13 +12,16 @@ use crate::states::*;
 mod game;
 mod systems;
 mod states;
+mod game_over_ui;
+mod styles;
+mod main_menu_ui;
 
 pub const RENDER_SIZE: Vec2 = Vec2::new(1280., 720.);
 pub const RENDER_SCALE: f32 = 0.4;
 
 fn main() {
     App::new()
-    .insert_state(AppState::Loading)
+    .insert_state(AppState::MainMenu)
     .insert_state(GameState::Running)
     .add_plugins(DefaultPlugins.set(
         WindowPlugin {
@@ -45,9 +48,11 @@ fn main() {
     
 
     // Custom Plugins
-    .add_plugins(GamePlugin)
-
-
+    .add_plugins((
+        GamePlugin,
+        game_over_ui::GameOverUiPlugin,
+        main_menu_ui::MainMenuUIPlugin
+    ))
 
 
     // Systems

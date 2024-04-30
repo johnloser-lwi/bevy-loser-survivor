@@ -3,7 +3,7 @@ mod player;
 mod character;
 mod enemy;
 mod camera;
-mod gameplay;
+pub mod gameplay;
 mod weapons;
 mod animation;
 mod events;

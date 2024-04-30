@@ -5,7 +5,7 @@ pub fn spawn_game_ui(
     mut commands: Commands,
     asset_server: Res<AssetServer>
 ) {
-    let parent_node =
+    let parent_node = (
         NodeBundle {
             style: Style {
                 width: Val::Percent(100.0),
@@ -17,7 +17,9 @@ pub fn spawn_game_ui(
                 ..default()
             },
             ..default()
-        };
+        },
+        GameUI
+    );
 
 
     let xp_parent = (
@@ -34,8 +36,7 @@ pub fn spawn_game_ui(
             },
             background_color: BackgroundColor(Color::GRAY),
             ..default()
-        },
-        GameUI
+        }
     );
 
     let exp_node = (

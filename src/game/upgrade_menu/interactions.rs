@@ -6,6 +6,7 @@ use crate::game::weapons::fire_ball::FireBallData;
 use crate::game::weapons::force_field::ForceFieldData;
 use crate::game::weapons::whip::WhipData;
 use crate::states::GameState;
+use crate::styles::{BUTTON_HOVER_COLOR, BUTTON_PRESSED_COLOR};
 
 pub fn level_up_button_system (
     mut interaction_query: Query<(&Interaction, &mut BackgroundColor, &UpgradeOption), (With<Button>, Changed<Interaction>)>,
@@ -18,7 +19,7 @@ pub fn level_up_button_system (
     for (interaction, mut background_color, upgrade_option) in interaction_query.iter_mut() {
         match *interaction {
             Interaction::Pressed => {
-                background_color.0 = Color::rgb(0.8, 0.8, 0.8);
+                background_color.0 = BUTTON_PRESSED_COLOR;
 
 
                 match upgrade_option {
@@ -101,10 +102,10 @@ pub fn level_up_button_system (
                 next_state.set(GameState::Running);
             },
             Interaction::Hovered => {
-                background_color.0 = Color::rgb(1.0, 0.0, 0.0);
+                background_color.0 = BUTTON_HOVER_COLOR;
             },
             Interaction::None => {
-                background_color.0 = Color::rgb(0.0, 0.0, 0.0);
+                background_color.0 = Color::BLACK;
             }
         }
     }
