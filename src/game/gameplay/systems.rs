@@ -39,3 +39,10 @@ pub fn update_xp(
         }
     }
 }
+
+pub fn update_game_time(
+    time: Res<Time>,
+    mut gameplay_data: ResMut<GameplayData>
+) {
+    gameplay_data.game_time += time.delta_seconds();
+}

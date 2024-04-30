@@ -7,7 +7,8 @@ pub struct GameplayData {
     pub xp: u32,
     pub head_count: u32,
     pub level: u32,
-    pub xp_to_next_level: u32
+    pub xp_to_next_level: u32,
+    pub game_time: f32
 }
 
 impl Default for GameplayData {
@@ -16,7 +17,8 @@ impl Default for GameplayData {
             xp: 0,
             head_count: 0,
             level: 1,
-            xp_to_next_level: 0
+            xp_to_next_level: 0,
+            game_time: 0.0
         };
         data.set_xp_to_next_level();
 
@@ -32,4 +34,5 @@ impl GameplayData {
     pub fn get_xp_offset_to_next_level(&self) -> u32 {
         5 + (self.level - 1) * 5
     }
+
 }

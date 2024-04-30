@@ -7,7 +7,6 @@ use bevy_rapier2d::prelude::*;
 use game::*;
 use systems::load_game;
 use crate::states::*;
-use crate::systems::pause_game;
 
 
 mod game;
@@ -24,7 +23,7 @@ fn main() {
     .add_plugins(DefaultPlugins.set(
         WindowPlugin {
             primary_window: Some(Window {
-                title: "Loser Survivor".into(),
+                title: "Losers' World: Zombie Survivor".into(),
                 name: Some("bevy.app".into()),
                 resolution: (RENDER_SIZE.x, RENDER_SIZE.y).into(),
                 present_mode: PresentMode::AutoVsync,
@@ -53,10 +52,6 @@ fn main() {
 
     // Systems
     .add_systems(OnEnter(AppState::Loading), load_game)
-
-    .add_systems(Update, pause_game
-        .run_if(in_state(AppState::Game))
-    )
 
     .run();
 }

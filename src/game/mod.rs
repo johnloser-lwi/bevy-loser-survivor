@@ -12,6 +12,7 @@ pub mod resources;
 mod upgrade_menu;
 mod health_bar;
 mod background;
+mod game_ui;
 
 use bevy::prelude::*;
 use crate::game::events::{OnEnemyDie, OnLevelUp, OnPickupCoin};
@@ -38,6 +39,7 @@ impl Plugin for GamePlugin {
                     upgrade_menu::LevelUpUIPlugin,
                     health_bar::HealthBarPlugin,
                     background::BackgroundPlugin,
+                    game_ui::GameUiPlugin,
                 )
             )
 
@@ -57,7 +59,9 @@ impl Plugin for GamePlugin {
                 .run_if(in_state(GameState::Running))
             )
 
-
+            .add_systems(Update, pause_game
+                .run_if(in_state(AppState::Game))
+            )
         ;
     }
 }
