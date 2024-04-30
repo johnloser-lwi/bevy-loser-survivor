@@ -19,22 +19,34 @@ pub fn spawn_main_menu_ui (
     mut commands: Commands,
     asset_server: Res<AssetServer>,
 ){
+    let mut column = get_column_layout();
+
+    column.style.justify_content = JustifyContent::FlexEnd;
+
     let ui_parent = (
-        get_column_layout(),
+        column,
         MainMenuUI
     );
 
-    let title_text =
-        TextBundle::from_section("Losers' World: Zombie Survivor",
-                                 TextStyle {
-                                     font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                     font_size: 60.0,
-                                     color: Color::rgb(1.0, 1.0, 1.0),
-                                 }
-        );
+    let bg = ImageBundle {
+        image: asset_server.load("sprites/main_menu.png").into(),
+        style: Style {
+            height: Val::Percent(100.0),
+            width: Val::Percent(100.0),
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Center,
+            position_type: PositionType::Absolute,
+            ..default()
+        },
+        ..default()
+    };
+
+    let mut button_bundle = get_button_bundle(Val::Px(200.0), Val::Px(40.0));
+    button_bundle.style.margin.bottom = Val::Percent(20.0);
+    button_bundle.style.margin.left = Val::Percent(45.0);
 
     let button = (
-        get_button_bundle(Val::Px(200.0), Val::Px(40.0)),
+        button_bundle,
         StartButton
     );
 
@@ -52,7 +64,7 @@ pub fn spawn_main_menu_ui (
 
     commands.spawn(ui_parent)
         .with_children(|parent| {
-            parent.spawn(title_text);
+            parent.spawn(bg);
             parent.spawn(button)
                 .with_children(|parent| {
                     parent.spawn(button_text);
