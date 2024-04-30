@@ -22,22 +22,18 @@ pub fn spawn_game_ui(
     );
 
 
-    let xp_parent = (
+    let xp_parent =
         NodeBundle {
             style: Style {
                 height: Val::Percent(20.0),
                 width: Val::Percent(80.0),
                 align_items: AlignItems::Center,
                 justify_content: JustifyContent::FlexStart,
-                //flex_direction: FlexDirection::Row,
-                //position_type: PositionType::Absolute,
-                //margin: UiRect::all(Val::Px(10.0)),
                 ..default()
             },
             background_color: BackgroundColor(Color::GRAY),
             ..default()
-        }
-    );
+        };
 
     let exp_node = (
         NodeBundle {

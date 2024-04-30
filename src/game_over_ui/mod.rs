@@ -13,7 +13,7 @@ impl Plugin for GameOverUiPlugin {
     fn build(&self, app: &mut App) {
         app
             .add_systems(OnEnter(AppState::GameOver), spawn_game_over_ui)
-            .add_systems(OnExit(AppState::GameOver), layout::despawn_game_over_ui)
+            .add_systems(OnExit(AppState::GameOver), despawn_game_over_ui)
             .add_systems(Update, handle_main_menu_button
                 .run_if(in_state(AppState::GameOver))
             )
