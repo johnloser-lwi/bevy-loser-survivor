@@ -1,10 +1,11 @@
 use bevy::prelude::*;
 use bevy::utils::FloatOrd;
 use bevy_rapier2d::prelude::*;
+use crate::audio::events::RequestSpatialAudioEvent;
 use crate::game::character::components::{DamageFlash, Health};
 use crate::game::enemy::components::Enemy;
 use crate::game::player::components::Player;
-use crate::game::resources::Textures;
+use crate::game::resources::{Sounds, Textures};
 use crate::game::weapons::WeaponData;
 
 
@@ -116,6 +117,8 @@ pub fn update_fire_ball (
     mut enemy_query: Query<(&mut Health, &mut DamageFlash, &mut Sprite), With<Enemy>>,
     time: Res<Time>,
     rapier_context: Res<RapierContext>,
+    sound: Res<Sounds>,
+    mut spatial_event: EventWriter<RequestSpatialAudioEvent>
 ){
     for (entity, mut fire_ball, collider, mut transform) in fire_ball_query.iter_mut() {
         fire_ball.life_time -= time.delta_seconds();
@@ -141,6 +144,11 @@ pub fn update_fire_ball (
                     health.take_damage(fire_ball_data.data.damage);
                     damage_flash.flash(&mut sprite);
                     fire_ball.life_time = 0.0;
+
+                    spatial_event.send(RequestSpatialAudioEvent {
+                        position: transform.translation.truncate(),
+                        sound: sound.enemy_damage.clone()
+                    });
                 }
                 true
             }

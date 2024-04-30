@@ -1,10 +1,11 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use rand::Rng;
+use crate::audio::events::RequestSpatialAudioEvent;
 use crate::game::character::components::{DamageFlash, Health};
 use crate::game::enemy::components::Enemy;
 use crate::game::player::components::Player;
-use crate::game::resources::Textures;
+use crate::game::resources::{Sounds, Textures};
 use crate::game::weapons::WeaponData;
 
 #[derive(Resource)]
@@ -108,6 +109,8 @@ pub fn update_force_field (
     mut enemy_query: Query<(&mut Health, &mut DamageFlash, &mut Sprite), With<Enemy>>,
     time: Res<Time>,
     rapier_context: Res<RapierContext>,
+    sounds: Res<Sounds>,
+    mut spatial_audio_request: EventWriter<RequestSpatialAudioEvent>
 ){
     for (entity, mut force_field, collider, global_transform) in force_field_query.iter_mut() {
         force_field.life_time -= time.delta_seconds();
@@ -129,6 +132,12 @@ pub fn update_force_field (
                 if let Ok((mut health, mut damage_flash, mut sprite)) = enemy_query.get_mut(entity) {
                     health.take_damage(force_field_data.data.damage);
                     damage_flash.flash(&mut sprite);
+
+                    spatial_audio_request.send(RequestSpatialAudioEvent {
+                        position: global_transform.translation().truncate(),
+                        sound: sounds.enemy_damage.clone()
+                    });
+
                 }
                 true
             }

@@ -1,4 +1,4 @@
-
+use bevy::audio::{AudioPlugin, SpatialScale};
 use bevy::prelude::*;
 use bevy::window::{PresentMode, WindowTheme};
 use bevy_rapier2d::prelude::*;
@@ -15,6 +15,7 @@ mod states;
 mod game_over_ui;
 mod styles;
 mod main_menu_ui;
+mod audio;
 
 pub const RENDER_SIZE: Vec2 = Vec2::new(1280., 720.);
 pub const RENDER_SCALE: f32 = 0.4;
@@ -38,7 +39,13 @@ fn main() {
             ..default()
         }
 
-    ).set(ImagePlugin::default_nearest()))
+    ).set(ImagePlugin::default_nearest())
+        .set(AudioPlugin {
+            default_spatial_scale: SpatialScale::new_2d(1.0 / 100.0),
+
+            ..default()
+        })
+    )
     .add_plugins(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(50.0))
     .insert_resource(RapierConfiguration {
         gravity: Vec2::ZERO,
@@ -51,7 +58,8 @@ fn main() {
     .add_plugins((
         GamePlugin,
         game_over_ui::GameOverUiPlugin,
-        main_menu_ui::MainMenuUIPlugin
+        main_menu_ui::MainMenuUIPlugin,
+        audio::AudioPlugin,
     ))
 
 

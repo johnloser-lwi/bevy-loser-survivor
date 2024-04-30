@@ -1,6 +1,8 @@
 use bevy::prelude::*;
+use crate::audio::events::RequestGlobalAudioEvent;
 use crate::game::events::{OnEnemyDie, OnLevelUp, OnPickupCoin};
 use crate::game::gameplay::resources::GameplayData;
+use crate::game::resources::Sounds;
 
 
 pub fn insert_gameplay_data(
@@ -27,7 +29,9 @@ pub fn update_head_count(
 pub fn update_xp(
     mut pickup_coin_event_reader: EventReader<OnPickupCoin>,
     mut gameplay_data: ResMut<GameplayData>,
-    mut level_up_event_writer: EventWriter<OnLevelUp>
+    mut level_up_event_writer: EventWriter<OnLevelUp>,
+    sounds: Res<Sounds>,
+    mut global_audio_request: EventWriter<RequestGlobalAudioEvent>
 ) {
     for evt in pickup_coin_event_reader.read() {
         gameplay_data.xp += evt.xp;
@@ -35,6 +39,12 @@ pub fn update_xp(
             gameplay_data.level += 1;
             gameplay_data.set_xp_to_next_level();
             level_up_event_writer.send(OnLevelUp { });
+
+            global_audio_request.send(RequestGlobalAudioEvent {
+                sound: sounds.level_up.clone(),
+                is_loop: false
+            });
+
             println!("Level : {}", gameplay_data.level);
         }
     }

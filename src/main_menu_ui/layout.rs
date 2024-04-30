@@ -1,6 +1,18 @@
 use bevy::prelude::*;
+use crate::audio::events::RequestGlobalAudioEvent;
+use crate::game::resources::Sounds;
 use crate::main_menu_ui::components::{MainMenuUI, StartButton};
 use crate::styles::{get_button_bundle, get_column_layout};
+
+pub fn play_music(
+    sounds: Res<Sounds>,
+    mut request_global_audio_event: EventWriter<RequestGlobalAudioEvent>
+) {
+    request_global_audio_event.send(RequestGlobalAudioEvent {
+        sound: sounds.music.clone(),
+        is_loop: true
+    });
+}
 
 
 pub fn spawn_main_menu_ui (

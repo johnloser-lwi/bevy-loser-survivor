@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
+use crate::audio::events::RequestSpatialAudioEvent;
 use crate::game::resources::*;
 use crate::game::animation::components::AnimationConfig;
 use crate::game::character::components::{DamageFlash, Health};
@@ -134,7 +135,9 @@ pub fn update_whips(
     player_query: Query<&GlobalTransform, With<Player>>,
     rapier_context: Res<RapierContext>,
     mut enemy_query: Query<(&mut Health, &mut DamageFlash, &mut Sprite), With<Enemy>>,
-    whip_data: Res<WhipData>
+    whip_data: Res<WhipData>,
+    sounds: Res<Sounds>,
+    mut spatial_audio_request: EventWriter<RequestSpatialAudioEvent>
 ) {
     if let Ok(player_transform) = player_query.get_single() {
         for (entity, mut config, mut atlas, mut transform, global_transform, whip, collider) in whip_query.iter_mut() {
@@ -157,6 +160,12 @@ pub fn update_whips(
                             if let Ok((mut health, mut damage_flash, mut sprite)) = enemy_query.get_mut(entity) {
                                 health.take_damage(whip_data.data.damage);
                                 damage_flash.flash(&mut sprite);
+
+                                spatial_audio_request.send(RequestSpatialAudioEvent {
+                                    position: global_transform.translation().truncate(),
+                                    sound: sounds.enemy_damage.clone()
+                                });
+
                             }
                             true
                         },

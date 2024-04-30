@@ -8,10 +8,12 @@ use crate::game::player::components::Player;
 use crate::resources::Textures;
 use bevy_rapier2d::prelude::*;
 use crate::{RENDER_SCALE, RENDER_SIZE};
+use crate::audio::events::RequestSpatialAudioEvent;
 use crate::game::character::resources::CharacterTextureAtlasLayout;
 use crate::game::events::{OnEnemyDie, OnLevelUp};
 use crate::game::gameplay::resources::GameplayData;
 use crate::game::health_bar::components::HealthBar;
+use crate::game::resources::Sounds;
 
 
 pub fn setup_enemy_config(
@@ -23,7 +25,7 @@ pub fn setup_enemy_config(
             EnemyConfig {
                 speed: 20.0,
                 health: 5.0,
-                damage:20.0,
+                damage: 5.0,
                 texture: textures.zombie.clone(),
                 collider: Collider::capsule(Vec2::new(0.0, -4.0), Vec2::new(0.0, 4.0), 6.0)
             }
@@ -76,7 +78,8 @@ pub fn spawn_enemy(
                     },
                     animation_config,
                     Enemy {
-                        damage: active_config.damage
+                        damage: active_config.damage,
+                        attack_timer: Timer::from_seconds(1.0, TimerMode::Repeating)
                     },
                     Character {
                         direction: Vec2::default(),
@@ -146,12 +149,19 @@ pub fn update_enemy_timer (
 }
 
 pub fn damage_player(
-    enemy_query: Query<(&Collider, &GlobalTransform, &Enemy)>,
+    mut enemy_query: Query<(&Collider, &GlobalTransform, &mut Enemy)>,
     mut player_query: Query<(&mut Health, &mut DamageFlash, &mut Sprite), With<Player>>,
     rapier_context: Res<RapierContext>,
     time: Res<Time>,
+    sounds: Res<Sounds>,
+    mut spatial_event: EventWriter<RequestSpatialAudioEvent>
 ) {
-    for (collider, transform, enemy) in enemy_query.iter() {
+    for (collider, transform, mut enemy) in enemy_query.iter_mut() {
+
+        enemy.attack_timer.tick(time.delta());
+
+        if !enemy.attack_timer.just_finished() { continue; }
+
         rapier_context.intersections_with_shape(
             transform.translation().truncate(),
             0.0,
@@ -160,8 +170,14 @@ pub fn damage_player(
             |entity| {
 
                 if let Ok((mut health, mut damage_flash, mut sprite)) = player_query.get_mut(entity) {
-                    health.take_damage(enemy.damage * time.delta_seconds());
+                    health.take_damage(enemy.damage);
                     damage_flash.flash(&mut sprite);
+
+                    spatial_event.send(RequestSpatialAudioEvent {
+                        position: transform.translation().truncate(),
+                        sound: sounds.player_damage.clone()
+                    });
+
                 }
 
                 true
