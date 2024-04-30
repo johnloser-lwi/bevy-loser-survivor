@@ -1,0 +1,5065 @@
+<REAPER_UNDO_HISTORY 1714454882
+  CURPOS 63 
+  <UINF 1
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 3 0
+      SELECTION2 3 0
+      MASTER_SEL 0
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 2
+    <REAPER_PROJECT 0.1 /U/
+      MASTERAUTOMODE 0
+      MASTERTRACKHEIGHT 0 0
+      MASTERPEAKCOL 16576
+      MASTERMUTESOLO 0
+      MASTERTRACKVIEW 0 0.6667 0.5 0.5 0 -1 0 0 0 0 -1 -1 0 0
+      MASTERHWOUT 0 0 1 0 0 0 0 -1
+      MASTER_NCH 2 2
+      MASTER_VOLUME 1 0 -1 -1 1
+      MASTER_PANMODE 3
+      MASTER_FX 1
+      MASTER_SEL 0
+    >
+  >
+  <UINF 3
+  >
+  <UINF 4
+    SHOW 0
+    LASTSEL 0
+    DOCKED 0
+    BYPASS 0 0 0
+    FXID_NEXT {A22F7918-CAB7-4016-9E02-E78F17E0FC7F}
+    <JS "BirdBird ReaScript Testing/Global Sampler/BirdBird_Global Sampler.jsfx" ""
+      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    >
+    FLOATPOS 24 52 505 166
+    WAK 0 0
+  >
+  <UINF 5
+    WNDRECT 221 232 827 413
+    SHOW 0
+    LASTSEL 0
+    DOCKED 0
+    BYPASS 0 0 0
+    FXID_NEXT {001E9076-1CD7-4EE5-AC08-8E6F73EC002B}
+    <VST "VST3: Soundly Monitor (Soundly)" SoundlyMonitor.vst3 0 "" 2126056741{ABCDEF019182FAEB536D3031536D3031} ""
+      JQ25fu5e7f4CAAAAAQAAAAAAAAACAAAAAAAAAAIAAAABAAAAAAAAAAIAAAAAAAAATAAAAAEAAAD//xAA
+      PAAAAAEAAAAAAAAAAAAAAEpVQ0VQcml2YXRlRGF0YQABAUJ5cGFzcwABAQMAHQAAAAAAAABKVUNFUHJpdmF0ZURhdGEAAAAAAAAAAA==
+      AFByb2dyYW0gMQAQAAAA
+    >
+    FLOATPOS 0 0 0 0
+    WAK 0 0
+  >
+  <UINF 6
+    WNDRECT 184 481 681 557
+    SHOW 0
+    LASTSEL 1
+    DOCKED 0
+    BYPASS 0 0 0
+    FXID_NEXT {BA26C383-477E-46C4-8245-49D5F30D87AD}
+    <VIDEO_EFFECT "Video processor" ""
+      <CODE
+        |// Text/timecode overlay
+        |#text=""; // set to string to override
+        |font="Arial";
+        |
+        |//@param1:size 'text height' 0.05 0.01 0.2 0.1 0.001
+        |//@param2:ypos 'y position' 0.95 0 1 0.5 0.01
+        |//@param3:xpos 'x position' 0.5 0 1 0.5 0.01
+        |//@param4:border 'bg pad' 0.1 0 1 0.5 0.01
+        |//@param5:fgc 'text bright' 1.0 0 1 0.5 0.01
+        |//@param6:fga 'text alpha' 1.0 0 1 0.5 0.01
+        |//@param7:bgc 'bg bright' 0.75 0 1 0.5 0.01
+        |//@param8:bga 'bg alpha' 0.5 0 1 0.5 0.01
+        |//@param9:bgfit 'fit bg to text' 0 0 1 0.5 1
+        |//@param10:ignoreinput 'ignore input' 0 0 1 0.5 1
+        |
+        |//@param12:tc 'show timecode' 0 0 1 0.5 1
+        |//@param13:tcdf 'dropframe timecode' 0 0 1 0.5 1
+        |
+        |input = ignoreinput ? -2:0;
+        |project_wh_valid===0 ? input_info(input,project_w,project_h);
+        |gfx_a2=0;
+        |gfx_blit(input,1);
+        |gfx_setfont(size*project_h,font);
+        |tc>0.5 ? (
+        |  t = floor((project_time + project_timeoffs) * framerate + 0.0000001);
+        |  f = ceil(framerate);
+        |  tcdf > 0.5 && f != framerate ? (
+        |    period = floor(framerate * 600);
+        |    ds = floor(framerate * 60);
+        |    ds > 0 ? t += 18 * ((t / period)|0) + ((((t%period)-2)/ds)|0)*2;
+        |  );
+        |  sprintf(#text,"%02d:%02d:%02d:%02d",(t/(f*3600))|0,(t/(f*60))%60,(t/f)%60,t%f);
+        |) : strcmp(#text,"")==0 ? input_get_name(-1,#text);
+        |gfx_str_measure(#text,txtw,txth);
+        |b = (border*txth)|0;
+        |yt = ((project_h - txth - b*2)*ypos)|0;
+        |xp = (xpos * (project_w-txtw))|0;
+        |gfx_set(bgc,bgc,bgc,bga);
+        |bga>0?gfx_fillrect(bgfit?xp-b:0, yt, bgfit?txtw+b*2:project_w, txth+b*2);
+        |gfx_set(fgc,fgc,fgc,fga);
+        |gfx_str_draw(#text,xp,yt+b);
+      >
+      CODEPARM 0.05 0.95 0.5 0.1 1 1 0.11 0.5 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    >
+    PRESETNAME "Overlay: Text/Timecode"
+    FLOATPOS 0 0 0 0
+    WAK 0 0
+    BYPASS 0 0 0
+    FXID_NEXT {06B927F3-2ABD-4249-BDAA-EA83AFE9B109}
+    <VIDEO_EFFECT "Video processor" ""
+      <CODE
+        |// Text/timecode overlay
+        |#text=""; // set to string to override
+        |font="Arial";
+        |
+        |//@param1:size 'text height' 0.05 0.01 0.2 0.1 0.001
+        |//@param2:ypos 'y position' 0.95 0 1 0.5 0.01
+        |//@param3:xpos 'x position' 0.5 0 1 0.5 0.01
+        |//@param4:border 'bg pad' 0.1 0 1 0.5 0.01
+        |//@param5:fgc 'text bright' 1.0 0 1 0.5 0.01
+        |//@param6:fga 'text alpha' 1.0 0 1 0.5 0.01
+        |//@param7:bgc 'bg bright' 0.75 0 1 0.5 0.01
+        |//@param8:bga 'bg alpha' 0.5 0 1 0.5 0.01
+        |//@param9:bgfit 'fit bg to text' 0 0 1 0.5 1
+        |//@param10:ignoreinput 'ignore input' 0 0 1 0.5 1
+        |
+        |//@param12:tc 'show timecode' 0 0 1 0.5 1
+        |//@param13:tcdf 'dropframe timecode' 0 0 1 0.5 1
+        |
+        |input = ignoreinput ? -2:0;
+        |project_wh_valid===0 ? input_info(input,project_w,project_h);
+        |gfx_a2=0;
+        |gfx_blit(input,1);
+        |gfx_setfont(size*project_h,font);
+        |tc>0.5 ? (
+        |  t = floor((project_time + project_timeoffs) * framerate + 0.0000001);
+        |  f = ceil(framerate);
+        |  tcdf > 0.5 && f != framerate ? (
+        |    period = floor(framerate * 600);
+        |    ds = floor(framerate * 60);
+        |    ds > 0 ? t += 18 * ((t / period)|0) + ((((t%period)-2)/ds)|0)*2;
+        |  );
+        |  sprintf(#text,"%02d:%02d:%02d:%02d",(t/(f*3600))|0,(t/(f*60))%60,(t/f)%60,t%f);
+        |) : strcmp(#text,"")==0 ? input_get_name(-1,#text);
+        |gfx_str_measure(#text,txtw,txth);
+        |b = (border*txth)|0;
+        |yt = ((project_h - txth - b*2)*ypos)|0;
+        |xp = (xpos * (project_w-txtw))|0;
+        |gfx_set(bgc,bgc,bgc,bga);
+        |bga>0?gfx_fillrect(bgfit?xp-b:0, yt, bgfit?txtw+b*2:project_w, txth+b*2);
+        |gfx_set(fgc,fgc,fgc,fga);
+        |gfx_str_draw(#text,xp,yt+b);
+      >
+      CODEPARM 0.05 0 0.5 0.1 1 1 0.75 0.5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    >
+    FLOATPOS 0 0 0 0
+    WAK 0 0
+  >
+  <UINF 7
+    UNDOSKIP
+  >
+  <UINF 8
+    UNDOSKIP
+  >
+  <UINF 9
+    UNDOSKIP
+    UNDOSKIP
+  >
+  <UINF 10
+    <MASTERPLAYSPEEDENV
+      EGUID {CC19C123-905F-4903-A542-9E1676EC57A9}
+      ACT 0 -1
+      VIS 0 1 1
+      LANEHEIGHT 0 0
+      ARM 0
+      DEFSHAPE 0 -1 -1
+    >
+    <TEMPOENVEX
+      EGUID {CEF8A0B1-9A42-48F8-807A-9ECB3749254C}
+      ACT 1 -1
+      VIS 1 0 1
+      LANEHEIGHT 0 0
+      ARM 0
+      DEFSHAPE 1 -1 -1
+      PT 0.000000000000 120.0000000000 1
+    >
+  >
+  <UINF 11
+    <TRACK {4C8272FD-C685-4075-88F6-6486B3811B82}
+      NAME Soundly
+      PEAKCOL 16842751
+      BEAT -1
+      AUTOMODE 0
+      VOLPAN 1 0 -1 -1 1
+      MUTESOLO 0 0 0
+      IPHASE 0
+      PLAYOFFS 0 1
+      ISBUS 0 0
+      BUSCOMP 0 0 0 0 0
+      SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
+      FIXEDLANES 9 0 0
+      REC 0 0 1 0 0 0 0 0
+      VU 2
+      TRACKHEIGHT 0 0 0 0 0 0 0
+      INQ 0 0 0 0.5 100 0 0 100
+      NCHAN 2
+      FX 1
+      TRACKID {4C8272FD-C685-4075-88F6-6486B3811B82}
+      PERF 0
+      UNDO_HAS_TRACKENV
+      MIDIOUT -1
+      MAINSEND 1 0
+    >
+  >
+  <UINF 12
+    <TRACK {64E3BCA5-2348-41C4-968F-831FA9F2B3D9}
+      NAME Video_Track
+      PEAKCOL 16576
+      BEAT -1
+      AUTOMODE 0
+      VOLPAN 1 0 -1 -1 1
+      MUTESOLO 0 0 0
+      IPHASE 0
+      PLAYOFFS 0 1
+      ISBUS 0 0
+      BUSCOMP 0 0 0 0 0
+      SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
+      REC 0 0 1 0 0 0 0 0
+      VU 2
+      TRACKHEIGHT 0 0 0 0 0 0 0
+      INQ 0 0 0 0.5 100 0 0 100
+      NCHAN 2
+      FX 1
+      TRACKID {64E3BCA5-2348-41C4-968F-831FA9F2B3D9}
+      PERF 0
+      UNDO_HAS_TRACKENV
+      MIDIOUT -1
+      MAINSEND 1 0
+    >
+  >
+  <UINF 13
+    <ITEM {5A1E036F-87BC-4B02-9F34-86BC010E252C}
+      POSITION 3.5
+      SNAPOFFS 0
+      LENGTH 17.45455208333333
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {5A1E036F-87BC-4B02-9F34-86BC010E252C}
+      IID 1
+      NAME "Musical, Loop, Cinematic Underscore, Retro, Funky, Arp, Loop  (110 BPM) SND63182.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {DB657F94-4E5F-471F-BDED-9F7D9A95A293}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Musical, Loop, Cinematic Underscore, Retro, Funky, Arp, Loop  (110 BPM) SND63182.wav"
+      >
+    >
+  >
+  <UINF 14
+    <TRACK {6C74D3FF-7C3B-4119-B271-DF83F71129F0}
+      NAME "Musical, Loop, Cinematic Underscore, Retro, Funky, Arp, Loop  (110 BPM) SND63182"
+      PEAKCOL 16576
+      BEAT -1
+      AUTOMODE 0
+      VOLPAN 1 0 -1 -1 1
+      MUTESOLO 0 0 0
+      IPHASE 0
+      PLAYOFFS 0 1
+      ISBUS 0 0
+      BUSCOMP 0 0 0 0 0
+      SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
+      FIXEDLANES 9 0 0
+      REC 0 0 1 0 0 0 0 0
+      VU 2
+      TRACKHEIGHT 0 0 0 0 0 0 0
+      INQ 0 0 0 0.5 100 0 0 100
+      NCHAN 2
+      FX 1
+      TRACKID {6C74D3FF-7C3B-4119-B271-DF83F71129F0}
+      PERF 0
+      UNDO_HAS_TRACKENV
+      MIDIOUT -1
+      MAINSEND 1 0
+    >
+  >
+  <UINF 15
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 3.5 20.95455208333333
+      SELECTION2 3.5 20.95455208333333
+      MASTER_SEL 0
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 16
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 3.5 20.95455208333333
+      SELECTION2 3.5 20.95455208333333
+      MASTER_SEL 0
+      MARKER 1 3.5 "" 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 17
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 3.5 20.95455208333333
+      SELECTION2 3.5 20.95455208333333
+      MASTER_SEL 0
+      MARKER 1 3.5 Music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 18
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 3.5 20.95455208333333
+      SELECTION2 3.5 20.95455208333333
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 19
+    <ITEM {5A1E036F-87BC-4B02-9F34-86BC010E252C}
+      POSITION 3.5
+      SNAPOFFS 0
+      LENGTH 17.45455208333333
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {5A1E036F-87BC-4B02-9F34-86BC010E252C}
+      IID 1
+      NAME "Musical, Loop, Cinematic Underscore, Retro, Funky, Arp, Loop  (110 BPM) SND63182.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {DB657F94-4E5F-471F-BDED-9F7D9A95A293}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Musical, Loop, Cinematic Underscore, Retro, Funky, Arp, Loop  (110 BPM) SND63182.wav"
+      >
+    >
+  >
+  <UINF 20
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+  >
+  <UINF 21
+    <TRACK {87D7ADC0-EAB8-4DAB-9442-02B2110D06DB}
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345"
+      PEAKCOL 16576
+      BEAT -1
+      AUTOMODE 0
+      VOLPAN 1 0 -1 -1 1
+      MUTESOLO 0 0 0
+      IPHASE 0
+      PLAYOFFS 0 1
+      ISBUS 0 0
+      BUSCOMP 0 0 0 0 0
+      SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
+      FIXEDLANES 9 0 0
+      REC 0 0 1 0 0 0 0 0
+      VU 2
+      TRACKHEIGHT 0 0 0 0 0 0 0
+      INQ 0 0 0 0.5 100 0 0 100
+      NCHAN 2
+      FX 1
+      TRACKID {87D7ADC0-EAB8-4DAB-9442-02B2110D06DB}
+      PERF 0
+      UNDO_HAS_TRACKENV
+      MIDIOUT -1
+      MAINSEND 1 0
+    >
+  >
+  <UINF 22
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+  >
+  <UINF 23
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 22.16666666662786 22.35770833329453
+      SELECTION2 22.16666666662786 22.35770833329453
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 24
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 22.16666666662786 22.35770833329453
+      SELECTION2 22.16666666662786 22.35770833329453
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 "" 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 25
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 22.16666666662786 22.35770833329453
+      SELECTION2 22.16666666662786 22.35770833329453
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 26
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+  >
+  <UINF 27
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+  >
+  <UINF 28
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+  >
+  <UINF 29
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.66666666662786
+      SNAPOFFS 0
+      LENGTH 0.36279166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+  >
+  <UINF 30
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.66666666666666
+      SNAPOFFS 0
+      LENGTH 0.36279166662786
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+  >
+  <UINF 31
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.66666666666666
+      SNAPOFFS 0
+      LENGTH 0.36279166662786
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+  >
+  <UINF 32
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68402076463908
+      SNAPOFFS 0
+      LENGTH 0.34543756865544
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01735409797242
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+  >
+  <UINF 33
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+  >
+  <UINF 34
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+  >
+  <UINF 35
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0.08255999994101 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+  >
+  <UINF 36
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 29.68173487273722 30.02945833329453
+      SELECTION2 29.68173487273722 30.02945833329453
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 37
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 29.68173487273722 30.02945833329453
+      SELECTION2 29.68173487273722 30.02945833329453
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 "" 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 38
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 29.68173487273722 30.02945833329453
+      SELECTION2 29.68173487273722 30.02945833329453
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 39
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0.08255999994101 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+    <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      POSITION 33.80830321426038
+      SNAPOFFS 0
+      LENGTH 0.40404166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      IID 4
+      NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      >
+    >
+  >
+  <UINF 40
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 33.80830321426038 34.21234488092704
+      SELECTION2 33.80830321426038 34.21234488092704
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 41
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 33.80830321426038 34.21234488092704
+      SELECTION2 33.80830321426038 34.21234488092704
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      MARKER 4 33.80830321426038 "" 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 42
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 33.80830321426038 34.21234488092704
+      SELECTION2 33.80830321426038 34.21234488092704
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      MARKER 4 33.80830321426038 whip 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 43
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0.08255999994101 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+    <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      POSITION 33.80830321426038
+      SNAPOFFS 0
+      LENGTH 0.40404166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.06198221368517 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      IID 4
+      NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      >
+    >
+  >
+  <UINF 44
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0.08255999994101 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+    <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      POSITION 33.80830321426038
+      SNAPOFFS 0
+      LENGTH 0.40404166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.06198221368517 0 0 0 0 0
+      FADEOUT 0 0.05082209200209 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      IID 4
+      NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      >
+    >
+  >
+  <UINF 45
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0.08255999994101 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+    <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      POSITION 33.80830321426038
+      SNAPOFFS 0
+      LENGTH 0.40404166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.06198221368517 0 0 0 0 0
+      FADEOUT 0 0.05082209200209 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      IID 4
+      NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      >
+    >
+    <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      POSITION 35.34506185166538
+      SNAPOFFS 0
+      LENGTH 1.66133333333333
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      IID 5
+      NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+      >
+    >
+  >
+  <UINF 46
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0.08255999994101 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+    <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      POSITION 33.80830321426038
+      SNAPOFFS 0
+      LENGTH 0.40404166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.06198221368517 0 0 0 0 0
+      FADEOUT 0 0.05082209200209 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      IID 4
+      NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      >
+    >
+    <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      POSITION 35.34506185166538
+      SNAPOFFS 0
+      LENGTH 1.66133333333333
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.0681619355115 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      IID 5
+      NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+      >
+    >
+  >
+  <UINF 47
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0.08255999994101 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+    <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      POSITION 33.80830321426038
+      SNAPOFFS 0
+      LENGTH 0.40404166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.06198221368517 0 0 0 0 0
+      FADEOUT 0 0.05082209200209 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      IID 4
+      NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      >
+    >
+    <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      POSITION 35.34506185166538
+      SNAPOFFS 0
+      LENGTH 1.66133333333333
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.0681619355115 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      IID 5
+      NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+      >
+    >
+  >
+  <UINF 48
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0.08255999994101 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+    <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      POSITION 33.80830321426038
+      SNAPOFFS 0
+      LENGTH 0.40404166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.06198221368517 0 0 0 0 0
+      FADEOUT 0 0.05082209200209 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      IID 4
+      NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      >
+    >
+    <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      POSITION 35.34506185166538
+      SNAPOFFS 0
+      LENGTH 1.0162324935934
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.0681619355115 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      IID 5
+      NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+      >
+    >
+  >
+  <UINF 49
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0.08255999994101 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+    <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      POSITION 33.80830321426038
+      SNAPOFFS 0
+      LENGTH 0.40404166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.06198221368517 0 0 0 0 0
+      FADEOUT 0 0.05082209200209 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      IID 4
+      NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      >
+    >
+    <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      POSITION 35.34506185166538
+      SNAPOFFS 0
+      LENGTH 1.0162324935934
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.0681619355115 0 0 0 0 0
+      FADEOUT 0 0.45854393005268 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      IID 5
+      NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+      >
+    >
+  >
+  <UINF 50
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0.08255999994101 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+    <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      POSITION 33.80830321426038
+      SNAPOFFS 0
+      LENGTH 0.40404166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.06198221368517 0 0 0 0 0
+      FADEOUT 0 0.05082209200209 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      IID 4
+      NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      >
+    >
+    <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      POSITION 35.34506185166538
+      SNAPOFFS 0
+      LENGTH 1.0162324935934
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.0681619355115 0 0 0 0 0
+      FADEOUT 2 0.45854393005268 0 2 0 -1 -1
+      MUTE 0 0
+      SEL 1
+      IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      IID 5
+      NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+      >
+    >
+  >
+  <UINF 51
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 35.34506185166538 36.36129434525878
+      SELECTION2 35.34506185166538 36.36129434525878
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      MARKER 4 33.80830321426038 whip 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 52
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 35.34506185166538 36.36129434525878
+      SELECTION2 35.34506185166538 36.36129434525878
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      MARKER 4 33.80830321426038 whip 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 1
+      MARKER 5 35.34506185166538 "" 1 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+      MARKER 5 36.36129434525878 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 53
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 35.34506185166538 36.36129434525878
+      SELECTION2 35.34506185166538 36.36129434525878
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      MARKER 4 33.80830321426038 whip 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 1
+      MARKER 5 35.34506185166538 force_field 1 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+      MARKER 5 36.36129434525878 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 54
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0.08255999994101 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+    <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      POSITION 33.80830321426038
+      SNAPOFFS 0
+      LENGTH 0.40404166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.06198221368517 0 0 0 0 0
+      FADEOUT 0 0.05082209200209 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      IID 4
+      NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      >
+    >
+    <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      POSITION 35.34506185166538
+      SNAPOFFS 0
+      LENGTH 1.0162324935934
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.0681619355115 0 0 0 0 0
+      FADEOUT 2 0.45854393005268 0 2 0 -1 -1
+      MUTE 0 0
+      SEL 0
+      IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      IID 5
+      NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+      >
+    >
+  >
+  <UINF 55
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0.08255999994101 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+    <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      POSITION 33.80830321426038
+      SNAPOFFS 0
+      LENGTH 0.40404166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.06198221368517 0 0 0 0 0
+      FADEOUT 0 0.05082209200209 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      IID 4
+      NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      >
+    >
+    <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      POSITION 35.34506185166538
+      SNAPOFFS 0
+      LENGTH 1.0162324935934
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.0681619355115 0 0 0 0 0
+      FADEOUT 2 0.45854393005268 0 2 0 -1 -1
+      MUTE 0 0
+      SEL 0
+      IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      IID 5
+      NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+      >
+    >
+    <ITEM {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+      POSITION 36.99953792360611
+      SNAPOFFS 0
+      LENGTH 0.85988541666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+      IID 6
+      NAME "Elemental - B Fire Pixiedust_6 1.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {679B6765-610B-4AF8-9DC3-43E659F6AC63}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Elemental - B Fire Pixiedust_6 1.wav"
+      >
+    >
+  >
+  <UINF 56
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0.08255999994101 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+    <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      POSITION 33.80830321426038
+      SNAPOFFS 0
+      LENGTH 0.40404166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.06198221368517 0 0 0 0 0
+      FADEOUT 0 0.05082209200209 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      IID 4
+      NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      >
+    >
+    <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      POSITION 35.34506185166538
+      SNAPOFFS 0
+      LENGTH 1.0162324935934
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.0681619355115 0 0 0 0 0
+      FADEOUT 2 0.45854393005268 0 2 0 -1 -1
+      MUTE 0 0
+      SEL 0
+      IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      IID 5
+      NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+      >
+    >
+    <ITEM {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+      POSITION 36.99953792360611
+      SNAPOFFS 0
+      LENGTH 0.85988541666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.01239307915985 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+      IID 6
+      NAME "Elemental - B Fire Pixiedust_6 1.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {679B6765-610B-4AF8-9DC3-43E659F6AC63}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Elemental - B Fire Pixiedust_6 1.wav"
+      >
+    >
+  >
+  <UINF 57
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0.08255999994101 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+    <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      POSITION 33.80830321426038
+      SNAPOFFS 0
+      LENGTH 0.40404166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.06198221368517 0 0 0 0 0
+      FADEOUT 0 0.05082209200209 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      IID 4
+      NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      >
+    >
+    <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      POSITION 35.34506185166538
+      SNAPOFFS 0
+      LENGTH 1.0162324935934
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.0681619355115 0 0 0 0 0
+      FADEOUT 2 0.45854393005268 0 2 0 -1 -1
+      MUTE 0 0
+      SEL 0
+      IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      IID 5
+      NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+      >
+    >
+    <ITEM {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+      POSITION 36.99953792360611
+      SNAPOFFS 0
+      LENGTH 0.85988541666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.01239307915985 0 0 0 0 0
+      FADEOUT 0 0.3015243510669 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+      IID 6
+      NAME "Elemental - B Fire Pixiedust_6 1.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {679B6765-610B-4AF8-9DC3-43E659F6AC63}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Elemental - B Fire Pixiedust_6 1.wav"
+      >
+    >
+  >
+  <UINF 58
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 36.99953792360611 37.85942334027278
+      SELECTION2 36.99953792360611 37.85942334027278
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      MARKER 4 33.80830321426038 whip 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 1
+      MARKER 5 35.34506185166538 force_field 1 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+      MARKER 5 36.36129434525878 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 59
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 36.99953792360611 37.85942334027278
+      SELECTION2 36.99953792360611 37.85942334027278
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      MARKER 4 33.80830321426038 whip 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 1
+      MARKER 5 35.34506185166538 force_field 1 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+      MARKER 5 36.36129434525878 "" 1
+      MARKER 6 36.99953792360611 "" 1 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+      MARKER 6 37.85942334027278 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 60
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 36.99953792360611 37.85942334027278
+      SELECTION2 36.99953792360611 37.85942334027278
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      MARKER 4 33.80830321426038 whip 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 1
+      MARKER 5 35.34506185166538 force_field 1 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+      MARKER 5 36.36129434525878 "" 1
+      MARKER 6 36.99953792360611 fire_ball 1 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+      MARKER 6 37.85942334027278 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 61
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0.08255999994101 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+    <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      POSITION 33.80830321426038
+      SNAPOFFS 0
+      LENGTH 0.40404166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.06198221368517 0 0 0 0 0
+      FADEOUT 0 0.05082209200209 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      IID 4
+      NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      >
+    >
+    <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      POSITION 35.34506185166538
+      SNAPOFFS 0
+      LENGTH 1.0162324935934
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.0681619355115 0 0 0 0 0
+      FADEOUT 2 0.45854393005268 0 2 0 -1 -1
+      MUTE 0 0
+      SEL 0
+      IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      IID 5
+      NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+      >
+    >
+    <ITEM {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+      POSITION 36.99953792360611
+      SNAPOFFS 0
+      LENGTH 0.85988541666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.01239307915985 0 0 0 0 0
+      FADEOUT 0 0.3015243510669 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+      IID 6
+      NAME "Elemental - B Fire Pixiedust_6 1.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {679B6765-610B-4AF8-9DC3-43E659F6AC63}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Elemental - B Fire Pixiedust_6 1.wav"
+      >
+    >
+  >
+  <UINF 62
+    <ITEM {5A1E036F-87BC-4B02-9F34-86BC010E252C}
+      POSITION 3.5
+      SNAPOFFS 0
+      LENGTH 17.45455208333333
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {5A1E036F-87BC-4B02-9F34-86BC010E252C}
+      IID 1
+      NAME "Musical, Loop, Cinematic Underscore, Retro, Funky, Arp, Loop  (110 BPM) SND63182.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {DB657F94-4E5F-471F-BDED-9F7D9A95A293}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Musical, Loop, Cinematic Underscore, Retro, Funky, Arp, Loop  (110 BPM) SND63182.wav"
+      >
+    >
+    <ITEM {67F6A5CF-A254-4BB1-92CE-534B3A9037B1}
+      POSITION 39.19935287616681
+      SNAPOFFS 0
+      LENGTH 1.30590625
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {67F6A5CF-A254-4BB1-92CE-534B3A9037B1}
+      IID 7
+      NAME "User Interface, Alert, Notification, Video Game, Positive, Level Up, Next Stage, Achievement 01 SND86824 1.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {A0792C97-81FE-42CE-B474-FA74D97C4A5C}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\User Interface, Alert, Notification, Video Game, Positive, Level Up, Next Stage, Achievement 01 SND86824 1.wav"
+      >
+    >
+  >
+  <UINF 63
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 39.19935287616681 40.50525912616681
+      SELECTION2 39.19935287616681 40.50525912616681
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      MARKER 4 33.80830321426038 whip 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 1
+      MARKER 5 35.34506185166538 force_field 1 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+      MARKER 5 36.36129434525878 "" 1
+      MARKER 6 36.99953792360611 fire_ball 1 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+      MARKER 6 37.85942334027278 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 64
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 39.19935287616681 40.50525912616681
+      SELECTION2 39.19935287616681 40.50525912616681
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      MARKER 4 33.80830321426038 whip 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 1
+      MARKER 5 35.34506185166538 force_field 1 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+      MARKER 5 36.36129434525878 "" 1
+      MARKER 6 36.99953792360611 fire_ball 1 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+      MARKER 6 37.85942334027278 "" 1
+      MARKER 7 39.19935287616681 "" 1 0 1 R {4993233A-1AFD-4EAE-B0E9-2308D6D89DA8} 0
+      MARKER 7 40.50525912616681 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 65
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 39.19935287616681 40.50525912616681
+      SELECTION2 39.19935287616681 40.50525912616681
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      MARKER 4 33.80830321426038 whip 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 1
+      MARKER 5 35.34506185166538 force_field 1 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+      MARKER 5 36.36129434525878 "" 1
+      MARKER 6 36.99953792360611 fire_ball 1 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+      MARKER 6 37.85942334027278 "" 1
+      MARKER 7 39.19935287616681 level_up 1 0 1 R {4993233A-1AFD-4EAE-B0E9-2308D6D89DA8} 0
+      MARKER 7 40.50525912616681 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 66
+    <ITEM {5A1E036F-87BC-4B02-9F34-86BC010E252C}
+      POSITION 3.5
+      SNAPOFFS 0
+      LENGTH 17.45455208333333
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {5A1E036F-87BC-4B02-9F34-86BC010E252C}
+      IID 1
+      NAME "Musical, Loop, Cinematic Underscore, Retro, Funky, Arp, Loop  (110 BPM) SND63182.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {DB657F94-4E5F-471F-BDED-9F7D9A95A293}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Musical, Loop, Cinematic Underscore, Retro, Funky, Arp, Loop  (110 BPM) SND63182.wav"
+      >
+    >
+    <ITEM {67F6A5CF-A254-4BB1-92CE-534B3A9037B1}
+      POSITION 39.19935287616681
+      SNAPOFFS 0
+      LENGTH 1.30590625
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {67F6A5CF-A254-4BB1-92CE-534B3A9037B1}
+      IID 7
+      NAME "User Interface, Alert, Notification, Video Game, Positive, Level Up, Next Stage, Achievement 01 SND86824 1.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {A0792C97-81FE-42CE-B474-FA74D97C4A5C}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\User Interface, Alert, Notification, Video Game, Positive, Level Up, Next Stage, Achievement 01 SND86824 1.wav"
+      >
+    >
+  >
+  <UINF 67
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0.08255999994101 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+    <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      POSITION 33.80830321426038
+      SNAPOFFS 0
+      LENGTH 0.40404166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.06198221368517 0 0 0 0 0
+      FADEOUT 0 0.05082209200209 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      IID 4
+      NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      >
+    >
+    <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      POSITION 35.34506185166538
+      SNAPOFFS 0
+      LENGTH 1.0162324935934
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.0681619355115 0 0 0 0 0
+      FADEOUT 2 0.45854393005268 0 2 0 -1 -1
+      MUTE 0 0
+      SEL 0
+      IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      IID 5
+      NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+      >
+    >
+    <ITEM {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+      POSITION 36.99953792360611
+      SNAPOFFS 0
+      LENGTH 0.85988541666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.01239307915985 0 0 0 0 0
+      FADEOUT 0 0.3015243510669 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+      IID 6
+      NAME "Elemental - B Fire Pixiedust_6 1.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {679B6765-610B-4AF8-9DC3-43E659F6AC63}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Elemental - B Fire Pixiedust_6 1.wav"
+      >
+    >
+    <ITEM {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+      POSITION 41.80123132034038
+      SNAPOFFS 0
+      LENGTH 0.886375
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+      IID 8
+      NAME "Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {81FF7D2D-B4F4-4248-8434-22AC86BEB125}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+      >
+    >
+  >
+  <UINF 68
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 41.80123132034038 42.68760632034037
+      SELECTION2 41.80123132034038 42.68760632034037
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      MARKER 4 33.80830321426038 whip 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 1
+      MARKER 5 35.34506185166538 force_field 1 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+      MARKER 5 36.36129434525878 "" 1
+      MARKER 6 36.99953792360611 fire_ball 1 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+      MARKER 6 37.85942334027278 "" 1
+      MARKER 7 39.19935287616681 level_up 1 0 1 R {4993233A-1AFD-4EAE-B0E9-2308D6D89DA8} 0
+      MARKER 7 40.50525912616681 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 69
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 41.80123132034038 42.68760632034037
+      SELECTION2 41.80123132034038 42.68760632034037
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      MARKER 4 33.80830321426038 whip 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 1
+      MARKER 5 35.34506185166538 force_field 1 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+      MARKER 5 36.36129434525878 "" 1
+      MARKER 6 36.99953792360611 fire_ball 1 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+      MARKER 6 37.85942334027278 "" 1
+      MARKER 7 39.19935287616681 level_up 1 0 1 R {4993233A-1AFD-4EAE-B0E9-2308D6D89DA8} 0
+      MARKER 7 40.50525912616681 "" 1
+      MARKER 8 41.80123132034038 "" 1 0 1 R {8D8E858A-2084-4EAC-B669-C5B8E1BF88FC} 0
+      MARKER 8 42.68760632034037 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 70
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 41.80123132034038 42.68760632034037
+      SELECTION2 41.80123132034038 42.68760632034037
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      MARKER 4 33.80830321426038 whip 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 1
+      MARKER 5 35.34506185166538 force_field 1 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+      MARKER 5 36.36129434525878 "" 1
+      MARKER 6 36.99953792360611 fire_ball 1 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+      MARKER 6 37.85942334027278 "" 1
+      MARKER 7 39.19935287616681 level_up 1 0 1 R {4993233A-1AFD-4EAE-B0E9-2308D6D89DA8} 0
+      MARKER 7 40.50525912616681 "" 1
+      MARKER 8 41.80123132034038 game_over 1 0 1 R {8D8E858A-2084-4EAC-B669-C5B8E1BF88FC} 0
+      MARKER 8 42.68760632034037 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 71
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 41.80123132034038 42.68760632034037
+      SELECTION2 41.80123132034038 42.68760632034037
+      MASTER_SEL 0
+      MARKER 1 3.5 music 5 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 5
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      MARKER 4 33.80830321426038 whip 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 1
+      MARKER 5 35.34506185166538 force_field 1 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+      MARKER 5 36.36129434525878 "" 1
+      MARKER 6 36.99953792360611 fire_ball 1 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+      MARKER 6 37.85942334027278 "" 1
+      MARKER 7 39.19935287616681 level_up 1 0 1 R {4993233A-1AFD-4EAE-B0E9-2308D6D89DA8} 0
+      MARKER 7 40.50525912616681 "" 1
+      MARKER 8 41.80123132034038 game_over 1 0 1 R {8D8E858A-2084-4EAC-B669-C5B8E1BF88FC} 0
+      MARKER 8 42.68760632034037 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 72
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 41.80123132034038 42.68760632034037
+      SELECTION2 41.80123132034038 42.68760632034037
+      MASTER_SEL 0
+      MARKER 1 3.5 music 5 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 5
+      MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 1
+      MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 1
+      MARKER 4 33.80830321426038 whip 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 1
+      MARKER 5 35.34506185166538 force_field 1 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+      MARKER 5 36.36129434525878 "" 1
+      MARKER 6 36.99953792360611 fire_ball 1 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+      MARKER 6 37.85942334027278 "" 1
+      MARKER 7 39.19935287616681 level_up 5 0 1 R {4993233A-1AFD-4EAE-B0E9-2308D6D89DA8} 0
+      MARKER 7 40.50525912616681 "" 5
+      MARKER 8 41.80123132034038 game_over 1 0 1 R {8D8E858A-2084-4EAC-B669-C5B8E1BF88FC} 0
+      MARKER 8 42.68760632034037 "" 1
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 73
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 41.80123132034038 42.68760632034037
+      SELECTION2 41.80123132034038 42.68760632034037
+      MASTER_SEL 0
+      MARKER 1 3.5 music 5 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 5
+      MARKER 2 22.16666666662786 enemy_damage 5 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 5
+      MARKER 3 29.68173487273722 player_damage 5 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 5
+      MARKER 4 33.80830321426038 whip 5 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 5
+      MARKER 5 35.34506185166538 force_field 5 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+      MARKER 5 36.36129434525878 "" 5
+      MARKER 6 36.99953792360611 fire_ball 5 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+      MARKER 6 37.85942334027278 "" 5
+      MARKER 7 39.19935287616681 level_up 5 0 1 R {4993233A-1AFD-4EAE-B0E9-2308D6D89DA8} 0
+      MARKER 7 40.50525912616681 "" 5
+      MARKER 8 41.80123132034038 game_over 5 0 1 R {8D8E858A-2084-4EAC-B669-C5B8E1BF88FC} 0
+      MARKER 8 42.68760632034037 "" 5
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 74
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 41.80123132034038 42.68760632034037
+      SELECTION2 41.80123132034038 42.68760632034037
+      MASTER_SEL 0
+      MARKER 1 3.5 music 5 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 5
+      MARKER 2 22.16666666662786 enemy_damage 5 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 5
+      MARKER 3 29.68173487273722 player_damage 5 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 5
+      MARKER 4 33.80830321426038 whip 5 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 5
+      MARKER 5 35.34506185166538 force_field 5 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+      MARKER 5 36.36129434525878 "" 5
+      MARKER 6 36.99953792360611 fire_ball 5 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+      MARKER 6 37.85942334027278 "" 5
+      MARKER 7 39.19935287616681 level_up 1 0 1 R {4993233A-1AFD-4EAE-B0E9-2308D6D89DA8} 0
+      MARKER 7 40.50525912616681 "" 1
+      MARKER 8 41.80123132034038 game_over 5 0 1 R {8D8E858A-2084-4EAC-B669-C5B8E1BF88FC} 0
+      MARKER 8 42.68760632034037 "" 5
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 75
+    <REAPER_PROJECT 0.1 "7.09/win64" 0
+      PANMODE 3
+      CLEAR_COMP_GROUP
+      TEMPO 120 4 4
+      PLAYRATE 1 0 0.25 4
+      SELECTION 41.80123132034038 42.68760632034037
+      SELECTION2 41.80123132034038 42.68760632034037
+      MASTER_SEL 0
+      MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+      MARKER 1 20.95455208333333 "" 1
+      MARKER 2 22.16666666662786 enemy_damage 5 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+      MARKER 2 22.35770833329453 "" 5
+      MARKER 3 29.68173487273722 player_damage 5 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+      MARKER 3 30.02945833329453 "" 5
+      MARKER 4 33.80830321426038 whip 5 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+      MARKER 4 34.21234488092704 "" 5
+      MARKER 5 35.34506185166538 force_field 5 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+      MARKER 5 36.36129434525878 "" 5
+      MARKER 6 36.99953792360611 fire_ball 5 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+      MARKER 6 37.85942334027278 "" 5
+      MARKER 7 39.19935287616681 level_up 1 0 1 R {4993233A-1AFD-4EAE-B0E9-2308D6D89DA8} 0
+      MARKER 7 40.50525912616681 "" 1
+      MARKER 8 41.80123132034038 game_over 5 0 1 R {8D8E858A-2084-4EAC-B669-C5B8E1BF88FC} 0
+      MARKER 8 42.68760632034037 "" 5
+      <EXTENSIONS
+      >
+    >
+  >
+  <UINF 76
+    <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      POSITION 22.16666666662786
+      SNAPOFFS 0
+      LENGTH 0.19104166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00567832114283 0 0 0 0 0
+      FADEOUT 0 0.0243749999612 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+      IID 2
+      NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+      >
+    >
+    <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      POSITION 29.68173487273722
+      SNAPOFFS 0
+      LENGTH 0.34772346055731
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.00371457434053 0 0 0 0 0
+      FADEOUT 0 0.08255999994101 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+      IID 3
+      NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.01506820607056
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+      >
+    >
+    <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      POSITION 33.80830321426038
+      SNAPOFFS 0
+      LENGTH 0.40404166666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.06198221368517 0 0 0 0 0
+      FADEOUT 0 0.05082209200209 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+      IID 4
+      NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+      >
+    >
+    <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      POSITION 35.34506185166538
+      SNAPOFFS 0
+      LENGTH 1.0162324935934
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.0681619355115 0 0 0 0 0
+      FADEOUT 2 0.45854393005268 0 2 0 -1 -1
+      MUTE 0 0
+      SEL 0
+      IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+      IID 5
+      NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+      >
+    >
+    <ITEM {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+      POSITION 36.99953792360611
+      SNAPOFFS 0
+      LENGTH 0.85988541666667
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0.01239307915985 0 0 0 0 0
+      FADEOUT 0 0.3015243510669 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+      IID 6
+      NAME "Elemental - B Fire Pixiedust_6 1.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {679B6765-610B-4AF8-9DC3-43E659F6AC63}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Elemental - B Fire Pixiedust_6 1.wav"
+      >
+    >
+    <ITEM {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+      POSITION 41.80123132034038
+      SNAPOFFS 0
+      LENGTH 0.886375
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 0 0 0 0 0 0 0
+      FADEOUT 0 0 0 0 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+      IID 8
+      NAME "Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {81FF7D2D-B4F4-4248-8434-22AC86BEB125}
+      <SOURCE WAVE
+        FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+      >
+    >
+  >
+  <UENT `` 1714454399 1 2
+    TCFG 11 12
+    ITEMCFG 3 3
+    FREEZECFG 0 0
+    FXCFG 4 5 6
+    FXENVCFG 7 8 9
+    RECFXCFG 0 0
+    TRACKENVCFG 10 3 3
+  >
+  <UENT `Insert media items` 1714454425 1 2
+    TCFG 11 12 14
+    ITEMCFG 3 3 13
+    FREEZECFG 0 0 0
+    FXCFG 4 5 6 0
+    FXENVCFG 7 8 9 0
+    RECFXCFG 0 0 0
+    TRACKENVCFG 10 3 3 3
+  >
+  <UENT `Set time selection to items` 1714454429 15 2
+    TCFG 11 12 14
+    ITEMCFG 3 3 13
+    FREEZECFG 0 0 0
+    FXCFG 4 5 6 0
+    FXENVCFG 7 8 9 0
+    RECFXCFG 0 0 0
+    TRACKENVCFG 10 3 3 3
+  >
+  <UENT `Add region` 1714454431 16 2
+    TCFG 11 12 14
+    ITEMCFG 3 3 13
+    FREEZECFG 0 0 0
+    FXCFG 4 5 6 0
+    FXENVCFG 7 8 9 0
+    RECFXCFG 0 0 0
+    TRACKENVCFG 10 3 3 3
+  >
+  <UENT `Edit region` 1714454438 17 2
+    TCFG 11 12 14
+    ITEMCFG 3 3 13
+    FREEZECFG 0 0 0
+    FXCFG 4 5 6 0
+    FXENVCFG 7 8 9 0
+    RECFXCFG 0 0 0
+    TRACKENVCFG 10 3 3 3
+  >
+  <UENT `Edit region` 1714454449 18 2
+    TCFG 11 12 14
+    ITEMCFG 3 3 13
+    FREEZECFG 0 0 0
+    FXCFG 4 5 6 0
+    FXENVCFG 7 8 9 0
+    RECFXCFG 0 0 0
+    TRACKENVCFG 10 3 3 3
+  >
+  <UENT `Insert media items` 1714454473 18 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 20
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Change media item selection` 1714454477 18 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 22
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Change media item selection` 1714454478 18 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 20
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Set time selection to items` 1714454479 23 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 20
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Add region` 1714454481 24 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 20
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Edit region` 1714454498 25 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 20
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Fade items from cursor` 1714454500 25 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 26
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Adjust media item fades` 1714454504 25 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 27
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Change media item selection` 1714454505 25 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 28
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Insert media items` 1714454531 25 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 29
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Nudge items` 1714454541 25 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 30
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Change media item selection` 1714454542 25 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 31
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Change media item selection` 1714454545 25 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 30
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Nudge items` 1714454545 25 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 32
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Resize media items` 1714454547 25 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 33
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Fade items to cursor` 1714454548 25 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 34
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Fade items from cursor` 1714454550 25 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 35
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Set time selection to items` 1714454552 36 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 35
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Add region` 1714454552 37 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 35
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Edit region` 1714454558 38 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 35
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Insert media items` 1714454577 38 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 39
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Set time selection to items` 1714454581 40 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 39
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Add region` 1714454581 41 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 39
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Edit region` 1714454588 42 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 39
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Adjust media item fades` 1714454596 42 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 43
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Fade items from cursor` 1714454597 42 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 44
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Insert media items` 1714454626 42 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 45
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Adjust media item fades` 1714454628 42 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 46
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Change media item selection` 1714454630 42 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 47
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Change media item selection` 1714454631 42 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 46
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Nudge items` 1714454632 42 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 48
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Fade items from cursor` 1714454632 42 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 49
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Item fade shape change` 1714454634 42 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 50
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Set time selection to items` 1714454638 51 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 50
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Add region` 1714454638 52 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 50
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Edit region` 1714454643 53 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 50
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Change media item selection` 1714454648 53 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 54
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Insert media items` 1714454694 53 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 55
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Adjust media item fades` 1714454697 53 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 56
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Fade items from cursor` 1714454700 53 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 57
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Set time selection to items` 1714454703 58 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 57
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Add region` 1714454703 59 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 57
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Edit region` 1714454708 60 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 57
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Change media item selection` 1714454713 60 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 19 61
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Insert media items` 1714454745 60 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 62 61
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Set time selection to items` 1714454749 63 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 62 61
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Add region` 1714454750 64 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 62 61
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Edit region` 1714454760 65 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 62 61
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Move media items` 1714454780 65 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 66 67
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Set time selection to items` 1714454783 68 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 66 67
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Add region` 1714454783 69 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 66 67
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Edit region` 1714454788 70 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 66 67
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Update region render matrix` 1714454849 71 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 66 67
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Update region render matrix` 1714454856 72 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 66 67
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Update region render matrix` 1714454868 73 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 66 67
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Update region render matrix` 1714454869 74 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 66 67
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Update region render matrix` 1714454870 75 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 66 67
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+  <UENT `Change media item selection` 1714454882 75 2
+    TCFG 11 12 14 21
+    ITEMCFG 3 3 66 76
+    FREEZECFG 0 0 0 0
+    FXCFG 4 5 6 0 0
+    FXENVCFG 7 8 9 0 0
+    RECFXCFG 0 0 0 0
+    TRACKENVCFG 10 3 3 3 3
+  >
+# INCR
+CURPOS 78 
+<UINF 77
+  <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+    POSITION 22.16666666662786
+    SNAPOFFS 0
+    LENGTH 0.19104166666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.00567832114283 0 0 0 0 0
+    FADEOUT 0 0.0243749999612 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+    IID 2
+    NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+    >
+  >
+  <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+    POSITION 29.68173487273722
+    SNAPOFFS 0
+    LENGTH 0.34772346055731
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.00371457434053 0 0 0 0 0
+    FADEOUT 0 0.08255999994101 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+    IID 3
+    NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0.01506820607056
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+    >
+  >
+  <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+    POSITION 33.80830321426038
+    SNAPOFFS 0
+    LENGTH 0.40404166666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.06198221368517 0 0 0 0 0
+    FADEOUT 0 0.05082209200209 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+    IID 4
+    NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+    >
+  >
+  <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+    POSITION 35.34506185166538
+    SNAPOFFS 0
+    LENGTH 1.0162324935934
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.0681619355115 0 0 0 0 0
+    FADEOUT 2 0.45854393005268 0 2 0 -1 -1
+    MUTE 0 0
+    SEL 0
+    IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+    IID 5
+    NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+    >
+  >
+  <ITEM {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+    POSITION 36.99953792360611
+    SNAPOFFS 0
+    LENGTH 0.85988541666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.01239307915985 0 0 0 0 0
+    FADEOUT 0 0.3015243510669 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+    IID 6
+    NAME "Elemental - B Fire Pixiedust_6 1.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {679B6765-610B-4AF8-9DC3-43E659F6AC63}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Elemental - B Fire Pixiedust_6 1.wav"
+    >
+  >
+  <ITEM {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+    POSITION 41.80123132034038
+    SNAPOFFS 0
+    LENGTH 0.886375
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0 0 0 0 0 0
+    FADEOUT 0 0 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+    IID 8
+    NAME "Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {81FF7D2D-B4F4-4248-8434-22AC86BEB125}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+    >
+  >
+  <ITEM {3ADE132D-5D82-40B2-8DC4-D0DB58458D0E}
+    POSITION 48.78528202790767
+    SNAPOFFS 0
+    LENGTH 0.151
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0 0 0 0 0 0
+    FADEOUT 0 0 0 0 0 0 0
+    MUTE 0 0
+    SEL 1
+    IGUID {3ADE132D-5D82-40B2-8DC4-D0DB58458D0E}
+    IID 14
+    NAME "Beeps, Lofi, Game, Retro, 8 Bit, Pickup Coin 14 SND101109.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {0178003E-EFC1-456A-B755-4719F3791901}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Pickup Coin 14 SND101109.wav"
+    >
+  >
+>
+<UINF 78
+  <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+    POSITION 22.16666666662786
+    SNAPOFFS 0
+    LENGTH 0.19104166666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.00567832114283 0 0 0 0 0
+    FADEOUT 0 0.0243749999612 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+    IID 2
+    NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+    >
+  >
+  <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+    POSITION 29.68173487273722
+    SNAPOFFS 0
+    LENGTH 0.34772346055731
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.00371457434053 0 0 0 0 0
+    FADEOUT 0 0.08255999994101 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+    IID 3
+    NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0.01506820607056
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+    >
+  >
+  <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+    POSITION 33.80830321426038
+    SNAPOFFS 0
+    LENGTH 0.40404166666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.06198221368517 0 0 0 0 0
+    FADEOUT 0 0.05082209200209 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+    IID 4
+    NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+    >
+  >
+  <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+    POSITION 35.34506185166538
+    SNAPOFFS 0
+    LENGTH 1.0162324935934
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.0681619355115 0 0 0 0 0
+    FADEOUT 2 0.45854393005268 0 2 0 -1 -1
+    MUTE 0 0
+    SEL 0
+    IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+    IID 5
+    NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+    >
+  >
+  <ITEM {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+    POSITION 36.99953792360611
+    SNAPOFFS 0
+    LENGTH 0.85988541666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.01239307915985 0 0 0 0 0
+    FADEOUT 0 0.3015243510669 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+    IID 6
+    NAME "Elemental - B Fire Pixiedust_6 1.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {679B6765-610B-4AF8-9DC3-43E659F6AC63}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Elemental - B Fire Pixiedust_6 1.wav"
+    >
+  >
+  <ITEM {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+    POSITION 41.80123132034038
+    SNAPOFFS 0
+    LENGTH 0.886375
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0 0 0 0 0 0
+    FADEOUT 0 0 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+    IID 8
+    NAME "Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {81FF7D2D-B4F4-4248-8434-22AC86BEB125}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+    >
+  >
+  <ITEM {3ADE132D-5D82-40B2-8DC4-D0DB58458D0E}
+    POSITION 48.78528202790767
+    SNAPOFFS 0
+    LENGTH 0.151
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0 0 0 0 0 0
+    FADEOUT 0 0 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {3ADE132D-5D82-40B2-8DC4-D0DB58458D0E}
+    IID 14
+    NAME "Beeps, Lofi, Game, Retro, 8 Bit, Pickup Coin 14 SND101109.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {0178003E-EFC1-456A-B755-4719F3791901}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Pickup Coin 14 SND101109.wav"
+    >
+  >
+>
+<UINF 79
+  <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+    POSITION 22.16666666662786
+    SNAPOFFS 0
+    LENGTH 0.19104166666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.00567832114283 0 0 0 0 0
+    FADEOUT 0 0.0243749999612 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+    IID 2
+    NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+    >
+  >
+  <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+    POSITION 29.68173487273722
+    SNAPOFFS 0
+    LENGTH 0.34772346055731
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.00371457434053 0 0 0 0 0
+    FADEOUT 0 0.08255999994101 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+    IID 3
+    NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0.01506820607056
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+    >
+  >
+  <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+    POSITION 33.80830321426038
+    SNAPOFFS 0
+    LENGTH 0.40404166666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.06198221368517 0 0 0 0 0
+    FADEOUT 0 0.05082209200209 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+    IID 4
+    NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+    >
+  >
+  <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+    POSITION 35.34506185166538
+    SNAPOFFS 0
+    LENGTH 1.0162324935934
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.0681619355115 0 0 0 0 0
+    FADEOUT 2 0.45854393005268 0 2 0 -1 -1
+    MUTE 0 0
+    SEL 0
+    IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+    IID 5
+    NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+    >
+  >
+  <ITEM {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+    POSITION 36.99953792360611
+    SNAPOFFS 0
+    LENGTH 0.85988541666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.01239307915985 0 0 0 0 0
+    FADEOUT 0 0.3015243510669 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+    IID 6
+    NAME "Elemental - B Fire Pixiedust_6 1.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {679B6765-610B-4AF8-9DC3-43E659F6AC63}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Elemental - B Fire Pixiedust_6 1.wav"
+    >
+  >
+  <ITEM {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+    POSITION 41.80123132034038
+    SNAPOFFS 0
+    LENGTH 0.886375
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0 0 0 0 0 0
+    FADEOUT 0 0 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+    IID 8
+    NAME "Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {81FF7D2D-B4F4-4248-8434-22AC86BEB125}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+    >
+  >
+  <ITEM {3ADE132D-5D82-40B2-8DC4-D0DB58458D0E}
+    POSITION 48.81009857651126
+    SNAPOFFS 0
+    LENGTH 0.12618345139641
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0 0 0 0 0 0
+    FADEOUT 0 0 0 0 0 0 0
+    MUTE 0 0
+    SEL 1
+    IGUID {3ADE132D-5D82-40B2-8DC4-D0DB58458D0E}
+    IID 14
+    NAME "Beeps, Lofi, Game, Retro, 8 Bit, Pickup Coin 14 SND101109.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0.02481654860359
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {0178003E-EFC1-456A-B755-4719F3791901}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Pickup Coin 14 SND101109.wav"
+    >
+  >
+>
+<UINF 80
+  <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+    POSITION 22.16666666662786
+    SNAPOFFS 0
+    LENGTH 0.19104166666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.00567832114283 0 0 0 0 0
+    FADEOUT 0 0.0243749999612 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+    IID 2
+    NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+    >
+  >
+  <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+    POSITION 29.68173487273722
+    SNAPOFFS 0
+    LENGTH 0.34772346055731
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.00371457434053 0 0 0 0 0
+    FADEOUT 0 0.08255999994101 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+    IID 3
+    NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0.01506820607056
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+    >
+  >
+  <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+    POSITION 33.80830321426038
+    SNAPOFFS 0
+    LENGTH 0.40404166666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.06198221368517 0 0 0 0 0
+    FADEOUT 0 0.05082209200209 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+    IID 4
+    NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+    >
+  >
+  <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+    POSITION 35.34506185166538
+    SNAPOFFS 0
+    LENGTH 1.0162324935934
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.0681619355115 0 0 0 0 0
+    FADEOUT 2 0.45854393005268 0 2 0 -1 -1
+    MUTE 0 0
+    SEL 0
+    IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+    IID 5
+    NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+    >
+  >
+  <ITEM {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+    POSITION 36.99953792360611
+    SNAPOFFS 0
+    LENGTH 0.85988541666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.01239307915985 0 0 0 0 0
+    FADEOUT 0 0.3015243510669 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+    IID 6
+    NAME "Elemental - B Fire Pixiedust_6 1.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {679B6765-610B-4AF8-9DC3-43E659F6AC63}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Elemental - B Fire Pixiedust_6 1.wav"
+    >
+  >
+  <ITEM {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+    POSITION 41.80123132034038
+    SNAPOFFS 0
+    LENGTH 0.886375
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0 0 0 0 0 0
+    FADEOUT 0 0 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+    IID 8
+    NAME "Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {81FF7D2D-B4F4-4248-8434-22AC86BEB125}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+    >
+  >
+  <ITEM {3ADE132D-5D82-40B2-8DC4-D0DB58458D0E}
+    POSITION 48.81009857651126
+    SNAPOFFS 0
+    LENGTH 0.06354591322656
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0 0 0 0 0 0
+    FADEOUT 0 0 0 0 0 0 0
+    MUTE 0 0
+    SEL 1
+    IGUID {3ADE132D-5D82-40B2-8DC4-D0DB58458D0E}
+    IID 14
+    NAME "Beeps, Lofi, Game, Retro, 8 Bit, Pickup Coin 14 SND101109.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0.02481654860359
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {0178003E-EFC1-456A-B755-4719F3791901}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Pickup Coin 14 SND101109.wav"
+    >
+  >
+>
+<UINF 81
+  <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+    POSITION 22.16666666662786
+    SNAPOFFS 0
+    LENGTH 0.19104166666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.00567832114283 0 0 0 0 0
+    FADEOUT 0 0.0243749999612 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+    IID 2
+    NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+    >
+  >
+  <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+    POSITION 29.68173487273722
+    SNAPOFFS 0
+    LENGTH 0.34772346055731
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.00371457434053 0 0 0 0 0
+    FADEOUT 0 0.08255999994101 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+    IID 3
+    NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0.01506820607056
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+    >
+  >
+  <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+    POSITION 33.80830321426038
+    SNAPOFFS 0
+    LENGTH 0.40404166666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.06198221368517 0 0 0 0 0
+    FADEOUT 0 0.05082209200209 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+    IID 4
+    NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+    >
+  >
+  <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+    POSITION 35.34506185166538
+    SNAPOFFS 0
+    LENGTH 1.0162324935934
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.0681619355115 0 0 0 0 0
+    FADEOUT 2 0.45854393005268 0 2 0 -1 -1
+    MUTE 0 0
+    SEL 0
+    IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+    IID 5
+    NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+    >
+  >
+  <ITEM {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+    POSITION 36.99953792360611
+    SNAPOFFS 0
+    LENGTH 0.85988541666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.01239307915985 0 0 0 0 0
+    FADEOUT 0 0.3015243510669 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+    IID 6
+    NAME "Elemental - B Fire Pixiedust_6 1.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {679B6765-610B-4AF8-9DC3-43E659F6AC63}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Elemental - B Fire Pixiedust_6 1.wav"
+    >
+  >
+  <ITEM {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+    POSITION 41.80123132034038
+    SNAPOFFS 0
+    LENGTH 0.886375
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0 0 0 0 0 0
+    FADEOUT 0 0 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+    IID 8
+    NAME "Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {81FF7D2D-B4F4-4248-8434-22AC86BEB125}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+    >
+  >
+  <ITEM {3ADE132D-5D82-40B2-8DC4-D0DB58458D0E}
+    POSITION 48.81009857651126
+    SNAPOFFS 0
+    LENGTH 0.06354591322656
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0 0 0 0 0 0
+    FADEOUT 0 0.01528319432031 0 0 0 0 0
+    MUTE 0 0
+    SEL 1
+    IGUID {3ADE132D-5D82-40B2-8DC4-D0DB58458D0E}
+    IID 14
+    NAME "Beeps, Lofi, Game, Retro, 8 Bit, Pickup Coin 14 SND101109.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0.02481654860359
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {0178003E-EFC1-456A-B755-4719F3791901}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Pickup Coin 14 SND101109.wav"
+    >
+  >
+>
+<UINF 82
+  <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+    POSITION 22.16666666662786
+    SNAPOFFS 0
+    LENGTH 0.19104166666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.00567832114283 0 0 0 0 0
+    FADEOUT 0 0.0243749999612 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+    IID 2
+    NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+    >
+  >
+  <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+    POSITION 29.68173487273722
+    SNAPOFFS 0
+    LENGTH 0.34772346055731
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.00371457434053 0 0 0 0 0
+    FADEOUT 0 0.08255999994101 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+    IID 3
+    NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0.01506820607056
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+    >
+  >
+  <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+    POSITION 33.80830321426038
+    SNAPOFFS 0
+    LENGTH 0.40404166666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.06198221368517 0 0 0 0 0
+    FADEOUT 0 0.05082209200209 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+    IID 4
+    NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+    >
+  >
+  <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+    POSITION 35.34506185166538
+    SNAPOFFS 0
+    LENGTH 1.0162324935934
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.0681619355115 0 0 0 0 0
+    FADEOUT 2 0.45854393005268 0 2 0 -1 -1
+    MUTE 0 0
+    SEL 0
+    IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+    IID 5
+    NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+    >
+  >
+  <ITEM {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+    POSITION 36.99953792360611
+    SNAPOFFS 0
+    LENGTH 0.85988541666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.01239307915985 0 0 0 0 0
+    FADEOUT 0 0.3015243510669 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+    IID 6
+    NAME "Elemental - B Fire Pixiedust_6 1.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {679B6765-610B-4AF8-9DC3-43E659F6AC63}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Elemental - B Fire Pixiedust_6 1.wav"
+    >
+  >
+  <ITEM {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+    POSITION 41.80123132034038
+    SNAPOFFS 0
+    LENGTH 0.886375
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0 0 0 0 0 0
+    FADEOUT 0 0 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+    IID 8
+    NAME "Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {81FF7D2D-B4F4-4248-8434-22AC86BEB125}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+    >
+  >
+  <ITEM {3ADE132D-5D82-40B2-8DC4-D0DB58458D0E}
+    POSITION 48.81009857651126
+    SNAPOFFS 0
+    LENGTH 0.06354591322656
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.00201094662109 0 0 0 0 0
+    FADEOUT 0 0.01528319432031 0 0 0 0 0
+    MUTE 0 0
+    SEL 1
+    IGUID {3ADE132D-5D82-40B2-8DC4-D0DB58458D0E}
+    IID 14
+    NAME "Beeps, Lofi, Game, Retro, 8 Bit, Pickup Coin 14 SND101109.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0.02481654860359
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {0178003E-EFC1-456A-B755-4719F3791901}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Pickup Coin 14 SND101109.wav"
+    >
+  >
+>
+<UINF 83
+  <ITEM {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+    POSITION 22.16666666662786
+    SNAPOFFS 0
+    LENGTH 0.19104166666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.00567832114283 0 0 0 0 0
+    FADEOUT 0 0.0243749999612 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {DE73EF68-A849-4CF8-8F36-B1680580BD19}
+    IID 2
+    NAME "Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {FD7E70A0-4990-4827-BA9A-C27C98D77F41}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Fight, Impact, Punch, Kung Fu, Karate, Arcade Game x6 SND15345.wav"
+    >
+  >
+  <ITEM {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+    POSITION 29.68173487273722
+    SNAPOFFS 0
+    LENGTH 0.34772346055731
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.00371457434053 0 0 0 0 0
+    FADEOUT 0 0.08255999994101 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {F659B239-99B2-405F-B1D1-05B5C4FDB917}
+    IID 3
+    NAME "Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0.01506820607056
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {824F60A7-84F1-4D17-9DBE-8F7464C2787B}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Hit Hurt 15 SND101120.wav"
+    >
+  >
+  <ITEM {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+    POSITION 33.80830321426038
+    SNAPOFFS 0
+    LENGTH 0.40404166666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.06198221368517 0 0 0 0 0
+    FADEOUT 0 0.05082209200209 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {410E260A-21F3-4D0D-9F48-F3C8E8BE16B1}
+    IID 4
+    NAME "Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {D2A4BA6A-5C03-4539-8FE1-77A33929D570}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Video Game, Fight Sword Swoosh, Slide SND60122.wav"
+    >
+  >
+  <ITEM {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+    POSITION 35.34506185166538
+    SNAPOFFS 0
+    LENGTH 1.0162324935934
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.0681619355115 0 0 0 0 0
+    FADEOUT 2 0.45854393005268 0 2 0 -1 -1
+    MUTE 0 0
+    SEL 0
+    IGUID {0FB646E6-FE8C-40D5-90CA-9AD71A04ED3D}
+    IID 5
+    NAME "Magic, Spell, Magic, Impact 03 SND84394.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {6B753AD2-4706-4892-A202-EF57415D7075}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Magic, Spell, Magic, Impact 03 SND84394.wav"
+    >
+  >
+  <ITEM {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+    POSITION 36.99953792360611
+    SNAPOFFS 0
+    LENGTH 0.85988541666667
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.01239307915985 0 0 0 0 0
+    FADEOUT 0 0.3015243510669 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {A1F54C79-32DF-456F-BF5D-C61AC9DBDC89}
+    IID 6
+    NAME "Elemental - B Fire Pixiedust_6 1.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {679B6765-610B-4AF8-9DC3-43E659F6AC63}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Elemental - B Fire Pixiedust_6 1.wav"
+    >
+  >
+  <ITEM {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+    POSITION 41.80123132034038
+    SNAPOFFS 0
+    LENGTH 0.886375
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0 0 0 0 0 0
+    FADEOUT 0 0 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {FA5CBBD5-52A4-4296-B14C-710FF0A3A82A}
+    IID 8
+    NAME "Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {81FF7D2D-B4F4-4248-8434-22AC86BEB125}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Games, Video, Retro, Negative, Lose Life Tone 02 SND30853 1.wav"
+    >
+  >
+  <ITEM {3ADE132D-5D82-40B2-8DC4-D0DB58458D0E}
+    POSITION 48.81009857651126
+    SNAPOFFS 0
+    LENGTH 0.06354591322656
+    LOOP 1
+    ALLTAKES 0
+    FADEIN 0 0.00201094662109 0 0 0 0 0
+    FADEOUT 0 0.01528319432031 0 0 0 0 0
+    MUTE 0 0
+    SEL 0
+    IGUID {3ADE132D-5D82-40B2-8DC4-D0DB58458D0E}
+    IID 14
+    NAME "Beeps, Lofi, Game, Retro, 8 Bit, Pickup Coin 14 SND101109.wav"
+    VOLPAN 1 0 1 -1
+    SOFFS 0.02481654860359
+    PLAYRATE 1 1 0 -1 0 0.0025
+    CHANMODE 0
+    GUID {0178003E-EFC1-456A-B755-4719F3791901}
+    <SOURCE WAVE
+      FILE "D:\Projects_Git\bevy-loser-survivor\sounds\Audio\Beeps, Lofi, Game, Retro, 8 Bit, Pickup Coin 14 SND101109.wav"
+    >
+  >
+>
+<UINF 84
+  <REAPER_PROJECT 0.1 "7.09/win64" 0
+    PANMODE 3
+    CLEAR_COMP_GROUP
+    TEMPO 120 4 4
+    PLAYRATE 1 0 0.25 4
+    SELECTION 48.81009857651126 48.87364448973782
+    SELECTION2 48.81009857651126 48.87364448973782
+    MASTER_SEL 0
+    MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+    MARKER 1 20.95455208333333 "" 1
+    MARKER 2 22.16666666662786 enemy_damage 5 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+    MARKER 2 22.35770833329453 "" 5
+    MARKER 3 29.68173487273722 player_damage 5 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+    MARKER 3 30.02945833329453 "" 5
+    MARKER 4 33.80830321426038 whip 5 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+    MARKER 4 34.21234488092704 "" 5
+    MARKER 5 35.34506185166538 force_field 5 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+    MARKER 5 36.36129434525878 "" 5
+    MARKER 6 36.99953792360611 fire_ball 5 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+    MARKER 6 37.85942334027278 "" 5
+    MARKER 7 39.19935287616681 level_up 1 0 1 R {4993233A-1AFD-4EAE-B0E9-2308D6D89DA8} 0
+    MARKER 7 40.50525912616681 "" 1
+    MARKER 8 41.80123132034038 game_over 5 0 1 R {8D8E858A-2084-4EAC-B669-C5B8E1BF88FC} 0
+    MARKER 8 42.68760632034037 "" 5
+    <EXTENSIONS
+    >
+  >
+>
+<UINF 85
+  <REAPER_PROJECT 0.1 "7.09/win64" 0
+    PANMODE 3
+    CLEAR_COMP_GROUP
+    TEMPO 120 4 4
+    PLAYRATE 1 0 0.25 4
+    SELECTION 48.81009857651126 48.87364448973782
+    SELECTION2 48.81009857651126 48.87364448973782
+    MASTER_SEL 0
+    MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+    MARKER 1 20.95455208333333 "" 1
+    MARKER 2 22.16666666662786 enemy_damage 5 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+    MARKER 2 22.35770833329453 "" 5
+    MARKER 3 29.68173487273722 player_damage 5 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+    MARKER 3 30.02945833329453 "" 5
+    MARKER 4 33.80830321426038 whip 5 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+    MARKER 4 34.21234488092704 "" 5
+    MARKER 5 35.34506185166538 force_field 5 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+    MARKER 5 36.36129434525878 "" 5
+    MARKER 6 36.99953792360611 fire_ball 5 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+    MARKER 6 37.85942334027278 "" 5
+    MARKER 7 39.19935287616681 level_up 1 0 1 R {4993233A-1AFD-4EAE-B0E9-2308D6D89DA8} 0
+    MARKER 7 40.50525912616681 "" 1
+    MARKER 8 41.80123132034038 game_over 5 0 1 R {8D8E858A-2084-4EAC-B669-C5B8E1BF88FC} 0
+    MARKER 8 42.68760632034037 "" 5
+    MARKER 9 48.81009857651126 "" 1 0 1 R {A67C4C83-5582-4910-822E-F6460BAC0B56} 0
+    MARKER 9 48.87364448973782 "" 1
+    <EXTENSIONS
+    >
+  >
+>
+<UINF 86
+  <REAPER_PROJECT 0.1 "7.09/win64" 0
+    PANMODE 3
+    CLEAR_COMP_GROUP
+    TEMPO 120 4 4
+    PLAYRATE 1 0 0.25 4
+    SELECTION 48.81009857651126 48.87364448973782
+    SELECTION2 48.81009857651126 48.87364448973782
+    MASTER_SEL 0
+    MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+    MARKER 1 20.95455208333333 "" 1
+    MARKER 2 22.16666666662786 enemy_damage 5 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+    MARKER 2 22.35770833329453 "" 5
+    MARKER 3 29.68173487273722 player_damage 5 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+    MARKER 3 30.02945833329453 "" 5
+    MARKER 4 33.80830321426038 whip 5 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+    MARKER 4 34.21234488092704 "" 5
+    MARKER 5 35.34506185166538 force_field 5 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+    MARKER 5 36.36129434525878 "" 5
+    MARKER 6 36.99953792360611 fire_ball 5 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+    MARKER 6 37.85942334027278 "" 5
+    MARKER 7 39.19935287616681 level_up 1 0 1 R {4993233A-1AFD-4EAE-B0E9-2308D6D89DA8} 0
+    MARKER 7 40.50525912616681 "" 1
+    MARKER 8 41.80123132034038 game_over 5 0 1 R {8D8E858A-2084-4EAC-B669-C5B8E1BF88FC} 0
+    MARKER 8 42.68760632034037 "" 5
+    MARKER 9 48.81009857651126 coin 1 0 1 R {A67C4C83-5582-4910-822E-F6460BAC0B56} 0
+    MARKER 9 48.87364448973782 "" 1
+    <EXTENSIONS
+    >
+  >
+>
+<UINF 87
+  <REAPER_PROJECT 0.1 "7.09/win64" 0
+    PANMODE 3
+    CLEAR_COMP_GROUP
+    TEMPO 120 4 4
+    PLAYRATE 1 0 0.25 4
+    SELECTION 48.81009857651126 48.87364448973782
+    SELECTION2 48.81009857651126 48.87364448973782
+    MASTER_SEL 0
+    MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+    MARKER 1 20.95455208333333 "" 1
+    MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+    MARKER 2 22.35770833329453 "" 1
+    MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+    MARKER 3 30.02945833329453 "" 1
+    MARKER 4 33.80830321426038 whip 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+    MARKER 4 34.21234488092704 "" 1
+    MARKER 5 35.34506185166538 force_field 1 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+    MARKER 5 36.36129434525878 "" 1
+    MARKER 6 36.99953792360611 fire_ball 1 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+    MARKER 6 37.85942334027278 "" 1
+    MARKER 7 39.19935287616681 level_up 1 0 1 R {4993233A-1AFD-4EAE-B0E9-2308D6D89DA8} 0
+    MARKER 7 40.50525912616681 "" 1
+    MARKER 8 41.80123132034038 game_over 1 0 1 R {8D8E858A-2084-4EAC-B669-C5B8E1BF88FC} 0
+    MARKER 8 42.68760632034037 "" 1
+    MARKER 9 48.81009857651126 coin 1 0 1 R {A67C4C83-5582-4910-822E-F6460BAC0B56} 0
+    MARKER 9 48.87364448973782 "" 1
+    <EXTENSIONS
+    >
+  >
+>
+<UINF 88
+  <REAPER_PROJECT 0.1 "7.09/win64" 0
+    PANMODE 3
+    CLEAR_COMP_GROUP
+    TEMPO 120 4 4
+    PLAYRATE 1 0 0.25 4
+    SELECTION 48.81009857651126 48.87364448973782
+    SELECTION2 48.81009857651126 48.87364448973782
+    MASTER_SEL 0
+    MARKER 1 3.5 music 1 0 1 R {8F90D242-2BC5-4C11-85F4-2BC888570A63} 0
+    MARKER 1 20.95455208333333 "" 1
+    MARKER 2 22.16666666662786 enemy_damage 1 0 1 R {E486627C-F4A0-47B6-A34B-AAC5EFE12DE6} 0
+    MARKER 2 22.35770833329453 "" 1
+    MARKER 3 29.68173487273722 player_damage 1 0 1 R {2AF42F6A-2EA8-4772-A896-03F675F4889C} 0
+    MARKER 3 30.02945833329453 "" 1
+    MARKER 4 33.80830321426038 whip 1 0 1 R {51F1E699-D119-48F8-B9C6-D2B33298E989} 0
+    MARKER 4 34.21234488092704 "" 1
+    MARKER 5 35.34506185166538 force_field 1 0 1 R {1953E178-9199-4E56-8F07-043B6B51EE91} 0
+    MARKER 5 36.36129434525878 "" 1
+    MARKER 6 36.99953792360611 fire_ball 1 0 1 R {FB526AD8-0594-480D-9F23-4F2AC1C98526} 0
+    MARKER 6 37.85942334027278 "" 1
+    MARKER 7 39.19935287616681 level_up 1 0 1 R {4993233A-1AFD-4EAE-B0E9-2308D6D89DA8} 0
+    MARKER 7 40.50525912616681 "" 1
+    MARKER 8 41.80123132034038 game_over 1 0 1 R {8D8E858A-2084-4EAC-B669-C5B8E1BF88FC} 0
+    MARKER 8 42.68760632034037 "" 1
+    MARKER 9 48.81009857651126 coin 5 0 1 R {A67C4C83-5582-4910-822E-F6460BAC0B56} 0
+    MARKER 9 48.87364448973782 "" 5
+    <EXTENSIONS
+    >
+  >
+>
+<UENT `--- Session loaded ---` 1714454985 75 2
+  TCFG 11 12 14 21
+  ITEMCFG 3 3 66 76
+  FREEZECFG 0 0 0 0
+  FXCFG 4 5 6 0 0
+  FXENVCFG 7 8 9 0 0
+  RECFXCFG 0 0 0 0
+  TRACKENVCFG 10 3 3 3 3
+>
+<UENT `Insert media items` 1714455006 75 2
+  TCFG 11 12 14 21
+  ITEMCFG 3 3 66 77
+  FREEZECFG 0 0 0 0
+  FXCFG 4 5 6 0 0
+  FXENVCFG 7 8 9 0 0
+  RECFXCFG 0 0 0 0
+  TRACKENVCFG 10 3 3 3 3
+>
+<UENT `Change media item selection` 1714455011 75 2
+  TCFG 11 12 14 21
+  ITEMCFG 3 3 66 78
+  FREEZECFG 0 0 0 0
+  FXCFG 4 5 6 0 0
+  FXENVCFG 7 8 9 0 0
+  RECFXCFG 0 0 0 0
+  TRACKENVCFG 10 3 3 3 3
+>
+<UENT `Change media item selection` 1714455013 75 2
+  TCFG 11 12 14 21
+  ITEMCFG 3 3 66 77
+  FREEZECFG 0 0 0 0
+  FXCFG 4 5 6 0 0
+  FXENVCFG 7 8 9 0 0
+  RECFXCFG 0 0 0 0
+  TRACKENVCFG 10 3 3 3 3
+>
+<UENT `Nudge items` 1714455014 75 2
+  TCFG 11 12 14 21
+  ITEMCFG 3 3 66 79
+  FREEZECFG 0 0 0 0
+  FXCFG 4 5 6 0 0
+  FXENVCFG 7 8 9 0 0
+  RECFXCFG 0 0 0 0
+  TRACKENVCFG 10 3 3 3 3
+>
+<UENT `Nudge items` 1714455015 75 2
+  TCFG 11 12 14 21
+  ITEMCFG 3 3 66 80
+  FREEZECFG 0 0 0 0
+  FXCFG 4 5 6 0 0
+  FXENVCFG 7 8 9 0 0
+  RECFXCFG 0 0 0 0
+  TRACKENVCFG 10 3 3 3 3
+>
+<UENT `Fade items from cursor` 1714455015 75 2
+  TCFG 11 12 14 21
+  ITEMCFG 3 3 66 81
+  FREEZECFG 0 0 0 0
+  FXCFG 4 5 6 0 0
+  FXENVCFG 7 8 9 0 0
+  RECFXCFG 0 0 0 0
+  TRACKENVCFG 10 3 3 3 3
+>
+<UENT `Adjust media item fades` 1714455017 75 2
+  TCFG 11 12 14 21
+  ITEMCFG 3 3 66 82
+  FREEZECFG 0 0 0 0
+  FXCFG 4 5 6 0 0
+  FXENVCFG 7 8 9 0 0
+  RECFXCFG 0 0 0 0
+  TRACKENVCFG 10 3 3 3 3
+>
+<UENT `Change media item selection` 1714455018 75 2
+  TCFG 11 12 14 21
+  ITEMCFG 3 3 66 83
+  FREEZECFG 0 0 0 0
+  FXCFG 4 5 6 0 0
+  FXENVCFG 7 8 9 0 0
+  RECFXCFG 0 0 0 0
+  TRACKENVCFG 10 3 3 3 3
+>
+<UENT `Change media item selection` 1714455020 75 2
+  TCFG 11 12 14 21
+  ITEMCFG 3 3 66 82
+  FREEZECFG 0 0 0 0
+  FXCFG 4 5 6 0 0
+  FXENVCFG 7 8 9 0 0
+  RECFXCFG 0 0 0 0
+  TRACKENVCFG 10 3 3 3 3
+>
+<UENT `Set time selection to items` 1714455021 84 2
+  TCFG 11 12 14 21
+  ITEMCFG 3 3 66 82
+  FREEZECFG 0 0 0 0
+  FXCFG 4 5 6 0 0
+  FXENVCFG 7 8 9 0 0
+  RECFXCFG 0 0 0 0
+  TRACKENVCFG 10 3 3 3 3
+>
+<UENT `Add region` 1714455021 85 2
+  TCFG 11 12 14 21
+  ITEMCFG 3 3 66 82
+  FREEZECFG 0 0 0 0
+  FXCFG 4 5 6 0 0
+  FXENVCFG 7 8 9 0 0
+  RECFXCFG 0 0 0 0
+  TRACKENVCFG 10 3 3 3 3
+>
+<UENT `Edit region` 1714455025 86 2
+  TCFG 11 12 14 21
+  ITEMCFG 3 3 66 82
+  FREEZECFG 0 0 0 0
+  FXCFG 4 5 6 0 0
+  FXENVCFG 7 8 9 0 0
+  RECFXCFG 0 0 0 0
+  TRACKENVCFG 10 3 3 3 3
+>
+<UENT `Update region render matrix` 1714455032 87 2
+  TCFG 11 12 14 21
+  ITEMCFG 3 3 66 82
+  FREEZECFG 0 0 0 0
+  FXCFG 4 5 6 0 0
+  FXENVCFG 7 8 9 0 0
+  RECFXCFG 0 0 0 0
+  TRACKENVCFG 10 3 3 3 3
+>
+<UENT `Update region render matrix` 1714455032 88 2
+  TCFG 11 12 14 21
+  ITEMCFG 3 3 66 82
+  FREEZECFG 0 0 0 0
+  FXCFG 4 5 6 0 0
+  FXENVCFG 7 8 9 0 0
+  RECFXCFG 0 0 0 0
+  TRACKENVCFG 10 3 3 3 3
+>
+>

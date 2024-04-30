@@ -29,7 +29,6 @@ pub struct Sounds {
     pub force_field: Handle<AudioSource>,
     pub enemy_damage: Handle<AudioSource>,
     pub player_damage: Handle<AudioSource>,
-    pub player_die: Handle<AudioSource>,
     pub level_up: Handle<AudioSource>,
     pub game_over: Handle<AudioSource>,
     pub music: Handle<AudioSource>

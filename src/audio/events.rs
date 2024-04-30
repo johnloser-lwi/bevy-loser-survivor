@@ -18,3 +18,9 @@ pub struct RequestGlobalAudioEvent {
 impl Event for RequestGlobalAudioEvent {
 
 }
+
+pub struct RequestStopMusicEvent;
+
+impl Event for RequestStopMusicEvent {
+
+}

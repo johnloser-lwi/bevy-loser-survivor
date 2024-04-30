@@ -1,6 +1,6 @@
 
 use bevy::prelude::*;
-use crate::audio::events::RequestGlobalAudioEvent;
+use crate::audio::events::{RequestGlobalAudioEvent, RequestStopMusicEvent};
 use crate::game::character::components::Health;
 use crate::game::events::{OnLevelUp};
 use crate::game::player::components::Player;
@@ -12,15 +12,18 @@ pub fn check_player_dead (
     player_query: Query<&Health, With<Player>>,
     mut next_state: ResMut<NextState<AppState>>,
     sounds: Res<Sounds>,
-    mut request_global_audio_event: EventWriter<RequestGlobalAudioEvent>
+    mut request_global_audio_event: EventWriter<RequestGlobalAudioEvent>,
+    mut request_stop_music_event: EventWriter<RequestStopMusicEvent>
 ) {
     if let Ok(health) = player_query.get_single() {
         if health.is_dead() {
 
             request_global_audio_event.send(RequestGlobalAudioEvent {
-                sound: sounds.player_die.clone(),
+                sound: sounds.game_over.clone(),
                 is_loop: false
             });
+
+            request_stop_music_event.send(RequestStopMusicEvent);
 
             next_state.set(AppState::GameOver);
         }
@@ -45,24 +48,23 @@ pub fn load_sounds (
     asset_server: Res<AssetServer>
 ) {
     commands.insert_resource(Sounds {
-        whip: asset_server.load("sounds/temp.ogg"),
-        coin: asset_server.load("sounds/temp.ogg"),
-        fire_ball: asset_server.load("sounds/temp.ogg"),
-        force_field: asset_server.load("sounds/temp.ogg"),
-        enemy_damage: asset_server.load("sounds/temp.ogg"),
-        player_damage: asset_server.load("sounds/temp.ogg"),
-        player_die: asset_server.load("sounds/temp.ogg"),
-        level_up: asset_server.load("sounds/temp.ogg"),
-        game_over: asset_server.load("sounds/temp.ogg"),
-        music: asset_server.load("sounds/temp.ogg")
+        whip:  asset_server.load("sounds/whip.ogg") ,
+        coin: asset_server.load("sounds/coin.ogg") ,
+        fire_ball: asset_server.load("sounds/fire_ball.ogg"),
+        force_field: asset_server.load("sounds/force_field.ogg"),
+        enemy_damage: asset_server.load("sounds/enemy_damage.ogg"),
+        player_damage: asset_server.load("sounds/player_damage.ogg"),
+        level_up: asset_server.load("sounds/level_up.ogg"),
+        game_over: asset_server.load("sounds/game_over.ogg"),
+        music: asset_server.load("sounds/music.ogg")
     });
 }
 
-pub fn unload_sounds (
+/*pub fn unload_sounds (
     mut commands: Commands
 ) {
     commands.remove_resource::<Sounds>();
-}
+}*/
 
 pub fn unload_textures (
     mut commands: Commands

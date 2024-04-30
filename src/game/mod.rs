@@ -50,7 +50,7 @@ impl Plugin for GamePlugin {
             .add_systems(Startup, load_sounds)
 
             .add_systems(OnEnter(AppState::Loading), load_textures)
-            .add_systems(OnExit(AppState::Game), (unload_textures, unload_sounds))
+            .add_systems(OnExit(AppState::Game), unload_textures)
 
             .add_systems(Update,
                          (
