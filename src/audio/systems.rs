@@ -69,7 +69,8 @@ pub fn handle_audio_cooldown (
 pub fn handle_spatial_audio_request (
     mut commands: Commands,
     mut spatial_audio_request: EventReader<RequestSpatialAudioEvent>,
-    mut audio_cooldown_list: ResMut<AudioCooldownList>
+    mut audio_cooldown_list: ResMut<AudioCooldownList>,
+    camera_query: Query<&Transform, With<Camera2d>>
 ) {
     for evt in spatial_audio_request.read() {
 
@@ -95,10 +96,22 @@ pub fn handle_spatial_audio_request (
 
         if !has_cooldown { audio_cooldown_list.list.push((evt.sound.id(), 0.2));}
 
+        let cam_transform = camera_query.get_single().unwrap();
+
+        let pos_x  = if evt.position.x < cam_transform.translation.x {
+            (cam_transform.translation.x - evt.position.x) + cam_transform.translation.x
+        }
+        else if evt.position.x > cam_transform.translation.x {
+            cam_transform.translation.x - (evt.position.x - cam_transform.translation.x)
+        }
+        else {
+            evt.position.x
+        };
+
         commands.spawn(
             (
                 SpatialBundle {
-                    transform: Transform::from_xyz(evt.position.x, evt.position.y, 0.0),
+                    transform: Transform::from_xyz(pos_x, evt.position.y, 0.0),
                     ..default()
                 },
                 AudioBundle {
