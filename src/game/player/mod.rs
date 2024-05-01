@@ -15,12 +15,10 @@ impl Plugin for PlayerPlugin {
 
             // update
             .add_systems(Update,
-                 (
-                     handle_player_input,
                      health_regeneration
-                 )
                      .run_if(in_state(AppState::Game)).run_if(in_state(GameState::Running)))
-
+            .add_systems(Update, handle_player_input
+                     .run_if(in_state(AppState::Game)))
             // exit game
             .add_systems(OnExit(AppState::Game), despawn_player)
 

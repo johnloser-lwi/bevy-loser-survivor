@@ -1,8 +1,10 @@
+use bevy::input::gamepad::{GamepadAxisChangedEvent, GamepadButtonChangedEvent};
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use crate::game::animation::components::AnimationConfig;
 use crate::game::character::components::{Character, DamageFlash, Health};
 use crate::game::character::resources::CharacterTextureAtlasLayout;
+use crate::game::gamepad::resources::GamepadInput;
 use crate::game::health_bar::components::HealthBar;
 use crate::game::player::components::Player;
 use crate::RENDER_SIZE;
@@ -62,11 +64,62 @@ pub fn despawn_player (
 
 pub fn handle_player_input (
     keyboard_input: Res<ButtonInput<KeyCode>>,
-    mut player_query: Query<&mut Character, With<Player>>
+    mut gamepad_axis: EventReader<GamepadAxisChangedEvent>,
+    mut gamepad_button: EventReader<GamepadButtonChangedEvent>,
+    mut player_query: Query<&mut Character, With<Player>>,
+    mut gamepad: ResMut<GamepadInput>
 ) {
     if let Ok(mut character) = player_query.get_single_mut() {
 
         let mut direction: Vec2 = Vec2::new(0.0, 0.0);
+
+        let mut has_gamepad_input = false;
+
+        let mut has_dpad_input = false;
+
+        for evt in gamepad_button.read() {
+            if evt.gamepad.id != 0 {
+                continue;
+            }
+
+            if evt.button_type == GamepadButtonType::DPadDown {
+                gamepad.axis.y = -evt.value;
+            }
+            if evt.button_type == GamepadButtonType::DPadUp {
+                gamepad.axis.y = evt.value;
+            }
+            if evt.button_type == GamepadButtonType::DPadLeft {
+                gamepad.axis.x = -evt.value;
+            }
+            if evt.button_type == GamepadButtonType::DPadRight {
+                gamepad.axis.x = evt.value;
+            }
+
+            has_dpad_input = true;
+
+        }
+
+        for evt in gamepad_axis.read() {
+
+            if evt.gamepad.id != 0 || has_dpad_input {
+                continue;
+            }
+
+            if evt.axis_type == GamepadAxisType::LeftStickX {
+                gamepad.axis.x = evt.value;
+            }
+            if evt.axis_type == GamepadAxisType::LeftStickY {
+                gamepad.axis.y = evt.value;
+            }
+        }
+
+
+
+        if gamepad.axis.length() > 0.0 {
+            has_gamepad_input = true;
+            direction = gamepad.axis;
+        }
+
 
         if keyboard_input.pressed(KeyCode::KeyW) {
             direction.y = 1.0;
@@ -74,7 +127,7 @@ pub fn handle_player_input (
         else if keyboard_input.pressed(KeyCode::KeyS) {
             direction.y = -1.0;
         }
-        else {
+        else if !has_gamepad_input {
             direction.y = 0.0;
         }
         if keyboard_input.pressed(KeyCode::KeyA) {
@@ -83,7 +136,7 @@ pub fn handle_player_input (
         else if keyboard_input.pressed(KeyCode::KeyD) {
             direction.x = 1.0;
         }
-        else {
+        else if !has_gamepad_input {
             direction.x = 0.0;
         }
 

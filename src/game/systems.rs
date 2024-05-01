@@ -1,4 +1,5 @@
-
+use bevy::input::ButtonState;
+use bevy::input::gamepad::{GamepadButtonInput};
 use bevy::prelude::*;
 use crate::audio::events::{RequestGlobalAudioEvent, RequestStopMusicEvent};
 use crate::game::character::components::Health;
@@ -86,10 +87,24 @@ pub fn switch_upgrade_state (
 
 pub fn pause_game(
     keyboard_input: Res<ButtonInput<KeyCode>>,
+    mut gamepad_event: EventReader<GamepadButtonInput>,
     mut next_state: ResMut<NextState<GameState>>,
     game_state: Res<State<GameState>>
 ) {
-    if keyboard_input.just_pressed(KeyCode::Escape) {
+
+    let mut has_gamepad_input = false;
+
+
+    for evt in gamepad_event.read() {
+        if evt.button.gamepad.id == 0
+            && evt.state == ButtonState::Pressed
+            && evt.button.button_type == GamepadButtonType::Start {
+            has_gamepad_input = true;
+        }
+    }
+
+    if keyboard_input.just_pressed(KeyCode::Escape)
+    || has_gamepad_input {
 
         let state = game_state.get();
 

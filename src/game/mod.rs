@@ -13,6 +13,7 @@ mod upgrade_menu;
 mod health_bar;
 mod background;
 mod game_ui;
+mod gamepad;
 
 use bevy::prelude::*;
 use crate::game::events::{OnEnemyDie, OnLevelUp, OnPickupCoin};
@@ -40,6 +41,7 @@ impl Plugin for GamePlugin {
                     health_bar::HealthBarPlugin,
                     background::BackgroundPlugin,
                     game_ui::GameUiPlugin,
+                    gamepad::GamepadPlugin
                 )
             )
 
