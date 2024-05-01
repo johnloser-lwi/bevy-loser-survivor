@@ -1,3 +1,4 @@
+use bevy::asset::AssetMetaCheck;
 use bevy::audio::{AudioPlugin, SpatialScale};
 use bevy::prelude::*;
 use bevy::window::{PresentMode, WindowTheme};
@@ -22,6 +23,7 @@ pub const RENDER_SCALE: f32 = 0.4;
 
 fn main() {
     App::new()
+        .insert_resource(AssetMetaCheck::Never)
     .insert_state(AppState::MainMenu)
     .insert_state(GameState::Running)
     .add_plugins(DefaultPlugins.set(
