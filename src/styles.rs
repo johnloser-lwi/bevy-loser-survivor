@@ -13,7 +13,7 @@ pub fn get_button_bundle(width: Val, height: Val) -> ButtonBundle {
             justify_content: JustifyContent::Center,
             align_items: AlignItems::Center,
             align_self: AlignSelf::Center,
-            margin: UiRect::all(Val::Px(10.0)),
+            margin: UiRect::all(Val::Percent(0.5)),
             ..default()
         },
         background_color: Color::CRIMSON.into(),

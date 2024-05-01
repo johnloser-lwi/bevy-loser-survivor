@@ -41,7 +41,7 @@ pub fn spawn_main_menu_ui (
         ..default()
     };
 
-    let mut button_bundle = get_button_bundle(Val::Px(200.0), Val::Px(40.0));
+    let mut button_bundle = get_button_bundle(Val::Percent(12.0), Val::Percent(4.0));
     button_bundle.style.margin.bottom = Val::Percent(20.0);
     button_bundle.style.margin.left = Val::Percent(45.0);
 

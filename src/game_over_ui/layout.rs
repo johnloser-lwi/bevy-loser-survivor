@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy::window::PrimaryWindow;
 use crate::game_over_ui::components::{GameOverUI, MainMenuButton};
 use crate::game::gameplay::resources::GameplayData;
 use crate::styles::{get_button_bundle, get_column_layout};
@@ -6,8 +7,11 @@ use crate::styles::{get_button_bundle, get_column_layout};
 pub fn spawn_game_over_ui (
     mut commands: Commands,
     asset_server: Res<AssetServer>,
-    gameplay_data: Res<GameplayData>
+    gameplay_data: Res<GameplayData>,
+    window_query: Query<&Window, With<PrimaryWindow>>
 ) {
+    let window = window_query.get_single().unwrap();
+
     let ui_parent = (
         get_column_layout(),
         GameOverUI
@@ -17,7 +21,7 @@ pub fn spawn_game_over_ui (
         TextBundle::from_section("Game Over",
                                  TextStyle {
             font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-            font_size: 40.0,
+            font_size: 0.054 * window.height(),
             color: Color::rgb(1.0, 1.0, 1.0),
         }
     );
@@ -26,13 +30,13 @@ pub fn spawn_game_over_ui (
         TextBundle::from_section(get_gameplay_text(&gameplay_data),
                                  TextStyle {
                                      font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                     font_size: 20.0,
+                                     font_size: 0.027 * window.height(),
                                      color: Color::rgb(1.0, 1.0, 1.0),
                                  }
         );
 
     let button = (
-        get_button_bundle(Val::Px(200.0), Val::Px(40.0)),
+        get_button_bundle(Val::Percent(15.6), Val::Percent(5.4)),
         MainMenuButton
     );
 
@@ -41,7 +45,7 @@ pub fn spawn_game_over_ui (
             "Main Menu",
             TextStyle {
                 font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                font_size: 20.0,
+                font_size: 0.027 * window.height(),
                 color: Color::WHITE,
             },
         ),

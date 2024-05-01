@@ -34,6 +34,7 @@ fn main() {
                 // Tells wasm not to override default event handling, like F5, Ctrl+R etc.
                 prevent_default_event_handling: false,
                 window_theme: Some(WindowTheme::Dark),
+                resizable: false,
                 ..default()
             }),
             ..default()

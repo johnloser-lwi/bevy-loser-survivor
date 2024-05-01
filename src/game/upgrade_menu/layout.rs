@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy::window::PrimaryWindow;
 use crate::game::upgrade_menu::components::UpgradeOption;
 use crate::game::weapons::fire_ball::FireBallData;
 use crate::game::weapons::force_field::ForceFieldData;
@@ -13,8 +14,10 @@ pub fn spawn_level_up_ui(
     asset_server: Res<AssetServer>,
     whip_data: Res<WhipData>,
     force_field_data: Res<ForceFieldData>,
-    fire_ball_data: Res<FireBallData>
+    fire_ball_data: Res<FireBallData>,
+    window_query: Query<&Window, With<PrimaryWindow>>
 ) {
+    let window = window_query.get_single().unwrap();
 
     let level_up_parent = (
         NodeBundle {
@@ -54,7 +57,7 @@ pub fn spawn_level_up_ui(
             "Pick An Upgrade",
             TextStyle {
                 font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                font_size: 40.0,
+                font_size: 0.054 * window.height(),
                 color: Color::rgb(1.0, 1.0, 1.0),
             },
         );
@@ -74,9 +77,9 @@ pub fn spawn_level_up_ui(
     commands.spawn(level_up_parent).with_children(|commands| {
         commands.spawn(level_up_popup).with_children(|commands| {
             commands.spawn(title_text);
-            spawn_button(commands, &asset_server, &option1);
-            spawn_button(commands, &asset_server, &option2);
-            spawn_button(commands, &asset_server, &option3);
+            spawn_button(commands, &asset_server, &option1, window.height());
+            spawn_button(commands, &asset_server, &option2, window.height());
+            spawn_button(commands, &asset_server, &option3, window.height());
         });
     });
 }
@@ -149,11 +152,12 @@ fn random_option(whip: &WhipData, fire_ball: &FireBallData, force_field: &ForceF
 fn spawn_button(
     commands: &mut ChildBuilder,
     asset_server: &AssetServer,
-    upgrade_option: &UpgradeOption
+    upgrade_option: &UpgradeOption,
+    window_height: f32
 ) {
     let font = asset_server.load("fonts/FiraSans-Bold.ttf");
     let button = (
-        get_button_bundle(Val::Percent(80.0), Val::Px(50.0)),
+        get_button_bundle(Val::Percent(80.0), Val::Percent(30.0)),
         upgrade_option.clone(),
     );
 
@@ -164,7 +168,7 @@ fn spawn_button(
             text,
             TextStyle {
                 font: font.clone(),
-                font_size: 20.0,
+                font_size: 0.027 * window_height,
                 color: Color::WHITE,
             },
         ),

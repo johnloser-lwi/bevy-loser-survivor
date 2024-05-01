@@ -1,10 +1,15 @@
 use bevy::prelude::*;
+use bevy::window::PrimaryWindow;
 use crate::game::game_ui::components::{GameUI, LevelText, TimeText, XpBar};
 
 pub fn spawn_game_ui(
     mut commands: Commands,
-    asset_server: Res<AssetServer>
+    asset_server: Res<AssetServer>,
+    window_query: Query<&Window, With<PrimaryWindow>>
 ) {
+
+    let window = window_query.get_single().unwrap();
+
     let parent_node = (
         NodeBundle {
             style: Style {
@@ -68,7 +73,7 @@ pub fn spawn_game_ui(
                 "00:00",
                 TextStyle {
                     font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                    font_size: 20.0,
+                    font_size: 0.027 * window.height(),
                     color: Color::rgb(1.0, 1.0, 1.0),
                 }
 
@@ -96,7 +101,7 @@ pub fn spawn_game_ui(
                 "Lv.1",
                 TextStyle {
                     font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                    font_size: 15.0,
+                    font_size: 0.02 * window.height(),
                     color: Color::rgb(1.0, 1.0, 1.0),
                 }
 
