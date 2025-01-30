@@ -5,25 +5,20 @@
   <title>Losers' World: Zombie Survivor</title>
   <link rel="icon" href="icon.png">
   <style>
+    html {
+      height: 100%;
+    }
     body {
-      margin: 2%;
+      height: 100%;
       background-color: black;
       display: flex;
-      justify-content: stretch;
+      justify-content: center;
       align-items: center;
-      flex-direction: column; 
-      height: 100%;
-      width: 100%;
-      /* Added to stack content vertically */
+      align-content: center;
     }
 
-    #game-container {
-      margin-bottom: 20px; /* Added some space between game and instructions */
-    }
-
-    #instructions {
-      color: white;
-      font-size: 14px;
+    canvas {
+      flex-shrink: 0;
     }
   </style>
 </head>
@@ -41,7 +36,6 @@
       });
     </script>
   </div>
-  <div id="instructions">Use "WASD" to move</div>
 </body>
 
 </html>
