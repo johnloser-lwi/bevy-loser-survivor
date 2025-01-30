@@ -460,6 +460,12 @@ function __wbg_get_imports() {
             deferred0_1 = arg1;
             console.log(getStringFromWasm0(arg0, arg1), getStringFromWasm0(arg2, arg3), getStringFromWasm0(arg4, arg5), getStringFromWasm0(arg6, arg7));
         } finally {
+            let cans = document.getElementsByTagName('canvas');
+            for (let can of cans) {
+                can.setAttribute('width', 'none');
+                can.setAttribute('height', 'none');
+                can.setAttribute('style', '');
+            }
             wasm.__wbindgen_free(deferred0_0, deferred0_1, 1);
         }
     };
